@@ -1,0 +1,252 @@
+.dashboard-number {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+
+/* Kartu polos (tanpa class kustom per halaman) diberi bayangan
+   halus supaya tetap punya batas yang jelas dari latar belakang
+   setelah border dihilangkan - senada dengan kartu2 lain yang
+   sudah didesain khusus (mis. .asset-form-card, .dashboard-card). */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+
+.table th {
+    white-space: nowrap;
+}
+
+
+.table td {
+    vertical-align: middle;
+}
+
+
+/* ============================================================
+   TOMBOL SERAGAM DI SEMUA HALAMAN
+   ============================================================
+   Bentuk & animasi generik untuk semua .btn, berlaku sama di
+   tema terang maupun gelap. Warna TIDAK diatur di sini - warna
+   tetap ikut varian Bootstrap (btn-primary, btn-outline-secondary,
+   dst) yang sudah theme-aware lewat CSS variable Bootstrap dan
+   override di theme-dark.css. Jangan tambah <style> button lokal
+   per halaman lagi - kalau perlu pengecualian, tambahkan di sini
+   supaya semua halaman tetap konsisten.
+   ============================================================ */
+
+.btn:not(.btn-close) {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-sm:not(.btn-close) {
+    border-radius: 7px;
+}
+
+.btn:not(.btn-close):not(:disabled):not(.disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.btn:not(.btn-close):not(:disabled):not(.disabled):active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Tombol yang tergabung dalam btn-group tetap terasa satu
+   kesatuan - tidak ikut naik sendiri-sendiri saat hover. */
+.btn-group > .btn:hover {
+    transform: none;
+}
+
+
+/* ============================================================
+   NAVBAR, SIDEBAR & FOOTER - KESELARASAN VISUAL
+   ============================================================ */
+
+/* Navbar & sidebar sekarang kartu melayang (lihat base.html, blok
+   "NAVBAR MELAYANG + SCROLL PROGRESS" dan "SIDEBAR MELAYANG PENUH").
+   Footer ikut jadi kartu dengan radius/border/shadow yang sama
+   persis, TAPI tetap posisi normal (ikut ter-scroll bareng konten,
+   bukan sticky/fixed seperti navbar) - cukup tampilannya saja yang
+   diselaraskan supaya ketiganya ("chrome" aplikasi) terasa 1
+   keluarga, bukan perilaku scroll-nya. */
+
+.app-footer {
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    color: var(--bs-secondary-color);
+    margin: 10px 16px 14px;
+    border: 1px solid #dee2e6;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+[data-bs-theme="dark"] .app-footer {
+    border-color: #2c2f38;
+    background: #1b1e27;
+}
+
+/* Footer satu grid "kolom" dengan navbar (keduanya kartu terpisah,
+   sama-sama anak langsung .app-wrapper) - supaya lebarnya sama
+   persis dengan navbar, jarak kirinya juga harus disamakan manual
+   di breakpoint "lg" ke atas (lihat komentar panjang di base.html,
+   blok "SIDEBAR MELAYANG PENUH", soal kenapa .app-main/.app-header/
+   .app-footer butuh jarak kiri manual sejak sidebar dipaksa fixed). */
+@media (min-width: 992px) {
+    .app-footer {
+        margin-left: 294px;
+        transition: margin-left 0.3s ease;
+    }
+
+    body.sidebar-collapse .app-footer {
+        margin-left: 16px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-footer {
+        margin: 10px;
+        border-radius: 12px;
+    }
+}
+
+.app-footer strong {
+    font-weight: 500;
+}
+
+/* Item menu aktif di sidebar - sidebar SENGAJA selalu gelap
+   (lihat base.html, <aside data-bs-theme="dark">), jadi warna
+   aksennya harus di-set eksplisit di sini supaya ikut tema
+   HALAMAN (biru di light mode), bukan warna sidebar yang statis
+   gelap. Padanan warna merah untuk dark mode ada di
+   theme-dark.css - dua-duanya sengaja dipasangkan karena akar
+   masalahnya sama (sidebar yang selalu ber-atribut dark). */
+html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active {
+    background-color: #0d6efd !important;
+    color: #fff !important;
+}
+
+html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active .nav-icon,
+html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active p {
+    color: #fff !important;
+}
+
+
+/* ============================================================
+   INDIKATOR STATUS ONLINE (Manajemen User)
+   ============================================================
+   Warna dot pakai token semantik Bootstrap (--bs-success/--bs-
+   secondary) supaya otomatis theme-aware, tidak perlu override
+   terpisah untuk dark mode.
+   ============================================================ */
+
+.online-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.online-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.online-status-indicator.is-online {
+    color: var(--bs-success-text-emphasis, var(--bs-success));
+}
+
+.online-status-indicator.is-online .online-status-dot {
+    background-color: var(--bs-success);
+    box-shadow: 0 0 0 rgba(var(--bs-success-rgb), 0.5);
+    animation: online-status-pulse 2s infinite;
+}
+
+.online-status-indicator.is-offline {
+    color: var(--bs-secondary-color);
+}
+
+.online-status-indicator.is-offline .online-status-dot {
+    background-color: var(--bs-secondary-color);
+}
+
+@keyframes online-status-pulse {
+
+    0% {
+        box-shadow: 0 0 0 0 rgba(var(--bs-success-rgb), 0.45);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(var(--bs-success-rgb), 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(var(--bs-success-rgb), 0);
+    }
+
+}
+
+/* ============================================================
+   RATAKAN FIELD - label sejajar di samping field-nya (bukan di
+   atas). Otomatis pindah ke atas field lagi kalau ruangnya sempit,
+   TANPA media query - cukup mengandalkan flex-wrap: begitu field
+   (flex-basis 160px) tidak muat lagi sejajar dengan label di lebar
+   container saat ini, field-nya pindah baris sendiri dan otomatis
+   melebar penuh karena flex-grow.
+
+   Lebar labelnya FIXED (bukan mengikuti panjang teks per baris)
+   supaya semua field dalam 1 form mulai dari titik x yang sama
+   persis (rata vertikal) - beda form bisa beda lebar, atur lewat
+   custom property "--form-field-label-width" di elemen <form>/
+   pembungkusnya (default 80px kalau tidak diisi).
+   ============================================================ */
+
+.form-field-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.25rem;
+}
+
+.form-field-row>.form-field-label {
+    flex: 0 0 var(--form-field-label-width, 80px);
+    margin-bottom: 0;
+    /* Kalau --form-field-label-width dikasih lebih sempit dari
+       panjang teks labelnya sendiri, jangan sampai teksnya patah
+       ke baris kedua - biarkan field-nya saja yang turun ke bawah
+       lewat flex-wrap milik .form-field-row (fallback by design). */
+    white-space: nowrap;
+}
+
+.form-field-row>.form-control,
+.form-field-row>.form-select,
+.form-field-row>.input-group,
+.form-field-row>.btn {
+    flex: 1 1 160px;
+    min-width: 160px;
+}
+
+/* Input file (upload) tidak menyusut sama seperti text/select biasa
+   (lihat memory "sejajar upload image field") - butuh flex-basis
+   eksplisit kecil + min-width:0 supaya ikut sejajar, bukan cuma
+   mengandalkan flex-grow/auto. */
+.form-field-row>input[type="file"] {
+    flex: 1 1 100px;
+    min-width: 0;
+    width: 100%;
+}

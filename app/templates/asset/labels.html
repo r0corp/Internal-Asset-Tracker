@@ -1,0 +1,1762 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ _('Print QR / Label Asset') }} - Asset Tracker
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+    /* ============================================================
+   TOM & JERRY NO. 108
+   ============================================================
+
+   UKURAN LABEL : 38 x 18 MM
+
+   FORMAT       : 5 KOLOM x 8 BARIS
+
+   TOTAL        : 40 LABEL / LEMBAR
+
+   1 ASSET      : 5 LABEL
+
+   DESAIN FINAL:
+
+   ┌──────────────────────────────────────┐
+   │ NAMA PERUSAHAAN               ┌────┐ │
+   │ AST-007                       │    │ │
+   │ Laptop Acer                   │ QR │ │
+   │ S/N: ABC123456                │    │ │
+   └──────────────────────────────────────┘
+
+   KIRI  : INFORMASI ASSET
+   KANAN : QR CODE
+
+   LOGO : TIDAK DIGUNAKAN
+
+   ============================================================ */
+
+
+    /* ============================================================
+   PAGE
+   ============================================================ */
+
+    .label-page {
+
+        padding: 24px;
+
+    }
+
+
+    /* ============================================================
+   PREVIEW CONTAINER
+   ============================================================ */
+
+    .label-sheet-preview {
+
+        background: #f1f3f5;
+
+        padding: 20px;
+
+        border-radius: 10px;
+
+    }
+
+
+    /* ============================================================
+   KALIBRASI POSISI CETAK
+   Diisi ulang oleh JS dari localStorage (lihat panel kalibrasi).
+
+   --label-* di sini GENERIK (dipakai .label-grid/.asset-label
+   apa adanya) - nilai aktualnya ditulis ulang oleh JS tergantung
+   format mana yang lagi dipilih user (lihat "FORMATS" di script
+   kalibrasi di akhir file). Nilai di bawah ini cuma fallback
+   sebelum JS jalan, diisi sama dengan default Tom & Jerry No. 108.
+   ============================================================ */
+
+    :root {
+
+        --label-w: 38mm;
+        --label-h: 18mm;
+        --label-col-gap: 3mm;
+        --label-row-gap: 2mm;
+        --label-offset-top: -1mm;
+        --label-offset-left: 3.5mm;
+        --label-cols: 5;
+        --label-rows: 8;
+        --label-qr-size: 10.5mm;
+
+    }
+
+    #tj108-calibration-chevron {
+        transition: transform 0.2s ease;
+    }
+
+    #tj108-calibration-chevron.tj108-chevron-open {
+        transform: rotate(180deg);
+    }
+
+
+    /* ============================================================
+   LABEL GRID
+
+   TOM & JERRY NO. 108
+
+   5 KOLOM x 8 BARIS
+
+   40 LABEL / LEMBAR
+   ============================================================ */
+
+    .label-grid {
+
+        display: grid;
+
+        grid-template-columns:
+
+            repeat(var(--label-cols),
+                var(--label-w));
+
+        grid-template-rows:
+
+            repeat(var(--label-rows),
+                var(--label-h));
+
+        column-gap: var(--label-col-gap);
+
+        row-gap: var(--label-row-gap);
+
+        justify-content: center;
+
+        align-content: start;
+
+    }
+
+
+    /* ============================================================
+   INDIVIDUAL LABEL
+
+   38 x 18 MM
+   ============================================================ */
+
+    .asset-label {
+
+        width: var(--label-w);
+
+        height: var(--label-h);
+
+        box-sizing: border-box;
+
+        background: #ffffff;
+
+        border: 1px solid #6c757d;
+
+        border-radius: 2mm;
+
+        padding: 1.2mm;
+
+        display: grid;
+
+        /*
+       KIRI  = INFORMASI
+       KANAN = QR
+    */
+
+        grid-template-columns:
+
+            1fr var(--label-qr-size);
+
+        column-gap: 1.2mm;
+
+        align-items: center;
+
+        overflow: hidden;
+
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+
+    }
+
+
+    /* ============================================================
+   INFORMATION AREA
+
+   POSISI KIRI
+   ============================================================ */
+
+    .asset-label-info {
+
+        min-width: 0;
+
+        width: 100%;
+
+        height: 100%;
+
+        overflow: hidden;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: flex-start;
+
+    }
+
+
+    /* ============================================================
+   COMPANY NAME
+
+   BARIS 1
+   ============================================================ */
+
+    .asset-label-company {
+
+        width: 100%;
+
+        font-family:
+
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 5.2pt;
+
+        font-weight: 700;
+
+        line-height: 1;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0;
+
+        margin-bottom: 0.8mm;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: clip;
+
+    }
+
+
+    /* ============================================================
+   ASSET TAG
+
+   BARIS 2
+   ============================================================ */
+
+    .asset-label-tag {
+
+        width: 100%;
+
+        font-family:
+
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 6.5pt;
+
+        font-weight: 800;
+
+        line-height: 1;
+
+        margin-bottom: 0.8mm;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+    }
+
+
+    /* ============================================================
+   ASSET NAME / MODEL
+
+   BARIS 3
+   ============================================================ */
+
+    .asset-label-name {
+
+        width: 100%;
+
+        font-family:
+
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 5.2pt;
+
+        font-weight: 600;
+
+        line-height: 1.05;
+
+        margin-bottom: 0.7mm;
+
+        max-height: 5.5mm;
+
+        overflow: hidden;
+
+        display: -webkit-box;
+
+        -webkit-line-clamp: 2;
+
+        -webkit-box-orient: vertical;
+
+    }
+
+
+    /* ============================================================
+   SERIAL NUMBER
+
+   BARIS 4
+   ============================================================ */
+
+    .asset-label-serial {
+
+        width: 100%;
+
+        font-family:
+
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 4.8pt;
+
+        font-weight: 500;
+
+        line-height: 1;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+    }
+
+
+    /* ============================================================
+   QR AREA
+
+   POSISI KANAN
+   ============================================================ */
+
+    .asset-label-qr-wrapper {
+
+        width: var(--label-qr-size);
+
+        height: 15mm;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        overflow: hidden;
+
+    }
+
+
+    /* ============================================================
+   QR CODE
+
+   UKURAN IKUT --label-qr-size (default 10.5mm)
+   ============================================================ */
+
+    .asset-label-qr {
+
+        width: var(--label-qr-size);
+
+        height: var(--label-qr-size);
+
+        min-width: var(--label-qr-size);
+
+        min-height: var(--label-qr-size);
+
+        max-width: var(--label-qr-size);
+
+        max-height: var(--label-qr-size);
+
+        object-fit: contain;
+
+        display: block;
+
+    }
+
+
+    /* ============================================================
+   QR FALLBACK
+   ============================================================ */
+
+    .asset-label-qr-empty {
+
+        width: 10mm;
+
+        height: 10mm;
+
+        box-sizing: border-box;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+
+        font-family:
+
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 4pt;
+
+        color: #777777;
+
+        border: 0.2mm dashed #aaaaaa;
+
+    }
+
+
+    /* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+    .label-empty {
+
+        text-align: center;
+
+        padding: 60px 20px;
+
+        color: #6c757d;
+
+    }
+
+
+    /* ============================================================
+   SCREEN RESPONSIVE
+   ============================================================ */
+
+    @media (max-width: 1200px) {
+
+        .label-grid {
+
+            grid-template-columns:
+
+                repeat(3,
+                    var(--label-w));
+
+            grid-template-rows: auto;
+
+        }
+
+    }
+
+
+    @media (max-width: 850px) {
+
+        .label-grid {
+
+            grid-template-columns:
+
+                repeat(2,
+                    var(--label-w));
+
+            grid-template-rows: auto;
+
+        }
+
+    }
+
+
+    @media (max-width: 550px) {
+
+        .label-grid {
+
+            grid-template-columns:
+
+                var(--label-w);
+
+            grid-template-rows: auto;
+
+        }
+
+    }
+
+
+    /* ============================================================
+   PRINT
+   ============================================================ */
+
+    @media print {
+
+
+        /* --------------------------------------------------------
+       A4
+       -------------------------------------------------------- */
+
+        @page {
+
+            size: A4 portrait;
+
+            margin: 0;
+
+        }
+
+
+        html,
+        body {
+
+            width: 210mm;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+            background: #ffffff !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       HIDE SCREEN ELEMENTS
+       -------------------------------------------------------- */
+
+        .no-print,
+        .navbar,
+        nav,
+        footer,
+        .app-footer {
+
+            display: none !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       MAIN PAGE
+       -------------------------------------------------------- */
+
+        .label-page {
+
+            width: 210mm !important;
+
+            height: auto !important;
+
+            min-height: 0 !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       LABEL SHEET PREVIEW
+       -------------------------------------------------------- */
+
+        .label-sheet-preview {
+
+            width: 210mm !important;
+
+            height: auto !important;
+
+            min-height: 0 !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+            background: #ffffff !important;
+
+            border-radius: 0 !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       LABEL GRID
+
+       TOM & JERRY NO. 108
+
+       5 KOLOM x 8 BARIS
+
+       40 LABEL
+       -------------------------------------------------------- */
+
+        .label-grid {
+
+            width: 210mm !important;
+
+            height: auto !important;
+
+            display: grid !important;
+
+            grid-template-columns:
+
+                repeat(var(--label-cols),
+                    var(--label-w)) !important;
+
+            grid-template-rows:
+
+                repeat(var(--label-rows),
+                    var(--label-h)) !important;
+
+            /*
+           POSISI ANTAR LABEL
+           (diatur lewat panel kalibrasi di layar; nilai default
+           sudah diukur langsung dari lembar Tom & Jerry No. 108
+           fisik: jarak antar label 3mm, margin dari tepi kertas
+           ke label pertama (kiri & atas) 8mm)
+        */
+
+            column-gap: var(--label-col-gap) !important;
+
+            row-gap: var(--label-row-gap) !important;
+
+            justify-content: start !important;
+
+            align-content: start !important;
+
+            margin: 0 !important;
+
+            padding-top: var(--label-offset-top) !important;
+
+            padding-left: var(--label-offset-left) !important;
+
+            padding-right: 0 !important;
+
+            padding-bottom: 0 !important;
+
+            box-sizing: border-box !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       LABEL FISIK
+       -------------------------------------------------------- */
+
+        .asset-label {
+
+            width: var(--label-w) !important;
+
+            height: var(--label-h) !important;
+
+            min-width: var(--label-w) !important;
+
+            max-width: var(--label-w) !important;
+
+            min-height: var(--label-h) !important;
+
+            max-height: var(--label-h) !important;
+
+            box-sizing: border-box !important;
+
+            background: #ffffff !important;
+
+            border: none !important;
+
+            border-radius: 0 !important;
+
+            padding: 1.2mm !important;
+
+            /*
+           KIRI  = INFO
+           KANAN = QR
+        */
+
+            display: grid !important;
+
+            grid-template-columns:
+
+                1fr var(--label-qr-size) !important;
+
+            column-gap: 1.2mm !important;
+
+            align-items: center !important;
+
+            overflow: hidden !important;
+
+            break-inside: avoid !important;
+
+            page-break-inside: avoid !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       INFORMATION AREA
+       -------------------------------------------------------- */
+
+        .asset-label-info {
+
+            min-width: 0 !important;
+
+            width: 100% !important;
+
+            height: 100% !important;
+
+            overflow: hidden !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            justify-content: center !important;
+
+            align-items: flex-start !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       COMPANY
+       -------------------------------------------------------- */
+
+        .asset-label-company {
+
+            width: 100% !important;
+
+            font-size: 5.2pt !important;
+
+            font-weight: 700 !important;
+
+            line-height: 1 !important;
+
+            margin-bottom: 0.8mm !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: clip !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       ASSET TAG
+       -------------------------------------------------------- */
+
+        .asset-label-tag {
+
+            width: 100% !important;
+
+            font-size: 6.5pt !important;
+
+            font-weight: 800 !important;
+
+            line-height: 1 !important;
+
+            margin-bottom: 0.8mm !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       ASSET NAME
+       -------------------------------------------------------- */
+
+        .asset-label-name {
+
+            width: 100% !important;
+
+            font-size: 5.2pt !important;
+
+            font-weight: 600 !important;
+
+            line-height: 1.05 !important;
+
+            margin-bottom: 0.7mm !important;
+
+            max-height: 5.5mm !important;
+
+            overflow: hidden !important;
+
+            display: -webkit-box !important;
+
+            -webkit-line-clamp: 2 !important;
+
+            -webkit-box-orient: vertical !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       SERIAL NUMBER
+       -------------------------------------------------------- */
+
+        .asset-label-serial {
+
+            width: 100% !important;
+
+            font-size: 4.8pt !important;
+
+            font-weight: 500 !important;
+
+            line-height: 1 !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       QR WRAPPER
+       -------------------------------------------------------- */
+
+        .asset-label-qr-wrapper {
+
+            width: var(--label-qr-size) !important;
+
+            height: 15mm !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            overflow: hidden !important;
+
+        }
+
+
+        /* --------------------------------------------------------
+       QR CODE
+       -------------------------------------------------------- */
+
+        .asset-label-qr {
+
+            width: var(--label-qr-size) !important;
+
+            height: var(--label-qr-size) !important;
+
+            min-width: var(--label-qr-size) !important;
+
+            min-height: var(--label-qr-size) !important;
+
+            max-width: var(--label-qr-size) !important;
+
+            max-height: var(--label-qr-size) !important;
+
+            object-fit: contain !important;
+
+            display: block !important;
+
+        }
+
+    }
+</style>
+
+
+<div class="container-fluid label-page">
+
+
+    <!-- ========================================================
+         HEADER
+         ======================================================== -->
+
+    <div class="page-header-card no-print">
+
+
+        <div class="page-header-row">
+
+
+            <!-- =================================================
+                 TITLE
+                 ================================================= -->
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-qr-code"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="page-header-title">
+                        {{ _('Print QR / Label Asset') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTION BUTTONS
+                 ================================================= -->
+
+            <div class="page-header-actions">
+
+
+                <!-- =================================================
+                     FORMAT LABEL (tidak ikut tercetak)
+                     ================================================= -->
+
+                <select id="labelFormatSelect" class="form-select form-select-sm no-print" style="width: auto;">
+                    <option value="tj108">{{ _('Laptop') }} — Tom &amp; Jerry No. 108 (38×18mm)</option>
+                    <option value="electronics">{{ _('Electronics') }} — Tom &amp; Jerry No. 108 (38×18mm)</option>
+                    <option value="tj104">Tom &amp; Jerry No. 104 (75×24mm)</option>
+                </select>
+
+
+                <!-- =================================================
+                     PILIH ASSET
+                     ================================================= -->
+
+                <a href="{{ url_for(
+                        'main.asset_labels'
+                    ) }}" class="
+                        btn
+                        btn-outline-secondary
+                    ">
+
+                    <i class="bi bi-arrow-left me-1"></i>
+
+                    {{ _('Select Asset') }}
+
+                </a>
+
+
+                <!-- =================================================
+                     EXPORT EXCEL
+                     ================================================= -->
+
+                <form method="POST" action="{{ url_for(
+                        'main.export_asset_labels_excel'
+                    ) }}" class="d-inline">
+
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+                    {% for asset in assets %}
+
+
+                    <input type="hidden" name="ids" value="{{ asset.id }}">
+
+
+                    {% endfor %}
+
+
+                    <button type="submit" class="
+                            btn
+                            btn-success
+                        ">
+
+                        <i class="bi bi-file-earmark-excel me-1"></i>
+
+                        {{ _('Export Excel') }}
+
+                    </button>
+
+
+                </form>
+
+
+                <!-- =================================================
+                     CETAK BROWSER
+                     ================================================= -->
+
+                <button type="button" class="
+                        btn
+                        btn-primary
+                    " onclick="window.print()">
+
+                    <i class="bi bi-printer me-1"></i>
+
+                    {{ _('Print') }}
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <p class="page-header-subtitle mb-0 mt-3">
+
+            {{ _('Format:') }}
+
+            <strong id="label-format-name">
+                Tom &amp; Jerry No. 108
+            </strong>
+
+            — <span id="label-format-size">38 × 18 mm</span>
+
+            — <span id="label-format-grid">{{ _('5 columns × 8 rows — 40 labels / sheet.') }}</span>
+
+            <br>
+
+            <span class="text-muted">
+
+                {{ _('Each asset is printed as') }}
+
+                <strong><span id="tj108-label-count-text">5</span> {{ _('labels') }}</strong>
+
+                <span id="label-format-count-help">{{ _('for laptop, charger, box, bag, and accessories.') }}</span>
+
+            </span>
+
+            <br>
+
+            <span class="text-warning">
+
+                <i class="bi bi-exclamation-triangle me-1"></i>
+
+                {{ _('Before printing, make sure Paper size is set to A4 (not A5/Letter) and Scale to Default/100%% (not "Fit to page") in the print dialog, so the labels line up with the physical sheet.') }}
+
+            </span>
+
+        </p>
+
+
+    </div>
+
+
+    <!-- ========================================================
+         PANEL KALIBRASI POSISI CETAK
+         (TIDAK IKUT TERCETAK)
+         ======================================================== -->
+
+    <div class="card no-print mb-3">
+
+        <div class="card-body">
+
+            <button
+                type="button"
+                class="btn btn-link p-0 d-flex align-items-center justify-content-between w-100 text-decoration-none text-body"
+                id="tj108-calibration-toggle"
+                data-bs-toggle="collapse"
+                data-bs-target="#tj108-calibration-collapse"
+                aria-expanded="false"
+                aria-controls="tj108-calibration-collapse"
+            >
+                <h6 class="mb-0">
+                    <i class="bi bi-sliders me-1"></i>
+                    {{ _('Print Position Calibration') }}
+                </h6>
+                <i class="bi bi-chevron-down" id="tj108-calibration-chevron"></i>
+            </button>
+
+            <div class="collapse" id="tj108-calibration-collapse">
+
+            <p class="text-muted small mb-3 mt-3">
+                {{ _('If the printed labels are shifted from the physical sheet, nudge the values below, print a test page, and repeat until aligned. Values are saved per format in this browser.') }}
+            </p>
+
+            <div class="d-flex flex-wrap align-items-end gap-3" id="tj108-calibration-form">
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Labels per Asset') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="1" min="1" max="40" class="form-control" id="tj108-label-count">
+                        <span class="input-group-text">{{ _('pcs') }}</span>
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Top offset') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.5" class="form-control" id="tj108-offset-top" data-var="--label-offset-top">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Left offset') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.5" class="form-control" id="tj108-offset-left" data-var="--label-offset-left">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Label width') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.1" class="form-control" id="tj108-w" data-var="--label-w">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Label height') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.1" class="form-control" id="tj108-h" data-var="--label-h">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div style="width: 110px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Columns') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="1" min="1" max="20" class="form-control" id="tj108-cols" data-var="--label-cols">
+                    </div>
+                </div>
+
+                <div style="width: 110px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Rows') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="1" min="1" max="30" class="form-control" id="tj108-rows" data-var="--label-rows">
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Column gap') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.1" class="form-control" id="tj108-col-gap" data-var="--label-col-gap">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div style="width: 132px;">
+                    <label class="form-label small mb-1 text-nowrap">{{ _('QR size') }}</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" step="0.1" class="form-control" id="tj108-qr-size" data-var="--label-qr-size">
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label small mb-1 text-nowrap">{{ _('Row gap') }}</label>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="input-group input-group-sm" style="width: 132px;">
+                            <input type="number" step="0.1" class="form-control" id="tj108-row-gap" data-var="--label-row-gap">
+                            <span class="input-group-text">mm</span>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary text-nowrap" id="tj108-reset-btn">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i>
+                            {{ _('Reset to default') }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         LABEL SHEET
+         ======================================================== -->
+
+    <div class="label-sheet-preview">
+
+
+        {% if assets %}
+
+
+        <div class="label-grid">
+
+
+            <!-- ==================================================
+                 SETIAP ASSET DICETAK 1 KALI DI SERVER,
+                 DIPERBANYAK DI JS SESUAI "Labels per Asset"
+                 (lihat panel kalibrasi & script di bawah)
+                 ================================================== -->
+
+            {% for asset in assets %}
+
+
+            <!-- ==========================================
+                         SINGLE LABEL (MASTER, DI-CLONE JS)
+                         ========================================== -->
+
+            <div class="asset-label" data-asset-label-master data-asset-id="{{ asset.id }}">
+
+
+                <!-- ======================================
+                             INFORMATION
+                             POSISI KIRI
+                             ====================================== -->
+
+                <div class="asset-label-info">
+
+
+                    <!-- ==================================
+                                 NAMA PERUSAHAAN
+                                 ================================== -->
+
+                    <div class="asset-label-company" title="{{ company_name or '-' }}">
+
+                        {{ company_name or "-" }}
+
+                    </div>
+
+
+                    <!-- ==================================
+                                 ASSET TAG
+                                 ================================== -->
+
+                    <div class="asset-label-tag" title="{{ asset.asset_tag or '-' }}">
+
+                        {{ asset.asset_tag or "-" }}
+
+                    </div>
+
+
+                    <!-- ==================================
+                                 MODEL
+                                 ================================== -->
+
+                    <div class="asset-label-name" title="{{ asset.model or '-' }}">
+
+                        {{ asset.model or "-" }}
+
+                    </div>
+
+
+                    <!-- ==================================
+                                 SERIAL NUMBER
+                                 ================================== -->
+
+                    <div class="asset-label-serial" title="{{ asset.serial_number or '-' }}">
+
+                        S/N:
+
+                        {{ asset.serial_number or "-" }}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ======================================
+                             QR CODE
+                             POSISI KANAN
+                             ====================================== -->
+
+                <div class="asset-label-qr-wrapper">
+
+
+                    {% set qr_filename =
+                                (
+                                    asset.asset_tag
+                                    or ''
+                                )
+                                ~ '.png'
+                            %}
+
+
+                    <img src="{{ url_for(
+                                    'static',
+                                    filename=
+                                        'qrcodes/'
+                                        ~ qr_filename
+                                ) }}" alt="{{ _('QR') }} {{ asset.asset_tag }}" class="asset-label-qr" onerror="
+                                    this.style.display='none';
+                                    this.nextElementSibling.style.display='flex';
+                                ">
+
+
+                    <!-- ==================================
+                                 FALLBACK JIKA QR TIDAK ADA
+                                 ================================== -->
+
+                    <div class="asset-label-qr-empty" style="display:none;">
+
+                        {{ _('QR') }}
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- ====================================================
+             EMPTY STATE
+             ==================================================== -->
+
+        <div class="label-empty">
+
+
+            <i class="
+                bi
+                bi-qr-code
+                fs-1
+                d-block
+                mb-3
+            "></i>
+
+
+            <h5>
+
+                {{ _('No assets to print.') }}
+
+            </h5>
+
+
+            <p>
+
+                {{ _('Please select an asset first.') }}
+
+            </p>
+
+
+            <a href="{{ url_for(
+                    'main.asset_labels'
+                ) }}" class="
+                    btn
+                    btn-primary
+                ">
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                {{ _('Select Asset') }}
+
+            </a>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ============================================================
+     KALIBRASI POSISI CETAK (MULTI-FORMAT)
+
+     Dulu cuma 1 format (Tom & Jerry No. 108, prefix CSS var
+     "--tj108-*"). Sekarang CSS .asset-label/.label-grid baca dari
+     variabel GENERIK "--label-*" (lihat :root di <style> di atas),
+     dan script di sini yang menulis nilai format mana pun yang lagi
+     dipilih user ke variabel generik itu - jadi tambah format baru
+     di masa depan cukup tambah 1 entry di object FORMATS, tidak
+     perlu ubah CSS atau markup panel kalibrasi sama sekali.
+     ============================================================ -->
+
+<script>
+
+    (function () {
+
+        var FORMATS = {
+
+            tj108: {
+                name: "Tom & Jerry No. 108",
+                sizeText: "38 × 18 mm",
+                storageKey: "tj108_calibration_v4",
+                countHelp: "{{ _('for laptop, charger, box, bag, and accessories.') }}",
+                labelCountDefault: 5,
+                defaults: {
+                    "--label-offset-top": -1,
+                    "--label-offset-left": 3.5,
+                    "--label-w": 38,
+                    "--label-h": 18,
+                    "--label-col-gap": 3,
+                    "--label-row-gap": 2,
+                    "--label-cols": 5,
+                    "--label-rows": 8,
+                    "--label-qr-size": 10.5
+                }
+            },
+
+            electronics: {
+                name: "{{ _('Electronics') }}",
+                sizeText: "38 × 18 mm",
+                storageKey: "tjelec_calibration_v1",
+                countHelp: "{{ _('for the electronics item.') }}",
+                labelCountDefault: 1,
+                defaults: {
+                    "--label-offset-top": -1,
+                    "--label-offset-left": 3.5,
+                    "--label-w": 38,
+                    "--label-h": 18,
+                    "--label-col-gap": 3,
+                    "--label-row-gap": 2,
+                    "--label-cols": 5,
+                    "--label-rows": 8,
+                    "--label-qr-size": 10.5
+                }
+            },
+
+            tj104: {
+                name: "Tom & Jerry No. 104",
+                sizeText: "75 × 24 mm",
+                storageKey: "tj104_calibration_v3",
+                countHelp: "{{ _('for this item.') }}",
+                labelCountDefault: 1,
+                defaults: {
+                    "--label-offset-top": 8,
+                    "--label-offset-left": 8,
+                    "--label-w": 75,
+                    "--label-h": 24,
+                    "--label-col-gap": 3,
+                    "--label-row-gap": 3,
+                    "--label-cols": 2,
+                    "--label-rows": 10,
+                    "--label-qr-size": 14
+                }
+            }
+
+        };
+
+        var INT_VARS = ["--label-cols", "--label-rows"];
+
+        var FORMAT_STORAGE_KEY = "label_format_selected_v1";
+
+        var root = document.documentElement;
+
+        var formatSelect = document.getElementById("labelFormatSelect");
+        var labelCountInput = document.getElementById("tj108-label-count");
+        var resetBtn = document.getElementById("tj108-reset-btn");
+
+        var currentFormatKey = "tj108";
+        var current = {};
+
+        function applyLabelCount(count, fallbackDefault) {
+
+            count = Math.max(1, Math.min(40, parseInt(count, 10) || fallbackDefault));
+
+            document
+                .querySelectorAll(".asset-label[data-asset-label-master]")
+                .forEach(function (master) {
+
+                    var assetId = master.getAttribute("data-asset-id");
+
+                    document
+                        .querySelectorAll(
+                            '.asset-label[data-cloned-from="' + assetId + '"]'
+                        )
+                        .forEach(function (clone) {
+                            clone.remove();
+                        });
+
+                    var lastInserted = master;
+
+                    for (var i = 1; i < count; i++) {
+
+                        var clone = master.cloneNode(true);
+
+                        clone.removeAttribute("data-asset-label-master");
+                        clone.setAttribute("data-cloned-from", assetId);
+
+                        lastInserted.insertAdjacentElement("afterend", clone);
+
+                        lastInserted = clone;
+
+                    }
+
+                });
+
+            var labelCountText = document.getElementById("tj108-label-count-text");
+
+            if (labelCountText) {
+                labelCountText.textContent = count;
+            }
+
+            return count;
+
+        }
+
+        function loadSaved(storageKey) {
+
+            try {
+
+                var raw = localStorage.getItem(storageKey);
+
+                return raw ? JSON.parse(raw) : {};
+
+            } catch (e) {
+
+                return {};
+
+            }
+
+        }
+
+        function apply(values) {
+
+            Object.keys(values).forEach(function (varName) {
+
+                if (varName === "labelCount") {
+                    return;
+                }
+
+                var isInt = INT_VARS.indexOf(varName) !== -1;
+
+                root.style.setProperty(
+                    varName,
+                    values[varName] + (isInt ? "" : "mm")
+                );
+
+            });
+
+        }
+
+        function save(storageKey, values) {
+
+            try {
+
+                localStorage.setItem(
+                    storageKey,
+                    JSON.stringify(values)
+                );
+
+            } catch (e) {
+
+                // localStorage tidak tersedia, abaikan.
+
+            }
+
+        }
+
+        function populateInputs(values) {
+
+            document
+                .querySelectorAll("#tj108-calibration-form [data-var]")
+                .forEach(function (input) {
+
+                    var varName = input.getAttribute("data-var");
+
+                    if (values[varName] !== undefined) {
+                        input.value = values[varName];
+                    }
+
+                });
+
+        }
+
+        function updateDescription(format) {
+
+            var nameEl = document.getElementById("label-format-name");
+            var sizeEl = document.getElementById("label-format-size");
+            var gridEl = document.getElementById("label-format-grid");
+            var countHelpEl = document.getElementById("label-format-count-help");
+
+            if (nameEl) {
+                nameEl.textContent = format.name;
+            }
+
+            if (sizeEl) {
+                sizeEl.textContent = format.sizeText;
+            }
+
+            if (gridEl) {
+
+                var cols = current["--label-cols"];
+                var rows = current["--label-rows"];
+
+                gridEl.textContent =
+                    cols + " {{ _('columns') }} × " + rows + " {{ _('rows') }} — " +
+                    (cols * rows) + " {{ _('labels / sheet.') }}";
+
+            }
+
+            if (countHelpEl) {
+                countHelpEl.textContent = format.countHelp;
+            }
+
+        }
+
+        function loadFormat(key) {
+
+            var format = FORMATS[key] || FORMATS.tj108;
+
+            currentFormatKey = FORMATS[key] ? key : "tj108";
+
+            current = Object.assign({}, format.defaults, loadSaved(format.storageKey));
+
+            apply(current);
+            populateInputs(current);
+
+            current.labelCount = applyLabelCount(
+                current.labelCount !== undefined
+                    ? current.labelCount
+                    : format.labelCountDefault,
+                format.labelCountDefault
+            );
+
+            if (labelCountInput) {
+                labelCountInput.value = current.labelCount;
+            }
+
+            updateDescription(format);
+
+        }
+
+        if (formatSelect) {
+
+            var savedFormat = null;
+
+            try {
+                savedFormat = localStorage.getItem(FORMAT_STORAGE_KEY);
+            } catch (e) {}
+
+            if (savedFormat && FORMATS[savedFormat]) {
+                formatSelect.value = savedFormat;
+            }
+
+            formatSelect.addEventListener("change", function () {
+
+                try {
+                    localStorage.setItem(FORMAT_STORAGE_KEY, formatSelect.value);
+                } catch (e) {}
+
+                loadFormat(formatSelect.value);
+
+            });
+
+        }
+
+        loadFormat(formatSelect ? formatSelect.value : "tj108");
+
+        if (labelCountInput) {
+
+            labelCountInput.addEventListener("input", function () {
+
+                var format = FORMATS[currentFormatKey];
+
+                current.labelCount = applyLabelCount(labelCountInput.value, format.labelCountDefault);
+
+                labelCountInput.value = current.labelCount;
+
+                save(format.storageKey, current);
+
+            });
+
+        }
+
+        document
+            .querySelectorAll("#tj108-calibration-form [data-var]")
+            .forEach(function (input) {
+
+                input.addEventListener("input", function () {
+
+                    var varName = input.getAttribute("data-var");
+
+                    var num = parseFloat(input.value);
+
+                    if (isNaN(num)) {
+                        return;
+                    }
+
+                    current[varName] = num;
+
+                    apply(current);
+                    save(FORMATS[currentFormatKey].storageKey, current);
+                    updateDescription(FORMATS[currentFormatKey]);
+
+                });
+
+            });
+
+        if (resetBtn) {
+
+            resetBtn.addEventListener("click", function () {
+
+                var format = FORMATS[currentFormatKey];
+
+                current = Object.assign({}, format.defaults);
+
+                apply(current);
+                populateInputs(current);
+
+                current.labelCount = applyLabelCount(format.labelCountDefault, format.labelCountDefault);
+
+                if (labelCountInput) {
+                    labelCountInput.value = current.labelCount;
+                }
+
+                save(format.storageKey, current);
+                updateDescription(format);
+
+            });
+
+        }
+
+        var COLLAPSE_STORAGE_KEY = "tj108_calibration_open_v1";
+
+        var toggleBtn = document.getElementById("tj108-calibration-toggle");
+        var collapseEl = document.getElementById("tj108-calibration-collapse");
+        var chevron = document.getElementById("tj108-calibration-chevron");
+
+        if (toggleBtn && collapseEl) {
+
+            var wasOpen = localStorage.getItem(COLLAPSE_STORAGE_KEY) === "1";
+
+            if (wasOpen) {
+
+                collapseEl.classList.add("show");
+                toggleBtn.setAttribute("aria-expanded", "true");
+
+                if (chevron) {
+                    chevron.classList.add("tj108-chevron-open");
+                }
+
+            }
+
+            collapseEl.addEventListener("shown.bs.collapse", function () {
+
+                localStorage.setItem(COLLAPSE_STORAGE_KEY, "1");
+
+                if (chevron) {
+                    chevron.classList.add("tj108-chevron-open");
+                }
+
+            });
+
+            collapseEl.addEventListener("hidden.bs.collapse", function () {
+
+                localStorage.setItem(COLLAPSE_STORAGE_KEY, "0");
+
+                if (chevron) {
+                    chevron.classList.remove("tj108-chevron-open");
+                }
+
+            });
+
+        }
+
+    })();
+
+</script>
+
+{% endblock %}

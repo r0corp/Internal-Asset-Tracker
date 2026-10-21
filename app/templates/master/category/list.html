@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Categories') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-tags"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="page-header-title">
+                        {{ _('Category Master') }}
+                    </h2>
+
+                    <p class="page-header-subtitle mb-0">
+                        {{ _('Manage asset categories') }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a
+                    href="{{ url_for('main.add_category') }}"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-plus-lg"></i>
+                    {{ _('Add Category') }}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow-sm overflow-hidden">
+
+        <div class="card-header-accent">
+
+            <div class="card-header-accent-left">
+
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+
+                <div>
+                    <div class="card-header-accent-title">
+                        {{ _('Category List') }}
+                    </div>
+
+                    <div class="card-header-accent-subtitle">
+                        {{ categories|length }} {{ _('categories found') }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                {{ _('No.') }}
+                            </th>
+
+                            <th>
+                                {{ _('Category Name') }}
+                            </th>
+
+                            <th>
+                                {{ _('Description') }}
+                            </th>
+
+                            <th>
+                                {{ _('Asset Field Template') }}
+                            </th>
+
+                            <th>
+                                {{ _('Actions') }}
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for category in categories %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ category.name }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ category.description or "-" }}
+                            </td>
+
+                            <td>
+
+                                {% if category.field_template == "ponsel" %}
+                                <span class="badge bg-primary">{{ _('Phone') }}</span>
+                                {% elif category.field_template == "server" %}
+                                <span class="badge bg-primary">{{ _('Server & Network') }}</span>
+                                {% elif category.field_template == "non_pc" %}
+                                <span class="badge bg-info text-dark">{{ _('Other Electronics') }}</span>
+                                {% elif category.field_template == "elektronik_interior" %}
+                                <span class="badge bg-info text-dark">{{ _('Interior Electronics') }}</span>
+                                {% elif category.field_template == "elektronik_exterior" %}
+                                <span class="badge bg-info text-dark">{{ _('Exterior Electronics') }}</span>
+                                {% elif category.field_template == "kendaraan" %}
+                                <span class="badge bg-warning text-dark">{{ _('Vehicle') }}</span>
+                                {% elif category.field_template == "furniture" %}
+                                <span class="badge bg-secondary">{{ _('Furniture') }}</span>
+                                {% elif category.field_template == "tools_mekanik" %}
+                                <span class="badge bg-secondary">{{ _('Mechanical Tools') }}</span>
+                                {% elif category.field_template == "atk" %}
+                                <span class="badge bg-success">{{ _('Office Stationery (ATK)') }}</span>
+                                {% elif category.field_template == "pantry" %}
+                                <span class="badge bg-success">{{ _('Pantry') }}</span>
+                                {% elif category.field_template == "tools_pantry" %}
+                                <span class="badge bg-success">{{ _('Pantry Tools') }}</span>
+                                {% elif category.field_template == "showcase" %}
+                                <span class="badge bg-dark">{{ _('Showcase') }}</span>
+                                {% elif category.field_template == "gudang_event" %}
+                                <span class="badge bg-dark">{{ _('Event Warehouse Stock') }}</span>
+                                {% else %}
+                                <span class="badge bg-primary">{{ _('PC / Laptop') }}</span>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{{ url_for('main.edit_category', category_id=category.id) }}"
+                                    class="btn btn-sm btn-warning"
+                                >
+                                    {{ _('Edit') }}
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('main.delete_category', category_id=category.id) }}"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('{{ _('Delete this category?') }}');"
+                                >
+
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-danger"
+                                    >
+                                        {{ _('Delete') }}
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="text-center text-muted"
+                            >
+                                {{ _('No categories yet.') }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

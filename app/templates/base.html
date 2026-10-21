@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="{{ current_language }}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Asset Tracker - Sistem Manajemen Asset">
+
+    <title>
+        {% block title %}
+        {{ app_setting.app_name }}
+        {% endblock %}
+    </title>
+
+    {% if app_setting.logo_square %}
+    <link rel="icon" href="{{ url_for('static', filename='uploads/branding/' ~ app_setting.logo_square) }}">
+    {% endif %}
+
+    <!-- ============================================================
+         DARK/LIGHT MODE - dijalankan sebelum CSS dimuat, supaya
+         tidak ada "kedipan" tema salah sesaat sebelum halaman render.
+    ============================================================ -->
+
+    <script>
+        (() => {
+            "use strict";
+            const root = document.documentElement;
+            const STORAGE_KEY = "lte-theme";
+            let stored = null;
+            try {
+                stored = localStorage.getItem(STORAGE_KEY);
+            } catch (e) {}
+            let resolved = "light";
+            if (stored === "dark" || stored === "light") {
+                resolved = stored;
+            } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                resolved = "dark";
+            }
+            root.setAttribute("data-bs-theme", resolved);
+            root.style.colorScheme = resolved;
+        })();
+    </script>
+
+
+    <!-- ============================================================
+         ADMINLTE 4 (BOOTSTRAP 5 BASED) - CSS
+    ============================================================ -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.9.1/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+
+    <!-- ============================================================
+         THEME TERPUSAT (dark mode merah, light mode biru) - SATU-
+         SATUNYA tempat semua override warna [data-bs-theme="dark"]
+         untuk seluruh aplikasi. Jangan tambah <style> dark-mode di
+         template lain, tambahkan section baru di file ini.
+    ============================================================ -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-dark.css') }}">
+
+    <!-- ============================================================
+         GAYA GLOBAL TERPUSAT (kartu, tombol, navbar, sidebar, footer)
+         - berlaku sama di semua halaman, terang maupun gelap. Aturan
+         baru yang berlaku di SELURUH aplikasi ditambahkan di sini,
+         bukan di <style> inline di bawah (biar tidak terus membengkak).
+    ============================================================ -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- ============================================================
+         CUSTOM STYLE
+    ============================================================ -->
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .table {
+            vertical-align: middle;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
+
+        /* ========================================================
+           CARD HEADER BERWARNA (pengganti card-header bg-white)
+        ======================================================== */
+
+        /* Semua header tabel/card di SELURUH aplikasi diseragamkan
+           satu gaya (gradasi biru di light mode, merah di dark mode -
+           lihat theme-dark.css), meniru gaya yang sudah ada di
+           dashboard. Class ".card-header-color" tetap bisa dipakai
+           eksplisit, tapi supaya tidak perlu sentuh markup di puluhan
+           halaman satu-satu, class default Bootstrap ".card-header"
+           dan semua class header kustom yang dipakai di berbagai
+           halaman (movement/correction/filter/table/dashboard/history
+           card header) otomatis ikut kena gaya yang sama. */
+        .card-header-color,
+        .card-header,
+        .dashboard-card-header,
+        .movement-card-header,
+        .correction-card-header,
+        .filter-card-header,
+        .table-card-header,
+        .history-card-header {
+            border-bottom: none;
+            color: #fff;
+
+            /* !important supaya SELALU menang, walau elemennya
+               kebetulan juga punya style background sendiri di
+               <style> block template (nama class dipakai ulang di
+               banyak halaman dengan warna berbeda-beda sebelumnya). */
+            background: linear-gradient(135deg, #0d6efd 0%, #0a4fb0 100%) !important;
+        }
+
+        .card-header-color .card-title,
+        .card-header-color .dashboard-card-title,
+        .card-header .card-title,
+        .dashboard-card-header .dashboard-card-title,
+        .movement-card-header h5,
+        .correction-card-header h5,
+        .card-header-color h1,
+        .card-header-color h2,
+        .card-header-color h3,
+        .card-header-color h4,
+        .card-header-color h5,
+        .card-header-color h6,
+        .card-header-color small,
+        .card-header-color .text-muted,
+        .card-header h1,
+        .card-header h2,
+        .card-header h3,
+        .card-header h4,
+        .card-header h5,
+        .card-header h6,
+        .card-header small,
+        .card-header .text-muted,
+        .card-header strong,
+        .dashboard-card-header,
+        .dashboard-card-header small,
+        .movement-card-header,
+        .movement-card-header small,
+        .movement-card-header-subtitle,
+        .correction-card-header,
+        .correction-card-header small,
+        .filter-card-header,
+        .table-card-header,
+        .table-card-header small,
+        .history-card-header,
+        .history-card-header small,
+        .history-card-subtitle {
+            color: #fff !important;
+        }
+
+        .card-header-color .dashboard-card-title i,
+        .card-header-color .card-title i,
+        .card-header i,
+        .dashboard-card-header i,
+        .movement-card-header i,
+        .correction-card-header i,
+        .filter-card-header i,
+        .table-card-header i,
+        .history-card-header i {
+            color: #fff;
+        }
+
+        /* Tombol solid (btn-primary dkk) yang kebetulan ada di dalam
+           header berwarna diganti jadi gaya "light" supaya tetap
+           kontras di atas gradient - badge/label lain di dalam header
+           TIDAK disentuh (supaya badge yang memang didesain terang,
+           mis. bg-light text-dark, tidak ikut rusak jadi putih-di-atas-
+           putih). */
+        .card-header .btn-primary,
+        .dashboard-card-header .btn-primary,
+        .movement-card-header .btn-primary,
+        .correction-card-header .btn-primary,
+        .filter-card-header .btn-primary,
+        .table-card-header .btn-primary,
+        .history-card-header .btn-primary {
+            --bs-btn-color: #0d6efd;
+            --bs-btn-bg: #fff;
+            --bs-btn-border-color: #fff;
+            --bs-btn-hover-color: #0d6efd;
+            --bs-btn-hover-bg: #e9ecef;
+            --bs-btn-hover-border-color: #e9ecef;
+        }
+
+        /* Header berwarna yang pakai d-flex (judul + tombol aksi) -
+           tombol/grup tombol terakhir didorong ke pojok kanan secara
+           andal, tidak bergantung pada justify-content-between saja. */
+        .card-header-color.d-flex > *:last-child,
+        .card-header.d-flex > *:last-child,
+        .dashboard-card-header.d-flex > *:last-child,
+        .movement-card-header.d-flex > *:last-child,
+        .correction-card-header.d-flex > *:last-child,
+        .filter-card-header.d-flex > *:last-child,
+        .table-card-header.d-flex > *:last-child,
+        .history-card-header.d-flex > *:last-child {
+            margin-left: auto;
+        }
+
+        /* ========================================================
+           HEADER KOLOM TABEL DATA - ditarget lewat "thead" polos
+           (bukan cuma class .table-light), supaya SEMUA tabel di
+           seluruh aplikasi otomatis seragam, termasuk yang <thead>-
+           nya tidak diberi class apapun. Bootstrap mengecat
+           background SETIAP sel <th> lewat CSS variable --bs-table-bg
+           (bukan pada <thead>-nya sendiri), jadi gradient tidak bisa
+           lewat variable itu (nilainya harus warna solid) - solusinya:
+           gradient dipasang di <thead>, lalu tiap sel <th> dibuat
+           transparan supaya gradient di baliknya kelihatan menyatu
+           mulus satu baris, bukan terpecah/berulang per kolom.
+        ======================================================== */
+
+        /* "thead" polos (bukan ".table thead") supaya tabel dengan
+           class kustom sendiri (mis. .movement-table, .asset-table)
+           yang tidak memakai class Bootstrap
+           ".table" tetap ikut kena, tanpa perlu didaftar satu-satu.
+           Dibungkus @media screen supaya TIDAK mempengaruhi halaman
+           yang didesain untuk dicetak (Bukti Mutasi Asset, Label QR,
+           dll) - dokumen cetak sengaja dibiarkan hemat tinta/putih
+           seperti semula. */
+        @media screen {
+            thead,
+            .table-light {
+                background: linear-gradient(135deg, #0d6efd 0%, #0a4fb0 100%) !important;
+            }
+
+            thead th,
+            .table-light > tr > th,
+            .table-light th {
+                background-color: transparent !important;
+                color: #fff !important;
+                border-color: rgba(255, 255, 255, 0.2) !important;
+            }
+        }
+
+        /* ========================================================
+           NAVBAR MELAYANG + SCROLL PROGRESS (konsep dari POS_Cafe_
+           Retail, app/static/css/style.css & templates/base.html).
+
+           Navbar jadi "kartu" yang sticky dengan jarak dari tepi
+           atas/kiri/kanan, bukan mentok penuh seperti sebelumnya.
+           Karena ada jarak itu, celah di atas serta kiri-kanan
+           navbar bisa "kebocoran" konten yang di-scroll - makanya
+           ada .app-header-backdrop (fixed, menutupi dari tepi kanan
+           sidebar sampai tepi kanan layar, tinggi mengikuti tepi
+           bawah navbar) untuk menutup celah itu. Posisi kiri &
+           tinggi backdrop dihitung JS (lihat script di akhir body)
+           karena sidebar bisa di-collapse (lebar berubah).
+
+           Progress bar-nya di dalam .scroll-progress-clip supaya
+           ikut terpotong mengikuti lengkungan sudut navbar - kalau
+           track/fill langsung ditaruh di tepi bawah navbar tanpa
+           wrapper ini, border-radius-nya sendiri (di elemen setipis
+           4px) tidak akan presisi mengikuti lengkungan navbar yang
+           sebenarnya.
+        ======================================================== */
+        .app-header-backdrop {
+            position: fixed;
+            top: 0;
+            left: var(--navbar-backdrop-left, 0);
+            right: 0;
+            height: var(--navbar-backdrop-height, 14px);
+            background: var(--bs-tertiary-bg);
+            z-index: 1033;
+            pointer-events: none;
+        }
+
+        .app-header.navbar {
+            position: sticky;
+            top: 14px;
+            z-index: 1034;
+            margin: 14px 16px 22px;
+            border-radius: 14px;
+            border: 1px solid #dee2e6;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            border-bottom: 0;
+        }
+
+        /* Navbar sejajar sama persis dengan .app-main (lihat aturan
+           .app-main di bawah) - navbar BUKAN anak .app-main (cuma
+           saudara sejajar di dalam .app-wrapper), jadi jarak kirinya
+           harus disamakan manual juga, bukan ikut otomatis dari induk.
+           278px = lebar sidebar (250) + margin kiri-kanannya (14+14),
+           ditambah 16px jarak khas kartu navbar itu sendiri.
+
+           Begitu sidebar disembunyikan (body dapat class
+           "sidebar-collapse" dari tombol hamburger), jarak 294px ini
+           tidak relevan lagi - area konten harus melebar mengisi
+           ruang bekas sidebar, bukan menyisakan celah kosong di kiri.
+           Makanya di-override balik ke 16px (sama seperti jarak kanan
+           navbar) saat class itu ada di body. */
+        @media (min-width: 992px) {
+            .app-header.navbar {
+                margin-left: 294px;
+                transition: margin-left 0.3s ease;
+            }
+
+            body.sidebar-collapse .app-header.navbar {
+                margin-left: 16px;
+            }
+        }
+
+        [data-bs-theme="dark"] .app-header.navbar {
+            background: #1b1e27;
+            border-color: #2c2f38;
+        }
+
+        /* ========================================================
+           SIDEBAR MELAYANG PENUH - kartu terpisah dari navbar, jarak
+           di semua sisi sama seperti navbar, radius & latar sama
+           persis (sebelumnya sidebar selalu gelap lewat data-bs-theme
+           ="dark" terpisah dari tema situs - makanya tidak pernah
+           selaras di mode terang; dihapus supaya ikut tema global).
+
+           PENTING - dipaksa position:fixed (bukan sticky bawaan
+           AdminLTE): ketahuan lewat tes manual (scroll lalu ukur
+           ulang posisinya) kalau sidebar bawaan AdminLTE itu
+           position:sticky, dan sticky menghitung titik "nempel"
+           HANYA dari properti top/bottom - begitu user mulai
+           scroll dan statusnya berubah dari "posisi normal" ke
+           "menempel", marginnya diabaikan, jadi sidebar kelihatan
+           "lompat" naik beberapa px tepat di awal scroll. Diganti
+           position:fixed supaya posisinya konsisten dari awal,
+           tidak pernah lompat/ikut gerak sama sekali.
+
+           Konsekuensinya: grid .app-wrapper tadinya otomatis
+           melebarkan kolom pertama mengikuti sidebar KARENA posisi
+           sticky-nya ikut dihitung sebagai bagian dari aliran grid -
+           fixed tidak lagi dihitung grid sama sekali, jadi .app-main
+           perlu dikasih jarak kiri manual (lihat aturan .app-main di
+           bawah) sebesar lebar sidebar + margin kiri + celahnya,
+           supaya konten tidak ketiban sidebar.
+
+           PENTING #2 - jarak kiri 14px TIDAK boleh lewat margin-left:
+           tombol hamburger (data-lte-toggle="sidebar") menyembunyikan
+           sidebar dengan cara menambah class "sidebar-collapse" di
+           body, yang di CSS AdminLTE artinya
+           ".sidebar-collapse:not(.sidebar-mini) .app-sidebar
+           {margin-left:calc(var(--lte-sidebar-width) * -1)}" - geser
+           sidebar ke kiri sejauh lebarnya sendiri supaya hilang dari
+           layar. Kalau margin-left dipaksa !important di sini,
+           mekanisme sembunyikan itu ketimpa, jadi tombol hamburger
+           kelihatan tidak berfungsi. Makanya jarak 14px di sini pakai
+           "left" (bukan margin-left) - beda properti, tidak dipakai
+           AdminLTE sama sekali untuk sembunyikan, jadi keduanya bisa
+           jalan bareng: posisi normal = left:14px + margin-left:0
+           (punya AdminLTE) = 14px dari kiri; disembunyikan = left:
+           14px + margin-left:-250px (AdminLTE) = -236px, keluar
+           layar seperti seharusnya.
+
+           PENTING #3 - ternyata margin-left bawaan AdminLTE sendiri
+           TIDAK bisa diandalkan di breakpoint "sidebar-expand-lg"
+           yang dipakai di sini: ada beberapa aturan CSS AdminLTE yang
+           saling tiban soal kapan margin-left harus 0 atau -250px,
+           termasuk salah satu yang bikin sidebar default-nya
+           TERSEMBUNYI kecuali ada class "sidebar-open" yang ternyata
+           tidak pernah dipasang di halaman ini - dicoba berkali-kali
+           dengan override CSS !important + specificity tinggi
+           (termasuk dobel class ".app-sidebar.app-sidebar" dan
+           selector "body.sidebar-collapse ...") tetap kalah/tidak
+           konsisten. Daripada terus menebak aturan mana yang menang,
+           margin-left-nya diambil alih penuh lewat JS (lihat script
+           "NAVBAR MELAYANG: POSISI BACKDROP" di akhir body, fungsi
+           "syncSidebarHiddenState") - inline style + prioritas
+           "important" dari JS pasti menang lawan CSS manapun, jadi
+           perilakunya pasti: 0 kalau body TIDAK punya class
+           "sidebar-collapse", -250px kalau PUNYA. Baris "margin-left:
+           0 !important" di bawah ini cuma jaga-jaga sebelum JS sempat
+           jalan (hindari kedipan sidebar tersembunyi sesaat). */
+        .app-sidebar.app-sidebar {
+            position: fixed !important;
+            top: 14px !important;
+            bottom: 14px !important;
+            left: 14px !important;
+            margin-left: 0 !important;
+            height: auto !important;
+            border-radius: 14px;
+            border: 1px solid #dee2e6;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        [data-bs-theme="dark"] .app-sidebar {
+            background: #1b1e27;
+            border-color: #2c2f38;
+        }
+
+        .sidebar-brand {
+            border-radius: 14px 14px 0 0;
+        }
+
+        /* Sidebar cuma fixed & menggeser konten di breakpoint "lg"
+           ke atas (samakan dengan breakpoint class "sidebar-expand-
+           lg" di body) - di bawah itu sidebar jadi overlay (lihat
+           media query 575.98px di bawah untuk bentuk kartunya di
+           lebar itu), jadi .app-main tidak boleh ikut digeser. */
+        @media (min-width: 992px) {
+            .app-main {
+                margin-left: 278px !important;
+                transition: margin-left 0.3s ease;
+            }
+
+            body.sidebar-collapse .app-main {
+                margin-left: 0 !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .app-sidebar.app-sidebar {
+                top: 10px !important;
+                bottom: 10px !important;
+                left: 10px !important;
+                border-radius: 12px;
+            }
+
+            .sidebar-brand {
+                border-radius: 12px 12px 0 0;
+            }
+        }
+
+        .scroll-progress-clip {
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .scroll-progress-track {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 4px;
+            background: rgba(37, 99, 235, 0.15);
+        }
+
+        .scroll-progress-bar {
+            width: 100%;
+            height: 100%;
+            background: #2563eb;
+            transform: scaleX(0);
+            transform-origin: left center;
+        }
+
+        @media (max-width: 575.98px) {
+            .app-header.navbar {
+                top: 10px;
+                margin: 10px 10px 18px;
+                border-radius: 12px;
+            }
+
+            .scroll-progress-clip {
+                border-radius: 12px;
+            }
+        }
+
+        /* ========================================================
+           PAGE HEADER CARD - komponen header halaman terpusat.
+           Dipakai di semua halaman (Master Data, dll) supaya
+           tampilannya seragam dengan Laporan Mutasi Asset, tanpa
+           perlu <style> custom per halaman. Beda dari card-header-
+           color (yang gradient penuh): di sini pakai badge ikon
+           gradient + garis aksen tipis di atas, biar tidak terlalu
+           "berat" karena setiap halaman pasti punya satu header ini.
+        ======================================================== */
+        .page-header-card {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 14px;
+            padding: 22px 26px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .page-header-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0a4fb0 0%, #0d6efd 35%, #6ea8fe 50%, #0d6efd 65%, #0a4fb0 100%);
+        }
+
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .page-header-icon {
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            background: linear-gradient(135deg, #0d6efd 0%, #0a4fb0 100%);
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.28);
+        }
+
+        .page-header-title {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .page-header-subtitle {
+            margin-top: 3px;
+            color: #6c757d;
+            font-size: 13.5px;
+        }
+
+        .page-header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-actions > *:last-child {
+            margin-left: 0;
+        }
+
+        @media (max-width: 576px) {
+            .page-header-card {
+                padding: 18px;
+            }
+
+            .page-header-actions {
+                width: 100%;
+            }
+
+            .page-header-actions .btn {
+                flex: 1 1 auto;
+            }
+        }
+
+        /* Halaman yang punya tombol "Cetak" sendiri (mis. Laporan
+           Mutasi Asset) tetap boleh menampilkan .page-header-card di
+           layar, tapi saat benar-benar dicetak biar hemat tinta -
+           gradient/badge ikon disembunyikan, cuma judul+teks polos. */
+        @media print {
+            .page-header-card {
+                background: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+
+            .page-header-card::before {
+                display: none !important;
+            }
+
+            .page-header-icon {
+                display: none !important;
+            }
+
+            .card-header-accent {
+                background: none !important;
+                border-bottom: 1px solid #adb5bd !important;
+                padding: 7px 9px !important;
+            }
+
+            .card-header-accent::before {
+                display: none !important;
+            }
+
+            .card-header-accent-icon {
+                display: none !important;
+            }
+        }
+
+        /* ========================================================
+           CARD HEADER ACCENT - varian header kartu/tabel yang
+           lebih elegan (badge ikon + garis aksen gradient tipis
+           di atas), sebagai alternatif untuk header gradient
+           penuh (.card-header-color dkk), dipakai di beberapa
+           tabel/card di seluruh aplikasi.
+        ======================================================== */
+        .card-header-accent {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 16px 20px;
+            border-bottom: 1px solid #eeeeee;
+            overflow: hidden;
+        }
+
+        .card-header-accent::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0a4fb0 0%, #0d6efd 35%, #6ea8fe 50%, #0d6efd 65%, #0a4fb0 100%);
+        }
+
+        .card-header-accent-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .card-header-accent-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: #fff;
+            background: linear-gradient(135deg, #0d6efd 0%, #0a4fb0 100%);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.28);
+        }
+
+        .card-header-accent-title {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .card-header-accent-subtitle {
+            margin-top: 2px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .card-header-accent-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-sidebar .nav-link p {
+            margin-bottom: 0;
+        }
+
+        /* ========================================================
+           KALENDER (Flatpickr) - reskin terpusat supaya semua
+           input tanggal di seluruh aplikasi pakai kalender yang
+           sama, senada dengan aksen biru (light)/merah (dark).
+           Varian dark mode ada di theme-dark.css.
+        ======================================================== */
+        .flatpickr-calendar {
+            border-radius: 12px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+            border: 1px solid #e9ecef;
+        }
+
+        .flatpickr-day.selected,
+        .flatpickr-day.selected:hover,
+        .flatpickr-day.selected:focus {
+            background: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .flatpickr-day.today {
+            border-color: #0d6efd;
+        }
+
+        .flatpickr-day.today:hover,
+        .flatpickr-day.today:focus {
+            background: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+        }
+
+        .flatpickr-day:hover {
+            background: #e7f1ff;
+        }
+
+        .flatpickr-months .flatpickr-month,
+        .flatpickr-current-month,
+        .flatpickr-weekdays {
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* ========================================================
+           HEADER ICON (dark mode, bahasa, profil) - disamakan
+           ukuran & alignment-nya supaya sejajar & elegan.
+        ======================================================== */
+
+        .navbar-nav > .nav-item > .nav-link {
+            display: flex;
+            align-items: center;
+
+            border-radius: 10px;
+            padding-left: 0.6rem;
+            padding-right: 0.6rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-nav > .nav-item > .nav-link:hover,
+        .navbar-nav > .nav-item > .nav-link:focus,
+        .navbar-nav > .nav-item.show > .nav-link {
+            background-color: var(--bs-tertiary-bg);
+        }
+
+        .navbar-nav > .nav-item > .nav-link > i.bi {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .navbar-nav .fi {
+            display: inline-block;
+            width: 24px;
+            height: 18px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Semua dropdown di navbar (tema, bahasa, profil) pakai gaya
+           melayang & animasi masuk yang sama, supaya terasa satu
+           sistem yang elegan - bukan cuma dropdown profil saja yang
+           beda sendiri dari dua dropdown di sebelahnya. */
+        .navbar-nav .dropdown-menu {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+            transform-origin: top right;
+            animation: navbar-dropdown-pop 0.16s ease;
+        }
+
+        @keyframes navbar-dropdown-pop {
+
+            from {
+                opacity: 0;
+                transform: translateY(-6px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+        /* ========================================================
+           USER MENU DROPDOWN (profil header)
+        ======================================================== */
+
+        .user-menu-dropdown {
+            width: 250px;
+        }
+
+        .user-menu-header {
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0.85rem 0.85rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0a3fa3 100%);
+        }
+
+        .user-menu-header::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -35px;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .user-menu-header::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -25px;
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .user-menu-header-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .user-menu-avatar-wrap {
+            position: relative;
+            width: 48px;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-menu-online-dot {
+            position: absolute;
+            right: 1px;
+            bottom: 1px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bs-success);
+            border: 2px solid #0a3fa3;
+        }
+
+        [data-bs-theme="dark"] .user-menu-online-dot {
+            border-color: #1e40af;
+        }
+
+        .user-menu-avatar {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .user-menu-name {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .user-menu-username {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.68rem;
+        }
+
+        .user-menu-role-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 0.3rem;
+
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.38);
+            color: #fff;
+
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ------------------------------------------------------
+           DAFTAR USER ONLINE (khusus administrator)
+        ------------------------------------------------------ */
+
+        .user-menu-online-section {
+            padding: 0.6rem 0.85rem;
+            border-top: 1px solid var(--bs-border-color);
+        }
+
+        .user-menu-online-title {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: var(--bs-secondary-color);
+            margin-bottom: 0.45rem;
+        }
+
+        .user-menu-online-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            max-height: 130px;
+            overflow-y: auto;
+        }
+
+        .user-menu-online-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .user-menu-online-avatar {
+            position: relative;
+            flex-shrink: 0;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--bs-tertiary-bg);
+            color: var(--bs-emphasis-color);
+
+            font-size: 0.58rem;
+            font-weight: 700;
+        }
+
+        .user-menu-online-avatar .online-status-indicator {
+            position: absolute;
+            right: -2px;
+            bottom: -2px;
+        }
+
+        .user-menu-online-avatar .online-status-indicator .online-status-dot {
+            width: 7px;
+            height: 7px;
+            border: 1.5px solid var(--bs-body-bg);
+        }
+
+        .user-menu-online-name {
+            font-size: 0.74rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .user-menu-online-role {
+            font-size: 0.63rem;
+            color: var(--bs-secondary-color);
+            line-height: 1.2;
+        }
+
+        .user-menu-online-empty {
+            font-size: 0.72rem;
+            color: var(--bs-secondary-color);
+        }
+
+        .user-menu-footer {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.6rem;
+            border-top: 1px solid var(--bs-border-color);
+        }
+
+        .user-menu-footer .btn-profile {
+            --bs-btn-color: #0d6efd;
+            --bs-btn-bg: var(--bs-primary-bg-subtle);
+            --bs-btn-border-color: var(--bs-primary-bg-subtle);
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #0d6efd;
+            --bs-btn-hover-border-color: #0d6efd;
+        }
+
+        [data-bs-theme="dark"] .user-menu-footer .btn-profile {
+            --bs-btn-color: #60a5fa;
+            --bs-btn-hover-bg: #2563eb;
+            --bs-btn-hover-border-color: #2563eb;
+        }
+    </style>
+
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+
+<body class="{% if current_user.is_authenticated %}layout-fixed sidebar-expand-lg bg-body-tertiary{% else %}bg-body-tertiary{% endif %}">
+
+
+    {% if current_user.is_authenticated %}
+
+    <div class="app-wrapper">
+
+        <!-- ========================================================
+             HEADER / TOP NAVBAR
+        ======================================================== -->
+
+        <div class="app-header-backdrop" aria-hidden="true"></div>
+
+        <nav class="app-header navbar navbar-expand">
+
+            <div class="scroll-progress-clip" aria-hidden="true">
+                <div class="scroll-progress-track">
+                    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="{{ _('Toggle sidebar') }}">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- DARK / LIGHT MODE -->
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link" href="#" id="theme-switcher" aria-label="{{ _('Toggle color scheme') }}" data-bs-toggle="dropdown">
+                            <i class="bi bi-sun-fill d-none" data-lte-theme-icon="light"></i>
+                            <i class="bi bi-moon-stars-fill d-none" data-lte-theme-icon="dark"></i>
+                            <i class="bi bi-circle-half d-none" data-lte-theme-icon="auto"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="theme-switcher">
+
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                                    <i class="bi bi-sun-fill me-2"></i>
+                                    {{ _('Light') }}
+                                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                                </button>
+                            </li>
+
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                                    <i class="bi bi-moon-stars-fill me-2"></i>
+                                    {{ _('Dark') }}
+                                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                                </button>
+                            </li>
+
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto">
+                                    <i class="bi bi-circle-half me-2"></i>
+                                    {{ _('Auto') }}
+                                    <i class="bi bi-check-lg ms-auto d-none"></i>
+                                </button>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <!-- LANGUAGE SWITCHER -->
+
+                    <li class="nav-item dropdown">
+
+                        <a href="#" class="nav-link d-flex align-items-center" data-bs-toggle="dropdown" aria-label="{{ _('Change language') }}">
+                            <span class="fi fi-{{ available_languages[current_language][1] }} rounded-1"></span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            {% for code, (name, flag) in available_languages.items() %}
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center {% if code == current_language %}active{% endif %}" href="{{ url_for('main.set_language', lang_code=code) }}">
+                                    <span class="fi fi-{{ flag }} me-2 rounded-1"></span>
+                                    {{ name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+
+                    </li>
+
+                    <!-- USER MENU -->
+
+                    <li class="nav-item dropdown user-menu">
+
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span class="d-none d-md-inline ms-1">{{ current_user.full_name }}</span>
+
+                        </a>
+
+                        {% set name_parts = current_user.full_name.split() %}
+                        {% set user_initials = (name_parts[0][0] ~ (name_parts[-1][0] if name_parts|length > 1 else '')) if name_parts else 'U' %}
+
+                        <ul class="dropdown-menu dropdown-menu-end p-0 overflow-hidden user-menu-dropdown">
+
+                            <li class="user-menu-header text-center">
+                                <div class="user-menu-header-inner">
+
+                                    <div class="user-menu-avatar-wrap">
+                                        <div class="user-menu-avatar">
+                                            {{ user_initials | upper }}
+                                        </div>
+                                        <span class="user-menu-online-dot" title="{{ _('Online') }}"></span>
+                                    </div>
+
+                                    <div class="user-menu-name">
+                                        {{ current_user.full_name }}
+                                    </div>
+
+                                    <div class="user-menu-username">
+                                        @{{ current_user.username }}
+                                    </div>
+
+                                    <span class="user-menu-role-badge">
+                                        <i class="bi bi-patch-check-fill me-1"></i>
+                                        {{ current_user.role }}
+                                    </span>
+
+                                </div>
+                            </li>
+
+                            {% if current_user.role == 'administrator' %}
+
+                            <li class="user-menu-online-section" data-online-users-section>
+
+                                <div class="user-menu-online-title">
+                                    <span class="online-status-indicator is-online">
+                                        <span class="online-status-dot"></span>
+                                    </span>
+                                    {{ _('Other users online') }}
+                                </div>
+
+                                <div class="user-menu-online-list" data-online-users-list>
+
+                                    {% for u in online_users %}
+
+                                    {% set parts = u.full_name.split() %}
+                                    {% set initials = (parts[0][0] ~ (parts[-1][0] if parts|length > 1 else '')) if parts else 'U' %}
+
+                                    <div class="user-menu-online-item">
+
+                                        <span class="user-menu-online-avatar">
+                                            {{ initials | upper }}
+                                            <span class="online-status-indicator is-online">
+                                                <span class="online-status-dot"></span>
+                                            </span>
+                                        </span>
+
+                                        <div>
+                                            <div class="user-menu-online-name">{{ u.full_name }}</div>
+                                            <div class="user-menu-online-role">{{ u.role }}</div>
+                                        </div>
+
+                                    </div>
+
+                                    {% else %}
+
+                                    <div class="user-menu-online-empty" data-online-users-empty>
+                                        {{ _('No other users online right now.') }}
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </li>
+
+                            {% endif %}
+
+                            <li class="user-menu-footer">
+
+                                <a href="{{ url_for('main.profile') }}" class="btn btn-profile btn-sm flex-fill">
+                                    <i class="bi bi-person-lines-fill me-1"></i>
+                                    {{ _('Profile') }}
+                                </a>
+
+                                <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger btn-sm flex-fill">
+                                    <i class="bi bi-box-arrow-right me-1"></i>
+                                    {{ _('Logout') }}
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+
+        <!-- ========================================================
+             SIDEBAR
+        ======================================================== -->
+
+        <aside class="app-sidebar">
+
+            <div class="sidebar-brand">
+
+                <a href="{{ url_for('main.index') }}" class="brand-link">
+
+                    {% set brand_mode = app_setting.brand_display_mode or 'logo_only' %}
+
+                    {% if app_setting.logo_wide and brand_mode == 'logo_and_name' %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/branding/' ~ app_setting.logo_wide) }}"
+                        alt="{{ app_setting.app_name }}"
+                        class="me-2"
+                        style="max-height: 33px; width: auto;"
+                    >
+                    <span class="brand-text fw-light">{{ app_setting.app_name }}</span>
+
+                    {% elif app_setting.logo_wide and brand_mode == 'logo_only' %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/branding/' ~ app_setting.logo_wide) }}"
+                        alt="{{ app_setting.app_name }}"
+                        style="max-height: 33px; width: auto;"
+                    >
+
+                    {% else %}
+
+                    <i class="bi bi-box-seam brand-image opacity-75"></i>
+                    <span class="brand-text fw-light">{{ app_setting.app_name }}</span>
+
+                    {% endif %}
+
+                </a>
+
+            </div>
+
+            <div class="sidebar-wrapper">
+
+                <nav class="mt-2" aria-label="{{ _('Main menu') }}">
+
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" data-accordion="false" id="navigation">
+
+                        {% for entry in nav_menu %}
+
+                        {% if entry.item.is_divider %}
+
+                        <li class="nav-item">
+                            <hr class="border-light my-2 opacity-25">
+                        </li>
+
+                        {% elif entry.children %}
+
+                        {% set group_open = entry.children | selectattr("url", "equalto", request.path) | list | length > 0 %}
+
+                        <li class="nav-item {% if group_open %}menu-open{% endif %}">
+
+                            <a href="#" class="nav-link {% if group_open %}active{% endif %}" aria-expanded="{{ 'true' if group_open else 'false' }}">
+
+                                {% if entry.item.icon %}<i class="nav-icon bi {{ entry.item.icon }}"></i>{% else %}<i class="nav-icon bi bi-dot"></i>{% endif %}
+
+                                <p>
+                                    {{ _(entry.item.label) }}
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+
+                            </a>
+
+                            <ul class="nav nav-treeview" {% if group_open %}style="display: block;"{% endif %}>
+
+                                {% for child in entry.children %}
+                                <li class="nav-item">
+                                    <a href="{{ child.url or '#' }}" class="nav-link {% if child.url == request.path %}active{% endif %}">
+                                        {% if child.icon %}<i class="nav-icon bi {{ child.icon }}"></i>{% else %}<i class="nav-icon bi bi-circle"></i>{% endif %}
+                                        <p>{{ _(child.label) }}</p>
+                                    </a>
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+
+                        </li>
+
+                        {% else %}
+
+                        <li class="nav-item">
+                            <a href="{{ entry.item.url or '#' }}" class="nav-link {% if entry.item.url == request.path %}active{% endif %}">
+                                {% if entry.item.icon %}<i class="nav-icon bi {{ entry.item.icon }}"></i>{% else %}<i class="nav-icon bi bi-dot"></i>{% endif %}
+                                <p>{{ _(entry.item.label) }}</p>
+                            </a>
+                        </li>
+
+                        {% endif %}
+
+                        {% endfor %}
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ========================================================
+             MAIN CONTENT (bagian yang login)
+        ======================================================== -->
+
+        <main class="app-main">
+
+            <div class="app-content">
+
+                <div class="container-fluid">
+
+                    <!-- FLASH MESSAGE -->
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %}
+
+                    {% for category, message in messages %}
+
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+
+                        {% if category == 'success' %}
+                        <i class="bi bi-check-circle me-1"></i>
+                        {% elif category == 'danger' or category == 'error' %}
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        {% elif category == 'warning' %}
+                        <i class="bi bi-exclamation-circle me-1"></i>
+                        {% else %}
+                        <i class="bi bi-info-circle me-1"></i>
+                        {% endif %}
+
+                        {{ message }}
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% endif %}
+
+                    {% endwith %}
+
+                </div>
+
+    {% else %}
+
+    <!-- ============================================================
+         HALAMAN TANPA LOGIN (misal: login page) - tanpa shell
+    ============================================================ -->
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+        <!--
+            position:fixed keeps this popup out of normal document flow,
+            so showing/dismissing it never changes the page's height and
+            never shifts the centered login card underneath (previously
+            it was an in-flow block that pushed .login-page-wrapper down
+            while visible, causing a visible jump on dismiss).
+        -->
+        <div class="position-fixed top-0 start-50 translate-middle-x mt-3 px-3" style="z-index: 2000; width: 100%; max-width: 480px;">
+
+        {% for category, message in messages %}
+
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show shadow" role="alert">
+
+            {{ message }}
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        </div>
+
+        {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        {% endwith %}
+
+    {% endif %}
+
+
+    <!-- ============================================================
+         PAGE CONTENT (satu-satunya block content di seluruh file)
+    ============================================================ -->
+
+    {% block content %}
+    {% endblock %}
+
+
+    {% if current_user.is_authenticated %}
+
+            </div>
+
+        </main>
+
+
+        <!-- ========================================================
+             FOOTER
+        ======================================================== -->
+
+        <footer class="app-footer">
+
+            <strong>
+                {% if app_setting.footer_text %}
+                {{ app_setting.footer_text }}
+                {% else %}
+                {{ app_setting.app_name }} &copy; {{ now().year }}
+                {% endif %}
+            </strong>
+
+        </footer>
+
+    </div>
+
+    {% else %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ============================================================
+         JAVASCRIPT
+    ============================================================ -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.9.1/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+
+    <!-- ============================================================
+         KALENDER TERPUSAT - ganti kalender bawaan browser (native
+         <input type="date">, tampilannya beda-beda tiap OS/browser
+         dan tidak bisa di-custom) dengan Flatpickr yang temanya
+         disamakan dengan aksen aplikasi (biru/merah). Berlaku
+         otomatis untuk SEMUA <input type="date"> di seluruh halaman,
+         tanpa perlu ubah markup di tiap template.
+    ============================================================ -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.querySelectorAll('input[type="date"]').forEach(function (el) {
+
+                flatpickr(el, {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d-m-Y",
+                    allowInput: true,
+                    disableMobile: true,
+                });
+
+            });
+
+        });
+    </script>
+
+    {% if current_user.is_authenticated and current_user.role == 'administrator' %}
+    <!-- ============================================================
+         DAFTAR USER ONLINE DI DROPDOWN PROFIL (khusus administrator)
+         - di-refresh berkala, terpisah dari polling di halaman User
+         Management (lihat master/user/list.html).
+    ============================================================ -->
+    <script>
+        (function () {
+
+            var LIST_URL = "{{ url_for('main.users_online_list') }}";
+            var POLL_INTERVAL_MS = 20000;
+            var EMPTY_LABEL = "{{ _('No other users online right now.') }}";
+
+            function initials(fullName) {
+
+                var parts = (fullName || "U").trim().split(/\s+/);
+                var first = parts[0] ? parts[0][0] : "U";
+                var last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+
+                return (first + last).toUpperCase();
+
+            }
+
+            function buildItem(user) {
+
+                var item = document.createElement("div");
+                item.className = "user-menu-online-item";
+
+                var avatar = document.createElement("span");
+                avatar.className = "user-menu-online-avatar";
+                avatar.appendChild(
+                    document.createTextNode(initials(user.full_name))
+                );
+
+                var dotWrap = document.createElement("span");
+                dotWrap.className = "online-status-indicator is-online";
+
+                var dot = document.createElement("span");
+                dot.className = "online-status-dot";
+
+                dotWrap.appendChild(dot);
+                avatar.appendChild(dotWrap);
+
+                var info = document.createElement("div");
+
+                var nameEl = document.createElement("div");
+                nameEl.className = "user-menu-online-name";
+                nameEl.textContent = user.full_name;
+
+                var roleEl = document.createElement("div");
+                roleEl.className = "user-menu-online-role";
+                roleEl.textContent = user.role;
+
+                info.appendChild(nameEl);
+                info.appendChild(roleEl);
+
+                item.appendChild(avatar);
+                item.appendChild(info);
+
+                return item;
+
+            }
+
+            function render(users) {
+
+                var listEl = document.querySelector("[data-online-users-list]");
+
+                if (!listEl) {
+                    return;
+                }
+
+                listEl.textContent = "";
+
+                if (!users.length) {
+
+                    var empty = document.createElement("div");
+                    empty.className = "user-menu-online-empty";
+                    empty.textContent = EMPTY_LABEL;
+
+                    listEl.appendChild(empty);
+
+                    return;
+
+                }
+
+                users.forEach(function (user) {
+                    listEl.appendChild(buildItem(user));
+                });
+
+            }
+
+            function refresh() {
+
+                fetch(LIST_URL, {
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                })
+                    .then(function (response) {
+                        return response.ok ? response.json() : null;
+                    })
+                    .then(function (data) {
+
+                        if (!data || !data.users) {
+                            return;
+                        }
+
+                        render(data.users);
+
+                    })
+                    .catch(function () {
+                        // Koneksi gagal sesaat - abaikan, polling berikutnya coba lagi.
+                    });
+
+            }
+
+            setInterval(refresh, POLL_INTERVAL_MS);
+
+        })();
+    </script>
+    {% endif %}
+
+    <!-- ============================================================
+         NAVBAR MELAYANG: POSISI BACKDROP
+         ============================================================ -->
+
+    <script>
+        (function () {
+
+            function positionNavbarBackdrop() {
+
+                const navbar = document.querySelector(".app-header.navbar");
+                const main = document.querySelector(".app-main");
+
+                if (!navbar || !main) {
+                    return;
+                }
+
+                const navbarRect = navbar.getBoundingClientRect();
+
+                document.documentElement.style.setProperty(
+                    "--navbar-backdrop-height",
+                    navbarRect.bottom + "px"
+                );
+
+                /*
+                 * .app-main sudah dihitung AdminLTE sebagai titik mulai
+                 * area konten (sudah benar baik sidebar lebar penuh,
+                 * di-collapse, maupun overlay di layar sempit) - jadi
+                 * dipakai langsung, tidak perlu menghitung ulang lebar
+                 * sidebar sendiri.
+                 */
+
+                document.documentElement.style.setProperty(
+                    "--navbar-backdrop-left",
+                    Math.max(0, main.getBoundingClientRect().left) + "px"
+                );
+            }
+
+            document.addEventListener("DOMContentLoaded", positionNavbarBackdrop);
+            window.addEventListener("load", positionNavbarBackdrop);
+
+            window.addEventListener("resize", positionNavbarBackdrop);
+
+            const sidebarToggle = document.querySelector('[data-lte-toggle="sidebar"]');
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener("click", function () {
+                    window.setTimeout(positionNavbarBackdrop, 300);
+                });
+            }
+
+            /*
+             * Sembunyikan/tampilkan sidebar lewat margin-left diambil
+             * alih manual di sini (inline style + "important" lewat
+             * JS, prioritas tertinggi di CSS, pasti menang lawan
+             * aturan CSS manapun) - punya CSS AdminLTE sendiri untuk
+             * margin-left ternyata saling tiban/tidak bisa diandalkan
+             * di breakpoint "sidebar-expand-lg" yang dipakai di sini
+             * (lihat komentar panjang di blok "SIDEBAR MELAYANG
+             * PENUH"). MutationObserver dipakai supaya tetap jalan
+             * walau nanti class "sidebar-collapse" diubah dari cara
+             * lain (bukan cuma klik tombol ini).
+             */
+
+            const sidebar = document.querySelector(".app-sidebar");
+
+            if (sidebar) {
+
+                function syncSidebarHiddenState() {
+
+                    const collapsed = document.body.classList.contains("sidebar-collapse");
+
+                    sidebar.style.setProperty(
+                        "margin-left",
+                        collapsed ? "-250px" : "0px",
+                        "important"
+                    );
+                }
+
+                syncSidebarHiddenState();
+
+                new MutationObserver(syncSidebarHiddenState).observe(
+                    document.body,
+                    { attributes: true, attributeFilter: ["class"] }
+                );
+            }
+
+        })();
+    </script>
+
+    <!-- ============================================================
+         SCROLL PROGRESS
+         ============================================================ -->
+
+    <script>
+        (function () {
+
+            const bar = document.getElementById("scrollProgressBar");
+
+            if (!bar) {
+                return;
+            }
+
+            let ticking = false;
+
+            function update() {
+
+                const doc = document.documentElement;
+                const scrollable = doc.scrollHeight - doc.clientHeight;
+                const pct = scrollable > 0 ? Math.min(1, Math.max(0, doc.scrollTop / scrollable)) : 0;
+
+                bar.style.transform = "scaleX(" + pct + ")";
+                ticking = false;
+            }
+
+            function onScroll() {
+
+                if (!ticking) {
+                    window.requestAnimationFrame(update);
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener("scroll", onScroll, { passive: true });
+            window.addEventListener("resize", onScroll);
+
+            update();
+
+        })();
+    </script>
+
+    {% block scripts %}
+    {% endblock %}
+
+
+</body>
+
+</html>

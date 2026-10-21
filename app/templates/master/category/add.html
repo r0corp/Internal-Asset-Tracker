@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Add Category') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+
+                <div>
+                    <h4 class="page-header-title">
+                        {{ _('Add Category') }}
+                    </h4>
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a href="{{ url_for('main.categories') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    {{ _('Back') }}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <form method="POST" style="--form-field-label-width: 160px;">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="mb-3 form-field-row">
+
+                    <label class="form-label form-field-label">
+                        {{ _('Category Name') }}
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="{{ _('Example: Laptop') }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3 form-field-row" style="align-items: flex-start;">
+
+                    <label class="form-label form-field-label" style="padding-top: 0.4rem;">
+                        {{ _('Description') }}
+                    </label>
+
+                    <textarea
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        placeholder="{{ _('Category description...') }}"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="mb-3 form-field-row">
+
+                    <label class="form-label form-field-label">
+                        {{ _('Asset Field Template') }}
+                    </label>
+
+                    <select name="field_template" class="form-select">
+
+                        <option value="pc_laptop" selected>
+                            {{ _('PC / Laptop') }}
+                        </option>
+
+                        <option value="ponsel">
+                            {{ _('Phone') }}
+                        </option>
+
+                        <option value="server">
+                            {{ _('Server & Network') }}
+                        </option>
+
+                        <option value="non_pc">
+                            {{ _('Other Electronics (monitor, printer, CCTV, etc.)') }}
+                        </option>
+
+                        <option value="elektronik_interior">
+                            {{ _('Interior Electronics (AC, dispenser, fridge, etc.)') }}
+                        </option>
+
+                        <option value="elektronik_exterior">
+                            {{ _('Exterior Electronics (generator, etc.)') }}
+                        </option>
+
+                        <option value="kendaraan">
+                            {{ _('Vehicle (adds plate number & tax due date)') }}
+                        </option>
+
+                        <option value="furniture">
+                            {{ _('Furniture') }}
+                        </option>
+
+                        <option value="tools_mekanik">
+                            {{ _('Mechanical Tools') }}
+                        </option>
+
+                        <option value="atk">
+                            {{ _('Office Stationery (ATK)') }}
+                        </option>
+
+                        <option value="pantry">
+                            {{ _('Pantry') }}
+                        </option>
+
+                        <option value="tools_pantry">
+                            {{ _('Pantry Tools') }}
+                        </option>
+
+                        <option value="showcase">
+                            {{ _('Showcase (for customers)') }}
+                        </option>
+
+                        <option value="gudang_event">
+                            {{ _('Event Warehouse Stock') }}
+                        </option>
+
+                    </select>
+
+                    <div class="form-text" style="flex-basis: 100%; margin-left: calc(var(--form-field-label-width) + 0.75rem);">
+                        {{ _('Determines which fields appear on the Add/Edit Asset form when this category is selected.') }}
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    {{ _('Save') }}
+                </button>
+
+                <a
+                    href="{{ url_for('main.categories') }}"
+                    class="btn btn-secondary"
+                >
+                    {{ _('Cancel') }}
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

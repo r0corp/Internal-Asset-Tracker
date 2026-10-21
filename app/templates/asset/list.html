@@ -1,0 +1,530 @@
+{% extends "base.html" %} {% block title %} {{ _('Asset List') }} - Asset
+Tracker {% endblock %} {% block content %}
+
+<style>
+  /* ============================================================
+   ASSET LIST
+   ============================================================ */
+
+  .asset-list-page {
+    width: 100%;
+  }
+
+  @keyframes assetListFadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .asset-list-card {
+    animation: assetListFadeIn 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .asset-list-card {
+      animation: none;
+    }
+  }
+
+  #assetListPanel {
+    opacity: 1;
+
+    transition: opacity 0.15s ease;
+  }
+
+  #assetListPanel.is-loading {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #assetListPanel {
+      transition: none;
+    }
+  }
+
+  /* ============================================================
+   CARD
+   ============================================================ */
+
+  .asset-list-card {
+    position: relative;
+
+    border: 0;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  }
+
+  .asset-list-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      #0a4fb0 0%,
+      #0d6efd 35%,
+      #6ea8fe 50%,
+      #0d6efd 65%,
+      #0a4fb0 100%
+    );
+    z-index: 1;
+  }
+
+  .asset-list-card .card-body {
+    padding: 20px;
+  }
+
+  .asset-list-card .table-responsive {
+    padding: 0 20px;
+    border-top: 1px solid var(--bs-border-color);
+  }
+
+  .asset-type-tabs {
+    border-bottom: 2px solid var(--bs-primary);
+  }
+
+  .asset-type-tabs .nav-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bs-secondary-color);
+    background: transparent;
+    border: 1px solid transparent;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -2px;
+  }
+
+  .asset-type-tabs .nav-link.active {
+    color: var(--bs-primary);
+    background: var(--bs-body-bg);
+    border-color: var(--bs-primary) var(--bs-primary) var(--bs-body-bg);
+  }
+
+  .asset-filter-label {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #6c757d;
+
+    margin-bottom: 6px;
+  }
+
+  /* Satu baris ringkas: search melebar mengisi ruang tersisa,
+       tiap dropdown secukupnya, tombol aksi menempel di ujung -
+       cuma pecah ke baris baru kalau memang sudah tidak muat
+       (layar sempit/tablet). */
+  .asset-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .asset-filter-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Tombol Search & Reset sekarang menyatu di dalam input-group
+       pencarian (bukan di ujung baris) - jadi kolom search perlu
+       ruang lebih. Dropdown lebarnya tetap, supaya search yang
+       melebar mengisi sisa ruang. */
+  .asset-filter-item-search {
+    flex: 1 1 300px;
+    min-width: 280px;
+  }
+
+  .asset-filter-item-search .input-group > .btn {
+    white-space: nowrap;
+  }
+
+  .asset-filter-item-select {
+    flex: 0 0 140px;
+  }
+
+  .asset-filter-item-select .form-select {
+    text-overflow: ellipsis;
+  }
+
+  .asset-filter-actions .btn {
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+   TABLE
+   ============================================================ */
+
+  .asset-table {
+    margin-bottom: 0;
+
+    white-space: nowrap;
+  }
+
+  /* Warna background/teks header tabel SENGAJA tidak diatur di
+       sini - biar ikut class Bootstrap "table-light" di markup,
+       supaya identik dengan header tabel di semua halaman lain
+       (satu sumber warna, lihat theme-dark.css). Di sini cuma atur
+       tipografinya saja. */
+  .asset-table thead th {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.3px;
+
+    vertical-align: middle;
+
+    padding: 13px 12px;
+  }
+
+  .asset-table tbody td {
+    vertical-align: middle;
+
+    font-size: 13px;
+
+    padding: 11px 12px;
+  }
+
+  .asset-table tbody tr {
+    transition: background-color 0.15s ease;
+  }
+
+  .asset-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  /* ============================================================
+   PHOTO
+   ============================================================ */
+
+  .asset-photo-cell {
+    width: 90px;
+
+    text-align: center;
+  }
+
+  .asset-list-photo {
+    width: 70px;
+
+    height: 55px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    border: 1px solid #dee2e6;
+
+    background: #f8f9fa;
+
+    display: inline-block;
+  }
+
+  .asset-list-photo-empty {
+    width: 70px;
+
+    height: 55px;
+
+    border-radius: 8px;
+
+    border: 1px solid #dee2e6;
+
+    background: #f8f9fa;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #adb5bd;
+
+    font-size: 22px;
+  }
+
+  /* ============================================================
+   ASSET TAG
+   ============================================================ */
+
+  .asset-tag {
+    font-weight: 700;
+
+    color: #0d6efd;
+
+    text-decoration: none;
+  }
+
+  .asset-tag:hover {
+    text-decoration: underline;
+  }
+
+  /* ============================================================
+   ASSET NAME
+   ============================================================ */
+
+  .asset-name {
+    font-weight: 600;
+
+    color: #212529;
+  }
+
+  /* ============================================================
+   STATUS
+   ============================================================ */
+
+  .asset-status {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+  }
+
+  /* ============================================================
+   ACTION
+   ============================================================ */
+
+  .asset-action-cell {
+    text-align: center;
+    width: 150px;
+  }
+
+  .asset-action-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 4px;
+  }
+
+  .asset-action-buttons .btn {
+    width: 34px;
+
+    height: 32px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+  }
+
+  /* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+  .asset-empty-state {
+    padding: 60px 20px;
+
+    text-align: center;
+
+    color: #6c757d;
+  }
+
+  .asset-empty-state i {
+    display: block;
+
+    font-size: 48px;
+
+    color: #adb5bd;
+
+    margin-bottom: 12px;
+  }
+
+  /* ============================================================
+   TABLE FOOTER
+   ============================================================ */
+
+  .asset-table-footer {
+    padding: 15px 18px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #eeeeee;
+
+    color: #6c757d;
+
+    font-size: 13px;
+  }
+
+  /* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+  @media (max-width: 768px) {
+    .asset-table {
+      min-width: 1150px;
+    }
+  }
+</style>
+
+<div class="container-fluid asset-list-page">
+  <!-- ========================================================
+         HEADER
+         ======================================================== -->
+
+  <div class="page-header-card">
+    <div class="page-header-row">
+      <div class="page-header-left">
+        <div class="page-header-icon">
+          <i class="bi bi-box-seam"></i>
+        </div>
+
+        <div>
+          <h3 class="page-header-title">{{ _('Asset List') }}</h3>
+
+          <p class="page-header-subtitle mb-0">
+            {{ _('Manage and monitor all company assets') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="page-header-actions">
+        <!-- CETAK QR / LABEL -->
+        <a
+          href="{{ url_for('main.asset_labels') }}"
+          class="btn btn-outline-secondary"
+          title="{{ _('Print QR / Label') }}"
+        >
+          <i class="bi bi-qr-code me-1"></i>
+          {{ _('Print QR / Label') }}
+        </a>
+
+        <!-- EXPORT -->
+        <a
+          href="{{ url_for('main.export_assets') }}"
+          class="btn btn-outline-success"
+        >
+          <i class="bi bi-file-earmark-excel me-1"></i>
+          {{ _('Export') }}
+        </a>
+
+        <!-- IMPORT DARI EXCEL -->
+        <a
+          href="{{ url_for('main.import_assets') }}"
+          class="btn btn-outline-warning"
+        >
+          <i class="bi bi-file-earmark-excel me-1"></i>
+          {{ _('Import') }}
+        </a>
+
+        <!-- TAMBAH ASSET -->
+        <a href="{{ url_for('main.add_asset') }}" class="btn btn-primary">
+          <i class="bi bi-plus-lg me-1"></i>
+          {{ _('Add Asset') }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+         FILTER
+         ======================================================== -->
+
+  <div class="card asset-list-card">
+    <div id="assetListPanel">{% include "asset/_list_fragment.html" %}</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const panel = document.getElementById("assetListPanel");
+
+      if (!panel) {
+        return;
+      }
+
+      function isAssetListUrl(url) {
+        try {
+          const parsed = new URL(url, window.location.origin);
+
+          return parsed.pathname === window.location.pathname;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function loadUrl(url, pushState) {
+        panel.classList.add("is-loading");
+
+        fetch(url, {
+          headers: {
+            "X-Requested-With": "fetch",
+          },
+        })
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (html) {
+            setTimeout(function () {
+              panel.innerHTML = html;
+
+              panel.classList.remove("is-loading");
+
+              if (pushState) {
+                window.history.pushState({ assetListUrl: url }, "", url);
+              }
+            }, 150);
+          })
+          .catch(function () {
+            window.location.href = url;
+          });
+      }
+
+      panel.addEventListener("click", function (event) {
+        const link = event.target.closest("a[href]");
+
+        if (!link) {
+          return;
+        }
+
+        if (!isAssetListUrl(link.href)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        loadUrl(link.href, true);
+      });
+
+      panel.addEventListener("submit", function (event) {
+        const form = event.target;
+
+        if (form.tagName !== "FORM") {
+          return;
+        }
+
+        event.preventDefault();
+
+        const params = new URLSearchParams(new FormData(form));
+
+        const url = form.action + "?" + params.toString();
+
+        loadUrl(url, true);
+      });
+
+      window.addEventListener("popstate", function () {
+        loadUrl(window.location.href, false);
+      });
+    });
+  </script>
+
+  {% endblock %}
+</div>

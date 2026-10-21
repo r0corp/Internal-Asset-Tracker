@@ -1,0 +1,111 @@
+"""
+Route login dan logout.
+"""
+
+from datetime import datetime
+
+from flask import render_template, request, redirect, url_for, flash, session
+from flask_babel import gettext as _
+
+from flask_login import (
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
+
+from .. import db, limiter
+from ..models import User
+
+from . import main
+
+@main.route(
+    "/login",
+    methods=["GET", "POST"],
+)
+@limiter.limit(
+    "10 per minute",
+    methods=["POST"],
+)
+def login():
+
+    if current_user.is_authenticated:
+
+        return redirect(
+            url_for("main.dashboard")
+        )
+
+    if request.method == "POST":
+
+        username = request.form.get(
+            "username",
+            "",
+        ).strip()
+
+        password = request.form.get(
+            "password",
+            "",
+        )
+
+        remember = request.form.get("remember") == "on"
+
+        user = User.query.filter_by(
+            username=username
+        ).first()
+
+        if (
+            user
+            and user.is_active
+            and user.check_password(password)
+        ):
+
+            login_user(user, remember=remember)
+
+            session.permanent = True
+            session["security_stamp"] = user.security_stamp
+
+            # Set di sini (bukan cuma lewat touch_last_seen) supaya
+            # enforce_session_security di blueprints/__init__.py tidak
+            # langsung menganggap sesi idle-timeout pada request
+            # berikutnya kalau login sebelumnya sudah > 30 menit lalu.
+            user.last_seen = datetime.utcnow()
+            db.session.commit()
+
+            next_url = request.form.get("next")
+
+            return redirect(
+                next_url
+                or url_for("main.dashboard")
+            )
+
+        flash(
+            _("Incorrect username or password."),
+            "danger",
+        )
+
+    return render_template(
+        "login.html",
+        next=request.args.get("next", ""),
+    )
+
+
+@main.route("/logout")
+@login_required
+def logout():
+
+    current_user.rotate_security_stamp()
+    db.session.commit()
+
+    logout_user()
+
+    session.pop("security_stamp", None)
+
+    flash(
+        _("You have been logged out."),
+        "info",
+    )
+
+    return redirect(
+        url_for("main.login")
+    )
+

@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "asset-tracker",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": ["run.py"],
+      "port": 5000,
+      "autoPort": true
+    },
+    {
+      "name": "asset-tracker-prod",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["serve_production.py"],
+      "port": 8000
+    }
+  ]
+}

@@ -1,0 +1,653 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ _('Add Asset Movement') }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.movement-batch-page {
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.movement-batch-page .card {
+    margin-bottom: 20px;
+}
+
+.asset-picker-search {
+    max-width: 320px;
+}
+
+.asset-picker-row.d-none {
+    display: none !important;
+}
+
+.signature-canvas-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border: 2px dashed #adb5bd;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.signature-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+    background: #ffffff;
+}
+
+.signature-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: #adb5bd;
+    font-size: 13px;
+    text-align: center;
+    padding: 15px;
+}
+
+.signature-status {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.signature-status.saved {
+    color: #198754;
+}
+
+.signature-status.empty {
+    color: #6c757d;
+}
+
+.required {
+    color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .signature-canvas-wrapper {
+        height: 160px;
+    }
+}
+
+</style>
+
+<div class="movement-batch-page container-fluid">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-arrow-left-right"></i>
+                </div>
+
+                <div>
+                    <h2 class="page-header-title">{{ _('Add Asset Movement') }}</h2>
+
+                    <p class="page-header-subtitle mb-0">
+                        {{ _('Record a handover that can include one or more assets at once, with a single signature pair for all of them.') }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a href="{{ url_for('main.global_asset_movements') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    {{ _('Back') }}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'error' else category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST" id="movementBatchForm">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <!-- ============================================================
+             PILIH ASSET
+             ============================================================ -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header-accent">
+                <div class="card-header-accent-left">
+                    <div class="card-header-accent-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div>
+                        <div class="card-header-accent-title">{{ _('Select Assets') }}</div>
+                        <div class="card-header-accent-subtitle" id="selectedCount">
+                            {{ _('0 assets selected') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <input
+                    type="text"
+                    id="assetPickerSearch"
+                    class="form-control asset-picker-search mb-3"
+                    placeholder="{{ _('Search asset tag, name, brand, serial number...') }}"
+                >
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;" class="text-center">
+                                    <input type="checkbox" class="form-check-input" id="checkAllAssets">
+                                </th>
+                                <th>{{ _('Asset Tag') }}</th>
+                                <th>{{ _('Asset') }}</th>
+                                <th>{{ _('Brand / Model') }}</th>
+                                <th>{{ _('Serial Number') }}</th>
+                                <th>{{ _('Location') }}</th>
+                                <th>{{ _('Department') }}</th>
+                                <th>{{ _('PIC') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for asset in assets %}
+                            <tr class="asset-picker-row" data-search="{{ (asset.asset_tag or '') ~ ' ' ~ (asset.asset_name or '') ~ ' ' ~ (asset.brand or '') ~ ' ' ~ (asset.model or '') ~ ' ' ~ (asset.serial_number or '') | lower }}">
+                                <td class="text-center">
+                                    <input
+                                        type="checkbox"
+                                        name="asset_ids"
+                                        value="{{ asset.id }}"
+                                        class="form-check-input asset-picker-check"
+                                        {% if preselected_id and preselected_id == asset.id %}checked{% endif %}
+                                    >
+                                </td>
+                                <td><strong>{{ asset.asset_tag or "-" }}</strong></td>
+                                <td>{{ asset.asset_name or "-" }}</td>
+                                <td>{{ asset.brand or "-" }}{% if asset.model %} / {{ asset.model }}{% endif %}</td>
+                                <td>{{ asset.serial_number or "-" }}</td>
+                                <td>{{ asset.location or "-" }}</td>
+                                <td>{{ asset.department or "-" }}</td>
+                                <td>{{ asset.pic or "-" }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">{{ _('No assets yet.') }}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+             INFO SERAH TERIMA
+             ============================================================ -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header-accent">
+                <div class="card-header-accent-left">
+                    <div class="card-header-accent-icon">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <div class="card-header-accent-title">{{ _('Handover Information') }}</div>
+                        <div class="card-header-accent-subtitle">
+                            {{ _('Applies to all selected assets') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label for="movement_date" class="form-label">
+                            {{ _('Movement Date') }} <span class="required">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            id="movement_date"
+                            name="movement_date"
+                            class="form-control"
+                            value="{{ request.form.get('movement_date', '') }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="reason" class="form-label">{{ _('Movement Reason') }}</label>
+                        <input
+                            type="text"
+                            id="reason"
+                            name="reason"
+                            class="form-control"
+                            maxlength="255"
+                            value="{{ request.form.get('reason', '') }}"
+                            placeholder="{{ _('Example: Employee rotation') }}"
+                        >
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="to_location" class="form-label">
+                            {{ _('Destination Location') }} <span class="required">*</span>
+                        </label>
+                        <select id="to_location" name="to_location" class="form-select" required>
+                            <option value="">{{ _('-- Select Location --') }}</option>
+                            {% for location in locations %}
+                            <option value="{{ location.name }}" {% if request.form.get('to_location') == location.name %}selected{% endif %}>
+                                {{ location.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="to_department" class="form-label">
+                            {{ _('Destination Department') }} <span class="required">*</span>
+                        </label>
+                        <select id="to_department" name="to_department" class="form-select" required>
+                            <option value="">{{ _('-- Select Department --') }}</option>
+                            {% for department in departments %}
+                            <option value="{{ department.name }}" {% if request.form.get('to_department') == department.name %}selected{% endif %}>
+                                {{ department.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="to_pic" class="form-label">
+                            {{ _('New PIC') }} <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="to_pic"
+                            name="to_pic"
+                            class="form-control"
+                            maxlength="100"
+                            value="{{ request.form.get('to_pic', '') }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-12">
+                        <label for="notes" class="form-label">{{ _('Notes') }}</label>
+                        <textarea id="notes" name="notes" class="form-control" rows="2">{{ request.form.get('notes', '') }}</textarea>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+             TANDA TANGAN
+             ============================================================ -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header-accent">
+                <div class="card-header-accent-left">
+                    <div class="card-header-accent-icon">
+                        <i class="bi bi-pen"></i>
+                    </div>
+                    <div>
+                        <div class="card-header-accent-title">{{ _('Signatures') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <!-- DISERAHKAN OLEH -->
+                    <div class="col-md-6">
+
+                        <h6 class="fw-bold mb-3">{{ _('Handed Over By') }}</h6>
+
+                        <div class="mb-2">
+                            <label for="from_signer_name" class="form-label">{{ _('Name') }}</label>
+                            <input type="text" id="from_signer_name" name="from_signer_name" class="form-control"
+                                value="{{ request.form.get('from_signer_name', '') }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="from_signer_position" class="form-label">{{ _('Position') }}</label>
+                            <input type="text" id="from_signer_position" name="from_signer_position" class="form-control"
+                                value="{{ request.form.get('from_signer_position', '') }}">
+                        </div>
+
+                        <div class="signature-canvas-wrapper">
+                            <canvas id="fromSignatureCanvas" class="signature-canvas"></canvas>
+                            <div id="fromSignaturePlaceholder" class="signature-placeholder">
+                                {{ _('Sign here using a mouse, touchpad, or touchscreen') }}
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="from_signature" name="from_signature" value="">
+
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="clearSignature('from')">
+                                <i class="bi bi-eraser me-1"></i>{{ _('Delete') }}
+                            </button>
+                        </div>
+
+                        <div id="fromSignatureStatus" class="signature-status empty"></div>
+
+                    </div>
+
+                    <!-- DITERIMA OLEH -->
+                    <div class="col-md-6">
+
+                        <h6 class="fw-bold mb-3">{{ _('Received By') }}</h6>
+
+                        <div class="mb-2">
+                            <label for="to_signer_name" class="form-label">{{ _('Name') }}</label>
+                            <input type="text" id="to_signer_name" name="to_signer_name" class="form-control"
+                                value="{{ request.form.get('to_signer_name', '') }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="to_signer_position" class="form-label">{{ _('Position') }}</label>
+                            <input type="text" id="to_signer_position" name="to_signer_position" class="form-control"
+                                value="{{ request.form.get('to_signer_position', '') }}">
+                        </div>
+
+                        <div class="signature-canvas-wrapper">
+                            <canvas id="toSignatureCanvas" class="signature-canvas"></canvas>
+                            <div id="toSignaturePlaceholder" class="signature-placeholder">
+                                {{ _('Sign here using a mouse, touchpad, or touchscreen') }}
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="to_signature" name="to_signature" value="">
+
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="clearSignature('to')">
+                                <i class="bi bi-eraser me-1"></i>{{ _('Delete') }}
+                            </button>
+                        </div>
+
+                        <div id="toSignatureStatus" class="signature-status empty"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <a href="{{ url_for('main.global_asset_movements') }}" class="btn btn-outline-secondary">
+                {{ _('Cancel') }}
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg me-1"></i>
+                {{ _('Save Movement') }}
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+(function () {
+    "use strict";
+
+    /* =========================================================
+       ASSET PICKER
+       ========================================================= */
+
+    function updateSelectedCount() {
+        var count = document.querySelectorAll(".asset-picker-check:checked").length;
+        var label = document.getElementById("selectedCount");
+        if (label) {
+            label.textContent = count + " {{ _('assets selected') }}";
+        }
+    }
+
+    document.querySelectorAll(".asset-picker-check").forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateSelectedCount);
+    });
+
+    var checkAll = document.getElementById("checkAllAssets");
+    if (checkAll) {
+        checkAll.addEventListener("change", function () {
+            document.querySelectorAll(".asset-picker-row:not(.d-none) .asset-picker-check").forEach(function (checkbox) {
+                checkbox.checked = checkAll.checked;
+            });
+            updateSelectedCount();
+        });
+    }
+
+    var searchInput = document.getElementById("assetPickerSearch");
+    if (searchInput) {
+        searchInput.addEventListener("input", function () {
+            var term = searchInput.value.trim().toLowerCase();
+            document.querySelectorAll(".asset-picker-row").forEach(function (row) {
+                var haystack = row.getAttribute("data-search") || "";
+                row.classList.toggle("d-none", term !== "" && haystack.indexOf(term) === -1);
+            });
+        });
+    }
+
+    updateSelectedCount();
+
+    /* =========================================================
+       SIGNATURE CANVAS (from/to)
+       ========================================================= */
+
+    var signatureState = {
+        from: { canvas: null, ctx: null, drawing: false, hasDrawing: false },
+        to: { canvas: null, ctx: null, drawing: false, hasDrawing: false }
+    };
+
+    function initSignature(type) {
+        var state = signatureState[type];
+        state.canvas = document.getElementById(type + "SignatureCanvas");
+        if (!state.canvas) {
+            return;
+        }
+        state.ctx = state.canvas.getContext("2d");
+        resizeCanvas(type);
+
+        state.canvas.addEventListener("mousedown", function (e) { startDrawing(type, e); });
+        state.canvas.addEventListener("mousemove", function (e) { draw(type, e); });
+        state.canvas.addEventListener("mouseup", function () { stopDrawing(type); });
+        state.canvas.addEventListener("mouseleave", function () { stopDrawing(type); });
+        state.canvas.addEventListener("touchstart", function (e) { e.preventDefault(); startDrawing(type, e); }, { passive: false });
+        state.canvas.addEventListener("touchmove", function (e) { e.preventDefault(); draw(type, e); }, { passive: false });
+        state.canvas.addEventListener("touchend", function (e) { e.preventDefault(); stopDrawing(type); }, { passive: false });
+        state.canvas.addEventListener("touchcancel", function () { stopDrawing(type); });
+    }
+
+    function resizeCanvas(type) {
+        var state = signatureState[type];
+        if (!state.canvas) {
+            return;
+        }
+        var rect = state.canvas.getBoundingClientRect();
+        var ratio = Math.max(window.devicePixelRatio || 1, 1);
+        state.canvas.width = Math.floor(rect.width * ratio);
+        state.canvas.height = Math.floor(rect.height * ratio);
+        state.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        state.ctx.lineWidth = 2.2;
+        state.ctx.lineCap = "round";
+        state.ctx.lineJoin = "round";
+        state.ctx.strokeStyle = "#111111";
+    }
+
+    function getPointerPosition(type, event) {
+        var state = signatureState[type];
+        var rect = state.canvas.getBoundingClientRect();
+        var clientX, clientY;
+        if (event.touches && event.touches.length > 0) {
+            clientX = event.touches[0].clientX;
+            clientY = event.touches[0].clientY;
+        } else if (event.changedTouches && event.changedTouches.length > 0) {
+            clientX = event.changedTouches[0].clientX;
+            clientY = event.changedTouches[0].clientY;
+        } else {
+            clientX = event.clientX;
+            clientY = event.clientY;
+        }
+        return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function startDrawing(type, event) {
+        var state = signatureState[type];
+        if (!state.ctx) {
+            return;
+        }
+        var point = getPointerPosition(type, event);
+        state.drawing = true;
+        state.hasDrawing = true;
+        state.ctx.beginPath();
+        state.ctx.moveTo(point.x, point.y);
+        hidePlaceholder(type);
+        setStatus(type, "{{ _('A new signature is being drawn.') }}", true);
+    }
+
+    function draw(type, event) {
+        var state = signatureState[type];
+        if (!state.drawing || !state.ctx) {
+            return;
+        }
+        var point = getPointerPosition(type, event);
+        state.ctx.lineTo(point.x, point.y);
+        state.ctx.stroke();
+        state.ctx.beginPath();
+        state.ctx.moveTo(point.x, point.y);
+    }
+
+    function stopDrawing(type) {
+        var state = signatureState[type];
+        if (!state.drawing) {
+            return;
+        }
+        state.drawing = false;
+        saveCanvasToHiddenField(type);
+    }
+
+    function saveCanvasToHiddenField(type) {
+        var state = signatureState[type];
+        if (!state.canvas || !state.hasDrawing) {
+            return;
+        }
+        var data = state.canvas.toDataURL("image/png");
+        var hidden = document.getElementById(type + "_signature");
+        if (hidden) {
+            hidden.value = data;
+        }
+        setStatus(type, "{{ _('New signature ready to be saved.') }}", true);
+    }
+
+    window.clearSignature = function (type) {
+        var state = signatureState[type];
+        if (!state.canvas || !state.ctx) {
+            return;
+        }
+        var rect = state.canvas.getBoundingClientRect();
+        state.ctx.clearRect(0, 0, rect.width, rect.height);
+        state.hasDrawing = false;
+        var hidden = document.getElementById(type + "_signature");
+        if (hidden) {
+            hidden.value = "";
+        }
+        showPlaceholder(type);
+        setStatus(type, "{{ _('Signature deleted.') }}", false);
+    };
+
+    function showPlaceholder(type) {
+        var el = document.getElementById(type + "SignaturePlaceholder");
+        if (el) {
+            el.style.display = "flex";
+        }
+    }
+
+    function hidePlaceholder(type) {
+        var el = document.getElementById(type + "SignaturePlaceholder");
+        if (el) {
+            el.style.display = "none";
+        }
+    }
+
+    function setStatus(type, message, saved) {
+        var el = document.getElementById(type + "SignatureStatus");
+        if (!el) {
+            return;
+        }
+        el.textContent = message;
+        el.classList.remove("saved", "empty");
+        el.classList.add(saved ? "saved" : "empty");
+    }
+
+    var form = document.getElementById("movementBatchForm");
+    if (form) {
+        form.addEventListener("submit", function () {
+            ["from", "to"].forEach(function (type) {
+                var state = signatureState[type];
+                if (state && state.hasDrawing) {
+                    saveCanvasToHiddenField(type);
+                }
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initSignature("from");
+        initSignature("to");
+    });
+
+    window.addEventListener("resize", function () {
+        ["from", "to"].forEach(function (type) {
+            var state = signatureState[type];
+            if (state && state.hasDrawing) {
+                return;
+            }
+            resizeCanvas(type);
+        });
+    });
+
+})();
+</script>
+
+{% endblock %}

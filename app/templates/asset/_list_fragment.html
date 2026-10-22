@@ -427,7 +427,7 @@
 
                         <td>
 
-                            {{ loop.index }}
+                            {{ category_sequence_map.get(asset.category, loop.index) if category_sequence_map else loop.index }}
 
                         </td>
 

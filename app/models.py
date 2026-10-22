@@ -292,6 +292,17 @@ class Category(db.Model):
         nullable=True,
     )
 
+    # Nomor urut asli di form kertas stok opname (kolom "No."/"Kode
+    # Barang" sumber, mis. A0004 -> 4) - dipakai supaya kolom "No."
+    # di tabel Asset List tetap sama dengan kertas Sadam walaupun
+    # tabelnya ditampilkan terurut abjad/dipaginasi. None = kategori
+    # ini tidak berasal dari form tsb (urutan tabel pakai nomor baris
+    # biasa).
+    stock_sequence = db.Column(
+        db.Integer,
+        nullable=True,
+    )
+
     created_at = db.Column(
         db.DateTime,
         server_default=db.func.now()

@@ -286,9 +286,20 @@ def assets():
     show_stock_cols = _column_visible(set(STOCK_FIELD_TEMPLATES))
     show_price_col = _column_visible({"showcase"})
 
+    # Nomor urut asli dari form kertas (lihat Category.stock_sequence) -
+    # dipakai di kolom "No." tabel ATK supaya tetap sama dengan kertas
+    # Sadam walaupun tabelnya terurut abjad & terpaginasi, bukan
+    # dihitung ulang per halaman.
+    category_sequence_map = {
+        c.name: c.stock_sequence
+        for c in categories
+        if c.stock_sequence is not None
+    }
+
     return render_template(
         template_name,
         assets=asset_list,
+        category_sequence_map=category_sequence_map,
         show_model_col=show_model_col,
         show_serial_col=show_serial_col,
         show_spec_col=show_spec_col,

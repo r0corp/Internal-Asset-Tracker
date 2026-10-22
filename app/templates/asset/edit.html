@@ -412,15 +412,15 @@
                     {% endif %}
 
 
-                    <div class="row g-3" {{ 'style="--bs-gutter-x: 2rem;"' if is_simple_stock }}>
+                    <div class="row g-3">
 
 
                         <!-- ASSET TAG -->
 
-                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6{{ '' if is_simple_stock else ' form-field-row' }}">
 
 
-                            <label for="asset_tag" class="form-label form-field-label">
+                            <label for="asset_tag" class="form-label{{ '' if is_simple_stock else ' form-field-label' }}">
                                 {{ _('Asset Tag') }}
                             </label>
 
@@ -435,10 +435,10 @@
 
                         <!-- ASSET NAME -->
 
-                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-8' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-8' }} col-md-6{{ '' if is_simple_stock else ' form-field-row' }}">
 
 
-                            <label for="asset_name" class="form-label form-field-label">
+                            <label for="asset_name" class="form-label{{ '' if is_simple_stock else ' form-field-label' }}">
                                 {{ _('Asset Name') }}
                             </label>
 
@@ -862,10 +862,10 @@
                         <div class="tab-pane fade {{ 'show active' if current_template == 'atk' }}"
                             id="type-atk" data-template-pane="atk">
 
-                            <div class="row g-3" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3">
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Category') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Category') }}</label>
                                     <select class="form-select category-input" name="category">
                                         <option value="">{{ _('Select Category') }}</option>
                                         {% for category in categories if category.field_template == "atk" %}
@@ -875,24 +875,20 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Brand') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Brand') }}</label>
                                     <input type="text" class="form-control" name="brand"
                                         value="{{ asset.brand or '' if current_template == 'atk' else '' }}">
                                 </div>
 
-                            </div>
-
-                            <div class="row g-3 mt-0" style="--bs-gutter-x: 2rem;">
-
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Quantity / Stock') }}</label>
                                     <input type="number" class="form-control" name="stock_quantity" min="0"
                                         value="{{ asset.stock_quantity if current_template == 'atk' and asset.stock_quantity is not none else '' }}">
                                 </div>
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Unit') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Unit') }}</label>
                                     <input type="text" class="form-control" name="unit"
                                         value="{{ asset.unit or '' if current_template == 'atk' else '' }}">
                                 </div>
@@ -907,10 +903,10 @@
                         <div class="tab-pane fade {{ 'show active' if current_template == 'pantry' }}"
                             id="type-pantry" data-template-pane="pantry">
 
-                            <div class="row g-3" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3">
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Category') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Category') }}</label>
                                     <select class="form-select category-input" name="category">
                                         <option value="">{{ _('Select Category') }}</option>
                                         {% for category in categories if category.field_template == "pantry" %}
@@ -920,24 +916,20 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Brand') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Brand') }}</label>
                                     <input type="text" class="form-control" name="brand"
                                         value="{{ asset.brand or '' if current_template == 'pantry' else '' }}">
                                 </div>
 
-                            </div>
-
-                            <div class="row g-3 mt-0" style="--bs-gutter-x: 2rem;">
-
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Quantity / Stock') }}</label>
                                     <input type="number" class="form-control" name="stock_quantity" min="0"
                                         value="{{ asset.stock_quantity if current_template == 'pantry' and asset.stock_quantity is not none else '' }}">
                                 </div>
 
-                                <div class="col-md-6 form-field-row">
-                                    <label class="form-label form-field-label">{{ _('Unit') }}</label>
+                                <div class="col-md-6">
+                                    <label class="form-label">{{ _('Unit') }}</label>
                                     <input type="text" class="form-control" name="unit"
                                         value="{{ asset.unit or '' if current_template == 'pantry' else '' }}">
                                 </div>
@@ -1082,7 +1074,7 @@
 
 
 
-                    <div class="row g-3" {{ 'style="--bs-gutter-x: 2rem;"' if is_simple_stock }}>
+                    <div class="row g-3">
 
 
                         <!-- LOCATION -->
@@ -1165,10 +1157,10 @@
 
                         <!-- PIC -->
 
-                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6{{ '' if is_simple_stock else ' form-field-row' }}">
 
 
-                            <label for="pic" class="form-label form-field-label">
+                            <label for="pic" class="form-label{{ '' if is_simple_stock else ' form-field-label' }}">
                                 {{ _('PIC') }}
                             </label>
 
@@ -1182,10 +1174,10 @@
 
                         <!-- STATUS -->
 
-                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,atk,pantry">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6{{ '' if is_simple_stock else ' form-field-row' }}" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,atk,pantry">
 
 
-                            <label for="status" class="form-label form-field-label">
+                            <label for="status" class="form-label{{ '' if is_simple_stock else ' form-field-label' }}">
                                 {{ _('Status') }}
                             </label>
 

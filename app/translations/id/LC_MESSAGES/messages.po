@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 14:31+0700\n"
+"POT-Creation-Date: 2026-10-22 14:51+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr "Dasbor"
 #: app/templates/asset/movement_batch_add.html:170
 #: app/templates/asset/movement_report.html:658
 #: app/templates/asset/movements_global.html:476
-#: app/templates/dashboard.html:1353 app/templates/index.html:1016
+#: app/templates/dashboard.html:1359 app/templates/index.html:1016
 msgid "Asset"
 msgstr "Asset"
 
@@ -70,7 +70,7 @@ msgstr "Master Data"
 #: app/templates/asset/edit.html:1033 app/templates/asset/history.html:500
 #: app/templates/asset/labels_print.html:134
 #: app/templates/asset/movement_correct.html:314
-#: app/templates/dashboard.html:757 app/templates/dashboard.html:1070
+#: app/templates/dashboard.html:757 app/templates/dashboard.html:1076
 #: app/templates/index.html:773 app/templates/index.html:1020
 msgid "Category"
 msgstr "Kategori"
@@ -91,7 +91,7 @@ msgstr "Kategori"
 #: app/templates/asset/movements.html:234
 #: app/templates/asset/movements_global.html:186
 #: app/templates/asset/movements_global.html:484
-#: app/templates/dashboard.html:814 app/templates/dashboard.html:1072
+#: app/templates/dashboard.html:820 app/templates/dashboard.html:1078
 #: app/templates/index.html:784 app/templates/index.html:1024
 msgid "Location"
 msgstr "Lokasi"
@@ -113,7 +113,7 @@ msgstr "Lokasi"
 #: app/templates/asset/movements.html:236
 #: app/templates/asset/movements_global.html:231
 #: app/templates/asset/movements_global.html:488
-#: app/templates/dashboard.html:871 app/templates/dashboard.html:1074
+#: app/templates/dashboard.html:877 app/templates/dashboard.html:1080
 #: app/templates/index.html:795 app/templates/index.html:1028
 #: app/templates/master/department/list.html:89
 msgid "Department"
@@ -196,110 +196,110 @@ msgstr "Nama aplikasi wajib diisi."
 msgid "Application settings saved successfully."
 msgstr "Pengaturan aplikasi berhasil disimpan."
 
-#: app/blueprints/assets.py:483
+#: app/blueprints/assets.py:524
 msgid "Excel file has not been selected."
 msgstr "Excel file has not been selected."
 
-#: app/blueprints/assets.py:498
+#: app/blueprints/assets.py:539
 msgid "File format must be .xlsx or .xlsm."
 msgstr "File format must be .xlsx or .xlsm."
 
-#: app/blueprints/assets.py:528
+#: app/blueprints/assets.py:569
 msgid "Excel file is empty."
 msgstr "Excel file is empty."
 
-#: app/blueprints/assets.py:557
+#: app/blueprints/assets.py:598
 #, python-format
 msgid "Required columns not found: %(columns)s"
 msgstr "Required columns not found: %(columns)s"
 
-#: app/blueprints/assets.py:982
+#: app/blueprints/assets.py:1023
 msgid "Select at least one asset to print."
 msgstr "Select at least one asset to print."
 
-#: app/blueprints/assets.py:1010
+#: app/blueprints/assets.py:1051
 msgid "Selected assets are invalid."
 msgstr "Selected assets are invalid."
 
-#: app/blueprints/assets.py:1032 app/blueprints/assets.py:2456
+#: app/blueprints/assets.py:1073 app/blueprints/assets.py:2497
 msgid "Selected assets were not found."
 msgstr "Selected assets were not found."
 
-#: app/blueprints/assets.py:1138
+#: app/blueprints/assets.py:1179
 msgid "Asset was successfully deleted."
 msgstr "Asset was successfully deleted."
 
-#: app/blueprints/assets.py:1201
+#: app/blueprints/assets.py:1242
 msgid "Asset Tag is required."
 msgstr "Asset Tag is required."
 
-#: app/blueprints/assets.py:1221
+#: app/blueprints/assets.py:1262
 msgid "Asset name is required."
 msgstr "Asset name is required."
 
-#: app/blueprints/assets.py:1245
+#: app/blueprints/assets.py:1286
 msgid "Asset Tag is already in use."
 msgstr "Asset Tag is already in use."
 
-#: app/blueprints/assets.py:1345
+#: app/blueprints/assets.py:1386
 #, python-format
 msgid "Invalid asset photo: %(error)s"
 msgstr "Invalid asset photo: %(error)s"
 
-#: app/blueprints/assets.py:1370 app/blueprints/assets.py:2220
+#: app/blueprints/assets.py:1411 app/blueprints/assets.py:2261
 #: app/templates/asset/_photo_gallery.html:392
 msgid "Asset photo failed to upload."
 msgstr "Asset photo failed to upload."
 
-#: app/blueprints/assets.py:1537
+#: app/blueprints/assets.py:1578
 msgid "Asset failed to save."
 msgstr "Asset failed to save."
 
-#: app/blueprints/assets.py:1572
+#: app/blueprints/assets.py:1613
 msgid "Asset was successfully added."
 msgstr "Asset was successfully added."
 
-#: app/blueprints/assets.py:1889
+#: app/blueprints/assets.py:1930
 msgid "Invalid stock quantity."
 msgstr "Jumlah stok tidak valid."
 
-#: app/blueprints/assets.py:1922
+#: app/blueprints/assets.py:1963
 msgid "Invalid selling price."
 msgstr "Harga jual tidak valid."
 
-#: app/blueprints/assets.py:2025
+#: app/blueprints/assets.py:2066
 msgid "Invalid purchase date format."
 msgstr "Invalid purchase date format."
 
-#: app/blueprints/assets.py:2065
+#: app/blueprints/assets.py:2106
 msgid "Invalid purchase price."
 msgstr "Invalid purchase price."
 
-#: app/blueprints/assets.py:2095
+#: app/blueprints/assets.py:2136
 msgid "Asset was successfully updated."
 msgstr "Asset was successfully updated."
 
-#: app/blueprints/assets.py:2116
+#: app/blueprints/assets.py:2157
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2163
+#: app/blueprints/assets.py:2204
 msgid "No photo file was sent."
 msgstr "Tidak ada file foto yang dikirim."
 
-#: app/blueprints/assets.py:2227
+#: app/blueprints/assets.py:2268
 msgid "Added asset photo(s)."
 msgstr "Menambahkan foto asset."
 
-#: app/blueprints/assets.py:2256 app/blueprints/assets.py:2283
+#: app/blueprints/assets.py:2297 app/blueprints/assets.py:2324
 msgid "Photo not found."
 msgstr "Foto tidak ditemukan."
 
-#: app/blueprints/assets.py:2378
+#: app/blueprints/assets.py:2419
 msgid "Select at least one asset to export to Excel."
 msgstr "Select at least one asset to export to Excel."
 
-#: app/blueprints/assets.py:2422
+#: app/blueprints/assets.py:2463
 msgid "Invalid asset ID."
 msgstr "Invalid asset ID."
 
@@ -832,15 +832,15 @@ msgstr "Asset Berdasarkan Status"
 #: app/templates/asset/movements.html:240
 #: app/templates/asset/movements_global.html:137
 #: app/templates/asset/movements_global.html:499
-#: app/templates/dashboard.html:666 app/templates/dashboard.html:1076
-#: app/templates/dashboard.html:1180 app/templates/index.html:1032
+#: app/templates/dashboard.html:666 app/templates/dashboard.html:1082
+#: app/templates/dashboard.html:1186 app/templates/index.html:1032
 #: app/templates/master/menu/list.html:97
 #: app/templates/master/user/list.html:96
 msgid "Status"
 msgstr "Status"
 
 #: app/templates/dashboard.html:668 app/templates/dashboard.html:759
-#: app/templates/dashboard.html:816 app/templates/dashboard.html:873
+#: app/templates/dashboard.html:822 app/templates/dashboard.html:879
 msgid "Count"
 msgstr "Jumlah"
 
@@ -852,74 +852,79 @@ msgstr "Belum ada data status."
 msgid "Assets by Category"
 msgstr "Asset Berdasarkan Kategori"
 
-#: app/templates/dashboard.html:783
+#: app/templates/dashboard.html:779
+#, python-format
+msgid "and %(count)s more categories"
+msgstr "dan %(count)s kategori lainnya"
+
+#: app/templates/dashboard.html:789
 msgid "No category data yet."
 msgstr "Belum ada data kategori."
 
-#: app/templates/dashboard.html:802 app/templates/index.html:897
+#: app/templates/dashboard.html:808 app/templates/index.html:897
 msgid "Assets by Location"
 msgstr "Asset Berdasarkan Lokasi"
 
-#: app/templates/dashboard.html:840
+#: app/templates/dashboard.html:846
 msgid "No location data yet."
 msgstr "Belum ada data lokasi."
 
-#: app/templates/dashboard.html:859 app/templates/index.html:926
+#: app/templates/dashboard.html:865 app/templates/index.html:926
 msgid "Assets by Department"
 msgstr "Asset Berdasarkan Departemen"
 
-#: app/templates/dashboard.html:897
+#: app/templates/dashboard.html:903
 msgid "No department data yet."
 msgstr "Belum ada data departemen."
 
-#: app/templates/dashboard.html:918
+#: app/templates/dashboard.html:924
 msgid "Asset Movements - Last 12 Months"
 msgstr "Mutasi Asset 12 Bulan Terakhir"
 
-#: app/templates/dashboard.html:945 app/templates/dashboard.html:953
+#: app/templates/dashboard.html:951 app/templates/dashboard.html:959
 msgid "movements"
 msgstr "mutasi"
 
-#: app/templates/dashboard.html:971 app/templates/dashboard.html:1415
+#: app/templates/dashboard.html:977 app/templates/dashboard.html:1421
 msgid "No movement data yet."
 msgstr "Belum ada data mutasi."
 
 #: app/templates/asset/history.html:530
 #: app/templates/asset/movement_report.html:515
 #: app/templates/asset/movements_global.html:342
-#: app/templates/dashboard.html:982
+#: app/templates/dashboard.html:988
 msgid "Total Movements"
 msgstr "Total Mutasi"
 
-#: app/templates/dashboard.html:986
+#: app/templates/dashboard.html:992
 msgid "Entire movement history"
 msgstr "Seluruh histori mutasi"
 
-#: app/templates/dashboard.html:994
+#: app/templates/dashboard.html:1000
 msgid "Total Corrections"
 msgstr "Total Koreksi"
 
-#: app/templates/dashboard.html:999
+#: app/templates/dashboard.html:1005
 msgid "Entire movement correction history"
 msgstr "Seluruh histori koreksi mutasi"
 
-#: app/templates/dashboard.html:1008
+#: app/templates/dashboard.html:1014
 msgid "Movements This Month"
 msgstr "Mutasi Bulan Ini"
 
-#: app/templates/dashboard.html:1020
+#: app/templates/dashboard.html:1026
 msgid "Corrections This Month"
 msgstr "Koreksi Bulan Ini"
 
-#: app/templates/dashboard.html:1025
+#: app/templates/dashboard.html:1031
 msgid "Corrections in the current month"
 msgstr "Koreksi pada bulan berjalan"
 
-#: app/templates/dashboard.html:1042 app/templates/index.html:965
+#: app/templates/dashboard.html:1048 app/templates/index.html:965
 msgid "Recent Assets"
 msgstr "Asset Terbaru"
 
-#: app/templates/asset/detail.html:939 app/templates/dashboard.html:1050
+#: app/templates/asset/detail.html:939 app/templates/dashboard.html:1056
 #: app/templates/index.html:981
 msgid "View All"
 msgstr "Lihat Semua"
@@ -928,8 +933,8 @@ msgstr "Lihat Semua"
 #: app/templates/asset/movement_detail.html:886
 #: app/templates/asset/movement_report.html:652
 #: app/templates/asset/movements_global.html:468
-#: app/templates/dashboard.html:1064 app/templates/dashboard.html:1174
-#: app/templates/dashboard.html:1260 app/templates/dashboard.html:1347
+#: app/templates/dashboard.html:1070 app/templates/dashboard.html:1180
+#: app/templates/dashboard.html:1266 app/templates/dashboard.html:1353
 #: app/templates/master/category/list.html:102
 #: app/templates/master/department/list.html:88
 #: app/templates/master/location/list.html:93
@@ -947,8 +952,8 @@ msgstr "No"
 #: app/templates/asset/movement_batch_add.html:169
 #: app/templates/asset/movement_correct.html:302
 #: app/templates/asset/movement_corrections.html:101
-#: app/templates/asset/movements.html:72 app/templates/dashboard.html:1066
-#: app/templates/dashboard.html:1175 app/templates/dashboard.html:1261
+#: app/templates/asset/movements.html:72 app/templates/dashboard.html:1072
+#: app/templates/dashboard.html:1181 app/templates/dashboard.html:1267
 #: app/templates/index.html:1012
 msgid "Asset Tag"
 msgstr "Kode Asset"
@@ -959,8 +964,8 @@ msgstr "Kode Asset"
 #: app/templates/asset/movement_add.html:418
 #: app/templates/asset/movement_correct.html:308
 #: app/templates/asset/movement_corrections.html:105
-#: app/templates/asset/movements.html:80 app/templates/dashboard.html:1068
-#: app/templates/dashboard.html:1176 app/templates/dashboard.html:1262
+#: app/templates/asset/movements.html:80 app/templates/dashboard.html:1074
+#: app/templates/dashboard.html:1182 app/templates/dashboard.html:1268
 msgid "Asset Name"
 msgstr "Nama Asset"
 
@@ -969,7 +974,7 @@ msgstr "Nama Asset"
 #: app/templates/asset/add.html:1446 app/templates/asset/detail.html:845
 #: app/templates/asset/edit.html:1186
 #: app/templates/asset/labels_select.html:492
-#: app/templates/asset/movements.html:117 app/templates/dashboard.html:1108
+#: app/templates/asset/movements.html:117 app/templates/dashboard.html:1114
 #: app/templates/index.html:1128 app/templates/master/menu/list.html:128
 #: app/templates/master/menu/list.html:186
 #: app/templates/master/user/list.html:129 app/templates/profile.html:39
@@ -981,7 +986,7 @@ msgstr "Aktif"
 #: app/templates/asset/add.html:1453 app/templates/asset/detail.html:850
 #: app/templates/asset/edit.html:1191
 #: app/templates/asset/labels_select.html:500
-#: app/templates/asset/movements.html:121 app/templates/dashboard.html:1113
+#: app/templates/asset/movements.html:121 app/templates/dashboard.html:1119
 #: app/templates/index.html:569 app/templates/index.html:1139
 msgid "Maintenance"
 msgstr "Perbaikan"
@@ -991,7 +996,7 @@ msgstr "Perbaikan"
 #: app/templates/asset/add.html:1467 app/templates/asset/detail.html:861
 #: app/templates/asset/edit.html:1201
 #: app/templates/asset/labels_select.html:508
-#: app/templates/dashboard.html:1118 app/templates/index.html:704
+#: app/templates/dashboard.html:1124 app/templates/index.html:704
 #: app/templates/index.html:1159
 msgid "Lost"
 msgstr "Hilang"
@@ -1001,49 +1006,49 @@ msgstr "Hilang"
 #: app/templates/asset/add.html:1474 app/templates/asset/detail.html:865
 #: app/templates/asset/edit.html:1206
 #: app/templates/asset/labels_select.html:516
-#: app/templates/dashboard.html:1122 app/templates/index.html:730
+#: app/templates/dashboard.html:1128 app/templates/index.html:730
 #: app/templates/index.html:1169
 msgid "Retired"
 msgstr "Non-aktif"
 
 #: app/templates/asset/movement_batch_add.html:201
-#: app/templates/dashboard.html:1142 app/templates/index.html:1236
+#: app/templates/dashboard.html:1148 app/templates/index.html:1236
 msgid "No assets yet."
 msgstr "Belum ada asset."
 
-#: app/templates/dashboard.html:1160
+#: app/templates/dashboard.html:1166
 msgid "Vehicle Insurance Expiring Soon"
 msgstr "Asuransi Kendaraan Akan Habis"
 
 #: app/templates/asset/_list_fragment.html:327
 #: app/templates/asset/add.html:982 app/templates/asset/detail.html:621
-#: app/templates/asset/edit.html:752 app/templates/dashboard.html:1177
+#: app/templates/asset/edit.html:752 app/templates/dashboard.html:1183
 msgid "License Plate Number"
 msgstr "Nomor Plat Kendaraan"
 
 #: app/templates/asset/add.html:993 app/templates/asset/detail.html:655
-#: app/templates/asset/edit.html:764 app/templates/dashboard.html:1178
+#: app/templates/asset/edit.html:764 app/templates/dashboard.html:1184
 msgid "Insurance"
 msgstr "Asuransi"
 
 #: app/templates/asset/add.html:1005 app/templates/asset/detail.html:685
-#: app/templates/asset/edit.html:778 app/templates/dashboard.html:1179
+#: app/templates/asset/edit.html:778 app/templates/dashboard.html:1185
 msgid "Insurance Due Date"
 msgstr "Masa Berlaku Asuransi"
 
-#: app/templates/dashboard.html:1211
+#: app/templates/dashboard.html:1217
 msgid "Expired"
 msgstr "Expired"
 
-#: app/templates/dashboard.html:1213
+#: app/templates/dashboard.html:1219
 msgid "Expiring Soon"
 msgstr "Akan Habis"
 
-#: app/templates/dashboard.html:1228
+#: app/templates/dashboard.html:1234
 msgid "No vehicle insurance expiring soon."
 msgstr "Tidak ada asuransi kendaraan yang akan habis."
 
-#: app/templates/dashboard.html:1246
+#: app/templates/dashboard.html:1252
 msgid "ATK Stock Needs Purchasing"
 msgstr "Stok ATK Perlu Dibeli"
 
@@ -1053,23 +1058,23 @@ msgstr "Stok ATK Perlu Dibeli"
 #: app/templates/asset/add.html:1252 app/templates/asset/detail.html:719
 #: app/templates/asset/edit.html:877 app/templates/asset/edit.html:918
 #: app/templates/asset/edit.html:959 app/templates/asset/edit.html:1000
-#: app/templates/asset/edit.html:1050 app/templates/dashboard.html:1263
+#: app/templates/asset/edit.html:1050 app/templates/dashboard.html:1269
 msgid "Quantity / Stock"
 msgstr "Jumlah/Stok"
 
-#: app/templates/dashboard.html:1264
+#: app/templates/dashboard.html:1270
 msgid "Minimum Stock"
 msgstr "Stok Minimum"
 
-#: app/templates/dashboard.html:1306
+#: app/templates/dashboard.html:1312
 msgid "No ATK stock below minimum right now."
 msgstr "Tidak ada stok ATK di bawah batas minimum saat ini."
 
-#: app/templates/dashboard.html:1324
+#: app/templates/dashboard.html:1330
 msgid "Recent Asset Movements"
 msgstr "Mutasi Asset Terbaru"
 
-#: app/templates/dashboard.html:1333
+#: app/templates/dashboard.html:1339
 msgid "View Report"
 msgstr "Lihat Laporan"
 
@@ -1077,7 +1082,7 @@ msgstr "Lihat Laporan"
 #: app/templates/asset/movement_correct.html:337
 #: app/templates/asset/movement_corrections.html:130
 #: app/templates/asset/movement_report.html:654
-#: app/templates/dashboard.html:1349
+#: app/templates/dashboard.html:1355
 msgid "Movement No."
 msgstr "No. Mutasi"
 
@@ -1088,17 +1093,17 @@ msgstr "No. Mutasi"
 #: app/templates/asset/movement_report.html:656
 #: app/templates/asset/movements.html:230
 #: app/templates/asset/movements_global.html:480
-#: app/templates/dashboard.html:1351 app/templates/scrap/add.html:64
+#: app/templates/dashboard.html:1357 app/templates/scrap/add.html:64
 #: app/templates/scrap/edit.html:64 app/templates/scrap/list.html:164
 msgid "Date"
 msgstr "Tanggal"
 
 #: app/templates/asset/movements_global.html:101
-#: app/templates/dashboard.html:1355 app/templates/scrap/list.html:106
+#: app/templates/dashboard.html:1361 app/templates/scrap/list.html:106
 msgid "From"
 msgstr "Dari"
 
-#: app/templates/dashboard.html:1357 app/templates/scrap/list.html:111
+#: app/templates/dashboard.html:1363 app/templates/scrap/list.html:111
 msgid "To"
 msgstr "Ke"
 

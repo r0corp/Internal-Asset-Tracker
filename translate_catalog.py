@@ -913,6 +913,9 @@ ID_TRANSLATIONS = {
     'ATK Stock Needs Purchasing': 'Stok ATK Perlu Dibeli',
     'Minimum Stock': 'Stok Minimum',
     'No ATK stock below minimum right now.': 'Tidak ada stok ATK di bawah batas minimum saat ini.',
+
+    # --- dashboard category summary capped ---
+    'and %(count)s more categories': 'dan %(count)s kategori lainnya',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

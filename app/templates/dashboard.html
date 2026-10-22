@@ -774,6 +774,12 @@ app_setting.app_name }} {% endblock %} {% block content %}
             </table>
           </div>
 
+          {% if category_summary_more %}
+          <div class="text-muted small text-center mt-2">
+            {{ _('and %(count)s more categories', count=category_summary_more) }}
+          </div>
+          {% endif %}
+
           {% else %}
 
           <div class="dashboard-empty">

@@ -12,6 +12,52 @@ from ..models import Asset, Category, Location, Department, Vendor, AssetMovemen
 from . import main
 from .helpers import apply_asset_category_restriction
 
+
+def _merge_summary_rows(rows, key_name, empty_label):
+    """
+    Gabungkan baris GROUP BY yang nilainya NULL vs string kosong -
+    keduanya dianggap "grup" berbeda oleh SQL meskipun sama-sama
+    ditampilkan sebagai empty_label (mis. "Tanpa Lokasi"), jadi tanpa
+    ini bisa muncul baris duplikat di ringkasan dashboard.
+    """
+
+    merged = {}
+
+    for raw_value, count in rows:
+        label = raw_value or empty_label
+        merged[label] = merged.get(label, 0) + count
+
+    return sorted(
+        (
+            {key_name: label, "count": count}
+            for label, count in merged.items()
+        ),
+        key=lambda item: item["count"],
+        reverse=True,
+    )
+
+
+CATEGORY_SUMMARY_LIMIT = 15
+
+
+def _cap_category_summary(category_summary):
+    """
+    Kategori sekarang bisa ratusan baris (tiap item ATK/Pantry jadi
+    kategori sendiri), jadi tabel "Assets by Category" di Dashboard/
+    Asset dibatasi ke CATEGORY_SUMMARY_LIMIT teratas supaya tidak
+    membuat halaman memanjang tak berujung - sisanya cuma dihitung,
+    bukan dibuang datanya (chart/total tetap pakai data lengkap kalau
+    ada, cuma tabelnya yang dipotong).
+    """
+
+    if len(category_summary) <= CATEGORY_SUMMARY_LIMIT:
+        return category_summary, 0
+
+    return (
+        category_summary[:CATEGORY_SUMMARY_LIMIT],
+        len(category_summary) - CATEGORY_SUMMARY_LIMIT,
+    )
+
 @main.route("/")
 def index():
 
@@ -39,14 +85,9 @@ def index():
         .all()
     )
 
-    status_summary = []
-
-    for status, count in status_rows:
-
-        status_summary.append({
-            "status": status or "Tidak Ada Status",
-            "count": count
-        })
+    status_summary = _merge_summary_rows(
+        status_rows, "status", "Tidak Ada Status"
+    )
 
     # ========================================================
     # STATUS SUMMARY (dari status_rows di atas - tidak perlu
@@ -98,14 +139,13 @@ def index():
         .all()
     )
 
-    category_summary = []
+    category_summary_full = _merge_summary_rows(
+        category_rows, "category", "Tanpa Kategori"
+    )
 
-    for category, count in category_rows:
-
-        category_summary.append({
-            "category": category or "Tanpa Kategori",
-            "count": count
-        })
+    category_summary, category_summary_more = _cap_category_summary(
+        category_summary_full
+    )
 
     # ========================================================
     # LOCATION
@@ -125,14 +165,9 @@ def index():
         .all()
     )
 
-    location_summary = []
-
-    for location, count in location_rows:
-
-        location_summary.append({
-            "location": location or "Tanpa Lokasi",
-            "count": count
-        })
+    location_summary = _merge_summary_rows(
+        location_rows, "location", "Tanpa Lokasi"
+    )
 
     # ========================================================
     # DEPARTMENT
@@ -152,17 +187,9 @@ def index():
         .all()
     )
 
-    department_summary = []
-
-    for department, count in department_rows:
-
-        department_summary.append({
-            "department": (
-                department
-                or "Tanpa Department"
-            ),
-            "count": count
-        })
+    department_summary = _merge_summary_rows(
+        department_rows, "department", "Tanpa Department"
+    )
 
     # ========================================================
     # DATA CHART
@@ -170,12 +197,12 @@ def index():
 
     category_labels = [
         item["category"]
-        for item in category_summary
+        for item in category_summary_full
     ]
 
     category_values = [
         item["count"]
-        for item in category_summary
+        for item in category_summary_full
     ]
 
     department_labels = [
@@ -284,6 +311,7 @@ def index():
         status_summary=status_summary,
 
         category_summary=category_summary,
+        category_summary_more=category_summary_more,
 
         location_summary=location_summary,
 
@@ -348,17 +376,9 @@ def dashboard():
         .all()
     )
 
-    status_summary = []
-
-    for status, count in status_rows:
-
-        status_summary.append({
-            "status": (
-                status
-                or "Tidak Ada Status"
-            ),
-            "count": count
-        })
+    status_summary = _merge_summary_rows(
+        status_rows, "status", "Tidak Ada Status"
+    )
 
     # ========================================================
     # CATEGORY
@@ -380,17 +400,11 @@ def dashboard():
         .all()
     )
 
-    category_summary = []
-
-    for category, count in category_rows:
-
-        category_summary.append({
-            "category": (
-                category
-                or "Tanpa Kategori"
-            ),
-            "count": count
-        })
+    category_summary, category_summary_more = _cap_category_summary(
+        _merge_summary_rows(
+            category_rows, "category", "Tanpa Kategori"
+        )
+    )
 
     # ========================================================
     # LOCATION
@@ -412,17 +426,9 @@ def dashboard():
         .all()
     )
 
-    location_summary = []
-
-    for location, count in location_rows:
-
-        location_summary.append({
-            "location": (
-                location
-                or "Tanpa Lokasi"
-            ),
-            "count": count
-        })
+    location_summary = _merge_summary_rows(
+        location_rows, "location", "Tanpa Lokasi"
+    )
 
     # ========================================================
     # DEPARTMENT
@@ -444,17 +450,9 @@ def dashboard():
         .all()
     )
 
-    department_summary = []
-
-    for department, count in department_rows:
-
-        department_summary.append({
-            "department": (
-                department
-                or "Tanpa Department"
-            ),
-            "count": count
-        })
+    department_summary = _merge_summary_rows(
+        department_rows, "department", "Tanpa Department"
+    )
 
     # ========================================================
     # ASSET TERBARU
@@ -765,6 +763,7 @@ def dashboard():
         # ----------------------------------------------------
 
         category_summary=category_summary,
+        category_summary_more=category_summary_more,
 
 
         # ----------------------------------------------------

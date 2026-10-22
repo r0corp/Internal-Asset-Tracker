@@ -39,7 +39,7 @@ from ..models import (
 from ..auth import requires_permission
 
 from . import main, MOVEMENT_LIST_PER_PAGE, SimplePagination
-from .helpers import parse_date
+from .helpers import parse_date, apply_asset_category_restriction
 
 @main.route("/assets/movements/export")
 @requires_permission("movement", "read")
@@ -1207,7 +1207,7 @@ def add_asset_movement_batch():
     """
 
     assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .order_by(Asset.asset_tag.asc())
         .all()
     )
@@ -1257,7 +1257,7 @@ def add_asset_movement_batch():
             continue
 
     selected_assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .filter(Asset.id.in_(selected_ids))
         .order_by(Asset.asset_tag.asc())
         .all()

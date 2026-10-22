@@ -10,6 +10,7 @@ from .. import db
 from ..models import Asset, Category, Location, Department, Vendor, AssetMovement
 
 from . import main
+from .helpers import apply_asset_category_restriction
 
 @main.route("/")
 def index():
@@ -18,16 +19,18 @@ def index():
     # TOTAL ASSET
     # ========================================================
 
-    total_assets = Asset.query.count()
+    total_assets = apply_asset_category_restriction(Asset.query).count()
 
     # ========================================================
     # STATUS ASSET
     # ========================================================
 
     status_rows = (
-        db.session.query(
-            Asset.status,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.status,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(Asset.status)
         .order_by(
@@ -63,12 +66,14 @@ def index():
     # ========================================================
 
     total_value = (
-        db.session.query(
-            db.func.coalesce(
-                db.func.sum(
-                    Asset.purchase_price
-                ),
-                0
+        apply_asset_category_restriction(
+            db.session.query(
+                db.func.coalesce(
+                    db.func.sum(
+                        Asset.purchase_price
+                    ),
+                    0
+                )
             )
         )
         .scalar()
@@ -80,9 +85,11 @@ def index():
     # ========================================================
 
     category_rows = (
-        db.session.query(
-            Asset.category,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.category,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(Asset.category)
         .order_by(
@@ -105,9 +112,11 @@ def index():
     # ========================================================
 
     location_rows = (
-        db.session.query(
-            Asset.location,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.location,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(Asset.location)
         .order_by(
@@ -130,9 +139,11 @@ def index():
     # ========================================================
 
     department_rows = (
-        db.session.query(
-            Asset.department,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.department,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(Asset.department)
         .order_by(
@@ -212,7 +223,7 @@ def index():
     # ========================================================
 
     recent_assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .order_by(
             Asset.created_at.desc(),
             Asset.id.desc()
@@ -295,7 +306,7 @@ def dashboard():
     # ========================================================
 
     total_assets = (
-        Asset.query.count()
+        apply_asset_category_restriction(Asset.query).count()
     )
 
     # ========================================================
@@ -303,12 +314,14 @@ def dashboard():
     # ========================================================
 
     total_value = (
-        db.session.query(
-            db.func.coalesce(
-                db.func.sum(
-                    Asset.purchase_price
-                ),
-                0
+        apply_asset_category_restriction(
+            db.session.query(
+                db.func.coalesce(
+                    db.func.sum(
+                        Asset.purchase_price
+                    ),
+                    0
+                )
             )
         )
         .scalar()
@@ -320,9 +333,11 @@ def dashboard():
     # ========================================================
 
     status_rows = (
-        db.session.query(
-            Asset.status,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.status,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(
             Asset.status
@@ -350,9 +365,11 @@ def dashboard():
     # ========================================================
 
     category_rows = (
-        db.session.query(
-            Asset.category,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.category,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(
             Asset.category
@@ -380,9 +397,11 @@ def dashboard():
     # ========================================================
 
     location_rows = (
-        db.session.query(
-            Asset.location,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.location,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(
             Asset.location
@@ -410,9 +429,11 @@ def dashboard():
     # ========================================================
 
     department_rows = (
-        db.session.query(
-            Asset.department,
-            db.func.count(Asset.id)
+        apply_asset_category_restriction(
+            db.session.query(
+                Asset.department,
+                db.func.count(Asset.id)
+            )
         )
         .group_by(
             Asset.department
@@ -440,7 +461,7 @@ def dashboard():
     # ========================================================
 
     recent_assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .order_by(
             Asset.created_at.desc(),
             Asset.id.desc()
@@ -633,7 +654,9 @@ def dashboard():
 
     top_moved_assets_by_id = {
         asset.id: asset
-        for asset in Asset.query.filter(
+        for asset in apply_asset_category_restriction(
+            Asset.query
+        ).filter(
             Asset.id.in_(
                 [row.asset_id for row in movement_by_asset]
             )

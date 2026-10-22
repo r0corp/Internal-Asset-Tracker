@@ -30,6 +30,7 @@ from ..models import (
     PERMISSION_OBJECT_KEYS,
     PERMISSION_ACTIONS,
     ROLE_ADMINISTRATOR,
+    CATEGORY_RESTRICTION_CHOICES,
 )
 from ..auth import administrator_required
 
@@ -219,6 +220,35 @@ def edit_role(role_id):
         role.name = name
         role.description = description
 
+        valid_template_keys = {
+            key for key, _label in CATEGORY_RESTRICTION_CHOICES
+        }
+
+        if "restrict_categories" in request.form:
+
+            selected_templates = [
+                key
+                for key in request.form.getlist("category_templates")
+                if key in valid_template_keys
+            ]
+
+            if not selected_templates:
+
+                flash(
+                    _("Check at least one category when restriction is turned on."),
+                    "danger",
+                )
+
+                return redirect(
+                    url_for("main.edit_role", role_id=role.id)
+                )
+
+            role.allowed_categories = ",".join(selected_templates)
+
+        else:
+
+            role.allowed_categories = None
+
         db.session.commit()
 
         log_action(
@@ -239,6 +269,7 @@ def edit_role(role_id):
     return render_template(
         "roles/edit.html",
         role=role,
+        category_restriction_choices=CATEGORY_RESTRICTION_CHOICES,
     )
 
 

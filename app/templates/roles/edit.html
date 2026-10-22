@@ -37,6 +37,47 @@
                     <textarea name="description" class="form-control" rows="2">{{ role.description or '' }}</textarea>
                 </div>
 
+                <hr class="my-4">
+
+                <div class="form-check form-switch mb-3">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="restrict_categories"
+                        name="restrict_categories"
+                        {% if role.restricts_categories() %}checked{% endif %}
+                        onchange="document.getElementById('category-restriction-list').classList.toggle('d-none', !this.checked)"
+                    >
+                    <label class="form-check-label" for="restrict_categories">
+                        {{ _('Restrict access to specific categories') }}
+                    </label>
+                    <div class="form-text">
+                        {{ _('When off, this role can see assets in every category (default). When on, it can only see/manage assets whose category falls under the buckets checked below.') }}
+                    </div>
+                </div>
+
+                <div id="category-restriction-list" class="mb-3 {% if not role.restricts_categories() %}d-none{% endif %}">
+                    <div class="row">
+                        {% set selected_templates = role.allowed_category_templates() %}
+                        {% for key, label in category_restriction_choices %}
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="category_templates"
+                                    value="{{ key }}"
+                                    id="cat_tpl_{{ key }}"
+                                    {% if key in selected_templates %}checked{% endif %}
+                                >
+                                <label class="form-check-label" for="cat_tpl_{{ key }}">{{ _(label) }}</label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
                 <a href="{{ url_for('main.role_permissions', role_id=role.id) }}" class="btn btn-outline-primary">{{ _('Set Permissions') }}</a>
                 <a href="{{ url_for('main.roles') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>

@@ -862,6 +862,32 @@ ID_TRANSLATIONS = {
     'Exterior Electronics (generator, etc.)': 'Elektronik Exterior (genset, dst.)',
     'Office Stationery (ATK)': 'Alat Tulis Kantor (ATK)',
     'Showcase (for customers)': 'Showcase (untuk customer)',
+
+    # --- Office Boy role: category-restricted access ---
+    'Restrict access to specific categories': 'Batasi akses ke kategori tertentu',
+    'When off, this role can see assets in every category (default). When on, it can only see/manage assets whose category falls under the buckets checked below.': 'Kalau mati, role ini bisa melihat asset di semua kategori (default). Kalau nyala, role ini hanya bisa melihat/mengelola asset yang kategorinya termasuk dalam kelompok yang dicentang di bawah.',
+    'Check at least one category when restriction is turned on.': 'Centang minimal satu kategori saat restriksi diaktifkan.',
+
+    # --- Scrap module ---
+    'Scrap': 'Scrap',
+    'Record periodic scrap steel data (regular / light-gauge steel - LGS)': 'Pendataan scrap besi per periode (besi biasa / baja ringan-LGS)',
+    'Add Scrap Record': 'Tambah Data Scrap',
+    'Edit Scrap Record': 'Edit Data Scrap',
+    'Scrap Records': 'Data Scrap',
+    'entries found': 'entri ditemukan',
+    'No scrap records yet.': 'Belum ada data scrap.',
+    'Delete this scrap record?': 'Hapus data scrap ini?',
+    'Scrap Type': 'Jenis Scrap',
+    'Besi Biasa': 'Besi Biasa',
+    'Besi Baja Ringan / LGS': 'Besi Baja Ringan / LGS',
+    'Quantity': 'Jumlah',
+    'Example: 125.5': 'Contoh: 125.5',
+    'Optional notes...': 'Catatan opsional...',
+    'Date is required.': 'Tanggal wajib diisi.',
+    'Invalid quantity.': 'Jumlah tidak valid.',
+    'Scrap record added successfully.': 'Data scrap berhasil ditambahkan.',
+    'Scrap record updated successfully.': 'Data scrap berhasil diperbarui.',
+    'Scrap record deleted successfully.': 'Data scrap berhasil dihapus.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

@@ -19,7 +19,16 @@ import qrcode
 from flask_login import current_user
 
 from .. import db
-from ..models import Category, Location, Department, Vendor, AuditLog
+from ..models import (
+    Asset,
+    Category,
+    Location,
+    Department,
+    Vendor,
+    AuditLog,
+    Role,
+    ROLE_ADMINISTRATOR,
+)
 
 
 def log_action(action, entity_type, entity_label=None, description=None):
@@ -130,6 +139,96 @@ def get_master_data():
         departments,
         vendors,
     )
+
+# ============================================================
+# RESTRIKSI KATEGORI PER ROLE (mis. role "Office Boy" yang cuma
+# boleh lihat/kelola asset kategori tertentu, lihat Role.allowed_categories
+# di models.py)
+# ============================================================
+
+
+def get_current_role():
+    """
+    Role object milik current_user, dicocokkan lewat nama (sama
+    seperti requires_permission di auth.py) - None kalau user belum
+    login atau nama role-nya tidak ketemu di tabel roles.
+    """
+
+    if not current_user.is_authenticated:
+        return None
+
+    return Role.query.filter_by(name=current_user.role).first()
+
+
+def allowed_asset_categories():
+    """
+    None kalau current_user TIDAK dibatasi (administrator, atau
+    role-nya tidak mengaktifkan restriksi kategori) - artinya boleh
+    lihat semua kategori, filter tidak perlu diterapkan.
+
+    Kalau dibatasi, mengembalikan list nama Category (bukan key
+    field_template-nya) yang boleh diakses, untuk dipakai langsung
+    di Asset.category.in_(...).
+    """
+
+    if (
+        current_user.is_authenticated
+        and current_user.role == ROLE_ADMINISTRATOR
+    ):
+        return None
+
+    role = get_current_role()
+
+    if not role or not role.restricts_categories():
+        return None
+
+    templates = role.allowed_category_templates()
+
+    categories = (
+        Category.query
+        .filter(Category.field_template.in_(templates))
+        .all()
+    )
+
+    return [c.name for c in categories]
+
+
+def apply_asset_category_restriction(query):
+    """
+    Menerapkan filter Asset.category.in_(...) ke query SQLAlchemy
+    kalau current_user dibatasi kategorinya - dipanggil di tiap
+    tempat yang query Asset untuk listing/hitung jumlah.
+    """
+
+    allowed = allowed_asset_categories()
+
+    if allowed is None:
+        return query
+
+    return query.filter(Asset.category.in_(allowed))
+
+
+def allowed_category_template_keys():
+    """
+    None kalau current_user tidak dibatasi (boleh lihat semua tab/
+    filter kategori) - kalau dibatasi, mengembalikan list key
+    field_template yang boleh diakses, untuk menyembunyikan tab
+    filter dan opsi dropdown kategori yang tidak relevan ke role
+    tersebut.
+    """
+
+    if (
+        current_user.is_authenticated
+        and current_user.role == ROLE_ADMINISTRATOR
+    ):
+        return None
+
+    role = get_current_role()
+
+    if not role or not role.restricts_categories():
+        return None
+
+    return role.allowed_category_templates()
 
 # ============================================================
 # HELPER FOTO ASSET

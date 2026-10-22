@@ -59,6 +59,8 @@ from .helpers import (
     delete_asset_photo,
     generate_asset_qr,
     log_action,
+    apply_asset_category_restriction,
+    allowed_category_template_keys,
 )
 
 ASSET_TYPE_TABS = {
@@ -113,7 +115,7 @@ def assets():
         ""
     ).strip()
 
-    query = Asset.query
+    query = apply_asset_category_restriction(Asset.query)
 
     if search:
 
@@ -193,11 +195,22 @@ def assets():
 
     asset_list = pagination.items
 
+    allowed_tipe_keys = allowed_category_template_keys()
+
     categories_query = Category.query
 
     if selected_tipe:
         categories_query = categories_query.filter_by(
             field_template=ASSET_TYPE_TABS[selected_tipe]
+        )
+    elif allowed_tipe_keys is not None:
+        allowed_field_templates = [
+            ASSET_TYPE_TABS[key]
+            for key in allowed_tipe_keys
+            if key in ASSET_TYPE_TABS
+        ]
+        categories_query = categories_query.filter(
+            Category.field_template.in_(allowed_field_templates)
         )
 
     categories = (
@@ -245,6 +258,7 @@ def assets():
         selected_department=selected_department,
         selected_vendor=selected_vendor,
         selected_tipe=selected_tipe,
+        allowed_category_templates=allowed_tipe_keys,
     )
 
 # ============================================================
@@ -289,7 +303,7 @@ def export_assets():
         ""
     ).strip()
 
-    query = Asset.query
+    query = apply_asset_category_restriction(Asset.query)
 
     if search:
 
@@ -938,7 +952,7 @@ def download_import_template():
 def asset_labels():
 
     assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .order_by(Asset.asset_tag.asc())
         .all()
     )
@@ -999,7 +1013,7 @@ def print_asset_labels():
         )
 
     assets = (
-        Asset.query
+        apply_asset_category_restriction(Asset.query)
         .filter(
             Asset.id.in_(valid_ids)
         )

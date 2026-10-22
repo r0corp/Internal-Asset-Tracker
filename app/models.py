@@ -1031,6 +1031,28 @@ PERMISSION_OBJECTS = [
     ("department", "Departemen"),
     ("vendor", "Vendor"),
     ("company", "Company"),
+    ("scrap", "Scrap"),
+]
+
+# Kunci field_template yang direstriksi per role (lihat ASSET_TYPE_TABS
+# di blueprints/assets.py - daftar ini HARUS sama persis dengan key di
+# sana, dipakai di form Role untuk kasih label yang sama dengan yang
+# dilihat admin di form Category).
+CATEGORY_RESTRICTION_CHOICES = [
+    ("pc_laptop", "PC / Laptop"),
+    ("ponsel", "Phone"),
+    ("server", "Server & Network"),
+    ("non_pc", "Other Electronics (monitor, printer, CCTV, etc.)"),
+    ("elektronik_interior", "Interior Electronics (AC, dispenser, fridge, etc.)"),
+    ("elektronik_exterior", "Exterior Electronics (generator, etc.)"),
+    ("kendaraan", "Vehicle (adds plate number & tax due date)"),
+    ("furniture", "Furniture"),
+    ("tools_mekanik", "Mechanical Tools"),
+    ("atk", "Office Stationery (ATK)"),
+    ("pantry", "Pantry"),
+    ("tools_pantry", "Pantry Tools"),
+    ("showcase", "Showcase (for customers)"),
+    ("gudang_event", "Event Warehouse Stock"),
 ]
 
 PERMISSION_OBJECT_KEYS = [key for key, _label in PERMISSION_OBJECTS]
@@ -1071,6 +1093,16 @@ class Role(db.Model):
         server_default=db.func.now(),
     )
 
+    # Daftar key field_template (ASSET_TYPE_TABS di blueprints/assets.py)
+    # yang boleh dilihat/dikelola role ini, dipisah koma - sama persis
+    # polanya dengan MenuItem.roles. None/kosong = TIDAK dibatasi (lihat
+    # semua kategori), supaya role lama (administrator/admin/user) yang
+    # sudah ada tidak berubah perilakunya tanpa perlu migrasi data.
+    allowed_categories = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
     permissions = db.relationship(
         "Permission",
         back_populates="role",
@@ -1084,6 +1116,21 @@ class Role(db.Model):
                 return perm
 
         return None
+
+    def restricts_categories(self):
+
+        return bool(self.allowed_categories)
+
+    def allowed_category_templates(self):
+
+        if not self.allowed_categories:
+            return []
+
+        return [
+            key.strip()
+            for key in self.allowed_categories.split(",")
+            if key.strip()
+        ]
 
     def __repr__(self):
         return f"<Role {self.name}>"
@@ -1223,3 +1270,70 @@ class AppSetting(db.Model):
 
     def __repr__(self):
         return f"<AppSetting {self.app_name}>"
+
+# ============================================================
+# SCRAP (PENDATAAN BESI SISA MODIFIKASI KONTAINER)
+# ============================================================
+
+SCRAP_TYPE_BESI_BIASA = "besi_biasa"
+SCRAP_TYPE_BESI_LGS = "besi_lgs"
+
+SCRAP_TYPE_CHOICES = [
+    (SCRAP_TYPE_BESI_BIASA, "Besi Biasa"),
+    (SCRAP_TYPE_BESI_LGS, "Besi Baja Ringan / LGS"),
+]
+
+SCRAP_UNIT_CHOICES = ["kg", "ton"]
+
+
+class ScrapRecord(db.Model):
+
+    __tablename__ = "scrap_records"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    scrap_type = db.Column(
+        db.String(20),
+        nullable=False,
+    )
+
+    quantity = db.Column(
+        db.Float,
+        nullable=False,
+    )
+
+    unit = db.Column(
+        db.String(10),
+        nullable=False,
+        default="kg",
+    )
+
+    recorded_date = db.Column(
+        db.Date,
+        nullable=False,
+        index=True,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    def scrap_type_label(self):
+
+        for key, label in SCRAP_TYPE_CHOICES:
+            if key == self.scrap_type:
+                return label
+
+        return self.scrap_type
+
+    def __repr__(self):
+        return f"<ScrapRecord {self.scrap_type} {self.quantity}{self.unit}>"

@@ -232,3 +232,4 @@ from . import app_settings  # noqa: E402,F401
 from . import audit  # noqa: E402,F401
 from . import backup  # noqa: E402,F401
 from . import cache  # noqa: E402,F401
+from . import scrap  # noqa: E402,F401

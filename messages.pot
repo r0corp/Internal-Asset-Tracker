@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 16:11+0700\n"
+"POT-Creation-Date: 2026-10-22 16:21+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,11 @@ msgstr ""
 
 #: app/__init__.py:120
 msgid "Your session has expired. Please try again."
+msgstr ""
+
+#: app/__init__.py:238 app/templates/stock_opname/input.html:3
+#: app/templates/stock_opname/input.html:22
+msgid "Stock Opname"
 msgstr ""
 
 #: app/auth.py:26
@@ -742,7 +747,7 @@ msgstr ""
 msgid "Other users online"
 msgstr ""
 
-#: app/templates/base.html:1180 app/templates/base.html:1499
+#: app/templates/base.html:1180 app/templates/base.html:1505
 msgid "No other users online right now."
 msgstr ""
 
@@ -4255,11 +4260,6 @@ msgstr ""
 
 #: app/templates/stock_opname/history.html:176
 msgid "No stock opname records for this period yet."
-msgstr ""
-
-#: app/templates/stock_opname/input.html:3
-#: app/templates/stock_opname/input.html:22
-msgid "Stock Opname"
 msgstr ""
 
 #: app/templates/stock_opname/input.html:26

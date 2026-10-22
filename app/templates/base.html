@@ -1262,7 +1262,13 @@
 
                         {% for entry in nav_menu %}
 
-                        {% if entry.item.is_divider %}
+                        {% if entry.item.is_header %}
+
+                        <li class="nav-header">
+                            {{ _(entry.item.label) }}
+                        </li>
+
+                        {% elif entry.item.is_divider %}
 
                         <li class="nav-item">
                             <hr class="border-light my-2 opacity-25">

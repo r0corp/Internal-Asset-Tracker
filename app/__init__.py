@@ -179,37 +179,66 @@ def create_app():
 
             if allowed_tipe_keys is not None and item.url == "/":
 
-                category_items = [
-                    SimpleNamespace(
-                        is_divider=False,
-                        label=label,
-                        icon=icon,
-                        url=f"/assets?tipe={key}",
-                    )
-                    for key, label, icon in models.ASSET_TYPE_TAB_CHOICES
-                    if key in allowed_tipe_keys
-                ]
+                # Tidak dikelompokkan jadi dropdown "Asset" lagi - tiap
+                # kategori yang diizinkan dapat header (judul) + garis
+                # pemisah sendiri, lalu menu link kategori itu (dan
+                # untuk ATK/Pantry, link Stok Opname menyusul di
+                # bawahnya kalau role ini punya izin stock_opname).
+                stock_opname_perm = (
+                    role_obj.permission_for("stock_opname")
+                    if role_obj else None
+                )
+                can_see_stock_opname = bool(
+                    stock_opname_perm and stock_opname_perm.can_read
+                )
 
-                if len(category_items) > 1:
-                    # 2+ kategori diizinkan -> dikelompokkan jadi satu
-                    # dropdown "Asset" (sama seperti "Master Data"),
-                    # supaya sidebar tidak penuh menu kategori yang
-                    # berjejer satu per satu.
+                for key, label, icon in models.ASSET_TYPE_TAB_CHOICES:
+
+                    if key not in allowed_tipe_keys:
+                        continue
+
                     nav_menu.append({
                         "item": SimpleNamespace(
                             is_divider=False,
-                            label=item.label,
-                            icon=item.icon,
+                            is_header=True,
+                            label=label,
+                            icon=None,
                             url=None,
                         ),
-                        "children": category_items,
+                        "children": [],
                     })
-                else:
-                    # Cuma 1 kategori diizinkan -> langsung jadi 1 link,
-                    # dropdown untuk satu item saja tidak perlu.
-                    for category_item in category_items:
+
+                    nav_menu.append({
+                        "item": SimpleNamespace(
+                            is_divider=True,
+                            is_header=False,
+                            label=None,
+                            icon=None,
+                            url=None,
+                        ),
+                        "children": [],
+                    })
+
+                    nav_menu.append({
+                        "item": SimpleNamespace(
+                            is_divider=False,
+                            is_header=False,
+                            label=label,
+                            icon=icon,
+                            url=f"/assets?tipe={key}",
+                        ),
+                        "children": [],
+                    })
+
+                    if key in ("atk", "pantry") and can_see_stock_opname:
                         nav_menu.append({
-                            "item": category_item,
+                            "item": SimpleNamespace(
+                                is_divider=False,
+                                is_header=False,
+                                label=_("Stock Opname"),
+                                icon="bi-clipboard-check",
+                                url="/stock-opname",
+                            ),
                             "children": [],
                         })
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 16:11+0700\n"
+"POT-Creation-Date: 2026-10-22 16:21+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,11 @@ msgstr "The uploaded file is too large (maximum 5 MB)."
 #: app/__init__.py:120
 msgid "Your session has expired. Please try again."
 msgstr "Your session has expired. Please try again."
+
+#: app/__init__.py:238 app/templates/stock_opname/input.html:3
+#: app/templates/stock_opname/input.html:22
+msgid "Stock Opname"
+msgstr "Stock Opname"
 
 #: app/auth.py:26
 msgid "You do not have access to this page."
@@ -762,7 +767,7 @@ msgstr "Online"
 msgid "Other users online"
 msgstr "Other users online"
 
-#: app/templates/base.html:1180 app/templates/base.html:1499
+#: app/templates/base.html:1180 app/templates/base.html:1505
 msgid "No other users online right now."
 msgstr "No other users online right now."
 
@@ -4362,11 +4367,6 @@ msgstr "Final Stock"
 #: app/templates/stock_opname/history.html:176
 msgid "No stock opname records for this period yet."
 msgstr "No stock opname records for this period yet."
-
-#: app/templates/stock_opname/input.html:3
-#: app/templates/stock_opname/input.html:22
-msgid "Stock Opname"
-msgstr "Stock Opname"
 
 #: app/templates/stock_opname/input.html:26
 msgid ""

@@ -417,7 +417,7 @@
 
                         <!-- ASSET TAG -->
 
-                        <div class="col-lg-4 col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-4' }} col-md-6 form-field-row">
 
 
                             <label for="asset_tag" class="form-label form-field-label">
@@ -435,7 +435,7 @@
 
                         <!-- ASSET NAME -->
 
-                        <div class="col-lg-8 col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-8' }} col-md-6 form-field-row">
 
 
                             <label for="asset_name" class="form-label form-field-label">

@@ -188,8 +188,14 @@ def assets():
         type=int,
     )
 
+    list_order = (
+        Asset.category.asc()
+        if selected_tipe == "atk"
+        else Asset.id.desc()
+    )
+
     pagination = query.order_by(
-        Asset.id.desc()
+        list_order
     ).paginate(
         page=page,
         per_page=ASSET_LIST_PER_PAGE,

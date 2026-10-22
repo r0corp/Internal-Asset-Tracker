@@ -1303,7 +1303,7 @@
                         {% else %}
 
                         <li class="nav-item">
-                            <a href="{{ entry.item.url or '#' }}" class="nav-link {% if entry.item.url == request.path %}active{% endif %}">
+                            <a href="{{ entry.item.url or '#' }}" class="nav-link {% if entry.item.url == request.path or entry.item.url == request.full_path.rstrip('?') %}active{% endif %}">
                                 {% if entry.item.icon %}<i class="nav-icon bi {{ entry.item.icon }}"></i>{% else %}<i class="nav-icon bi bi-dot"></i>{% endif %}
                                 <p>{{ _(entry.item.label) }}</p>
                             </a>

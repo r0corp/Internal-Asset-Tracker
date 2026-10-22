@@ -1055,6 +1055,28 @@ CATEGORY_RESTRICTION_CHOICES = [
     ("gudang_event", "Event Warehouse Stock"),
 ]
 
+# Sama dengan field_template di atas, tapi label pendek + icon -
+# dipakai untuk tab quick-filter di Asset List (asset/_list_fragment.html)
+# dan untuk pecah menu sidebar "Asset" jadi beberapa menu per kategori
+# saat role-nya dibatasi kategorinya (lihat inject_nav_menu di
+# app/__init__.py).
+ASSET_TYPE_TAB_CHOICES = [
+    ("pc_laptop", "PC / Laptop", "bi-laptop"),
+    ("ponsel", "Phone", "bi-phone"),
+    ("server", "Server & Network", "bi-hdd-network"),
+    ("non_pc", "Other Electronics", "bi-display"),
+    ("elektronik_interior", "Interior Electronics", "bi-house"),
+    ("elektronik_exterior", "Exterior Electronics", "bi-lightning-charge"),
+    ("kendaraan", "Vehicle", "bi-car-front"),
+    ("furniture", "Furniture", "bi-box2"),
+    ("tools_mekanik", "Mechanical Tools", "bi-tools"),
+    ("atk", "ATK", "bi-pencil"),
+    ("pantry", "Pantry", "bi-cup-hot"),
+    ("tools_pantry", "Pantry Tools", "bi-bucket"),
+    ("showcase", "Showcase", "bi-shop-window"),
+    ("gudang_event", "Event Warehouse Stock", "bi-boxes"),
+]
+
 PERMISSION_OBJECT_KEYS = [key for key, _label in PERMISSION_OBJECTS]
 
 PERMISSION_ACTIONS = ["create", "read", "edit", "delete"]

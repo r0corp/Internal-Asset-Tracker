@@ -48,6 +48,7 @@ from ..models import (
     FIELD_TEMPLATE_TOOLS_PANTRY,
     FIELD_TEMPLATE_SHOWCASE,
     FIELD_TEMPLATE_GUDANG_EVENT,
+    ASSET_TYPE_TAB_CHOICES,
 )
 from ..auth import requires_permission
 
@@ -259,6 +260,7 @@ def assets():
         selected_vendor=selected_vendor,
         selected_tipe=selected_tipe,
         allowed_category_templates=allowed_tipe_keys,
+        asset_type_tab_choices=ASSET_TYPE_TAB_CHOICES,
     )
 
 # ============================================================

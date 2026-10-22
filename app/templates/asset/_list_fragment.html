@@ -12,27 +12,12 @@
                     </a>
                 </li>
 
-                {% for tipe_slug, tipe_label, tipe_icon in [
-                    ("pc_laptop", _("PC / Laptop"), "bi-laptop"),
-                    ("ponsel", _("Phone"), "bi-phone"),
-                    ("server", _("Server & Network"), "bi-hdd-network"),
-                    ("non_pc", _("Other Electronics"), "bi-display"),
-                    ("elektronik_interior", _("Interior Electronics"), "bi-house"),
-                    ("elektronik_exterior", _("Exterior Electronics"), "bi-lightning-charge"),
-                    ("kendaraan", _("Vehicle"), "bi-car-front"),
-                    ("furniture", _("Furniture"), "bi-box2"),
-                    ("tools_mekanik", _("Mechanical Tools"), "bi-tools"),
-                    ("atk", _("ATK"), "bi-pencil"),
-                    ("pantry", _("Pantry"), "bi-cup-hot"),
-                    ("tools_pantry", _("Pantry Tools"), "bi-bucket"),
-                    ("showcase", _("Showcase"), "bi-shop-window"),
-                    ("gudang_event", _("Event Warehouse Stock"), "bi-boxes"),
-                ] %}
+                {% for tipe_slug, tipe_label, tipe_icon in asset_type_tab_choices %}
                 {% if not allowed_category_templates or tipe_slug in allowed_category_templates %}
                 <li class="nav-item">
                     <a class="nav-link {{ 'active' if selected_tipe == tipe_slug }}"
                         href="{{ url_for('main.assets', tipe=tipe_slug, search=search, status=selected_status, location=selected_location, department=selected_department, vendor=selected_vendor) }}">
-                        <i class="bi {{ tipe_icon }} me-1"></i>{{ tipe_label }}
+                        <i class="bi {{ tipe_icon }} me-1"></i>{{ _(tipe_label) }}
                     </a>
                 </li>
                 {% endif %}

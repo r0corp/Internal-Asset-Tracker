@@ -2,6 +2,7 @@ import logging
 import os
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
+from types import SimpleNamespace
 
 from flask import Flask, flash, redirect, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -156,11 +157,43 @@ def create_app():
             .all()
         )
 
+        # Kalau role-nya dibatasi kategorinya, menu "Asset" (url "/")
+        # dipecah jadi satu menu terpisah per kategori yang diizinkan
+        # (misalnya ATK, Pantry, dst), masing-masing langsung menuju
+        # Asset List yang sudah terfilter - bukan satu menu "Asset"
+        # gabungan seperti role yang tidak dibatasi.
+        role_obj = models.Role.query.filter_by(name=role).first()
+
+        allowed_tipe_keys = (
+            role_obj.allowed_category_templates()
+            if role_obj and role_obj.restricts_categories()
+            else None
+        )
+
         nav_menu = []
 
         for item in top_items:
 
             if not item.is_visible_to(role):
+                continue
+
+            if allowed_tipe_keys is not None and item.url == "/":
+
+                for key, label, icon in models.ASSET_TYPE_TAB_CHOICES:
+
+                    if key not in allowed_tipe_keys:
+                        continue
+
+                    nav_menu.append({
+                        "item": SimpleNamespace(
+                            is_divider=False,
+                            label=label,
+                            icon=icon,
+                            url=f"/assets?tipe={key}",
+                        ),
+                        "children": [],
+                    })
+
                 continue
 
             children = [

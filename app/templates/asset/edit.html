@@ -250,8 +250,11 @@
 
                     <!-- ASSET TYPE TABS -->
 
+                    {% set allowed_tpl = allowed_category_templates %}
+
                     <ul class="nav nav-tabs asset-type-tabs mb-3" role="tablist">
 
+                        {% if not allowed_tpl or 'pc_laptop' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'pc_laptop' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-pc_laptop" data-template="pc_laptop"
@@ -259,7 +262,9 @@
                                 <i class="bi bi-laptop me-1"></i>{{ _('PC / Laptop') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'ponsel' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'ponsel' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-ponsel" data-template="ponsel"
@@ -267,7 +272,9 @@
                                 <i class="bi bi-phone me-1"></i>{{ _('Phone') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'server' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'server' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-server" data-template="server"
@@ -275,7 +282,9 @@
                                 <i class="bi bi-hdd-network me-1"></i>{{ _('Server & Network') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'non_pc' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'non_pc' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-non_pc" data-template="non_pc"
@@ -283,7 +292,9 @@
                                 <i class="bi bi-display me-1"></i>{{ _('Other Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'elektronik_interior' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'elektronik_interior' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-elektronik_interior" data-template="elektronik_interior"
@@ -291,7 +302,9 @@
                                 <i class="bi bi-house me-1"></i>{{ _('Interior Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'elektronik_exterior' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'elektronik_exterior' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-elektronik_exterior" data-template="elektronik_exterior"
@@ -299,7 +312,9 @@
                                 <i class="bi bi-lightning-charge me-1"></i>{{ _('Exterior Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'kendaraan' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'kendaraan' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-kendaraan" data-template="kendaraan"
@@ -307,7 +322,9 @@
                                 <i class="bi bi-car-front me-1"></i>{{ _('Vehicle') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'furniture' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'furniture' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-furniture" data-template="furniture"
@@ -315,7 +332,9 @@
                                 <i class="bi bi-box2 me-1"></i>{{ _('Furniture') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'tools_mekanik' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'tools_mekanik' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-tools_mekanik" data-template="tools_mekanik"
@@ -323,7 +342,9 @@
                                 <i class="bi bi-tools me-1"></i>{{ _('Mechanical Tools') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'atk' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'atk' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-atk" data-template="atk"
@@ -331,7 +352,9 @@
                                 <i class="bi bi-pencil me-1"></i>{{ _('ATK') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'pantry' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'pantry' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-pantry" data-template="pantry"
@@ -339,7 +362,9 @@
                                 <i class="bi bi-cup-hot me-1"></i>{{ _('Pantry') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'tools_pantry' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'tools_pantry' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-tools_pantry" data-template="tools_pantry"
@@ -347,7 +372,9 @@
                                 <i class="bi bi-bucket me-1"></i>{{ _('Pantry Tools') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'showcase' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'showcase' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-showcase" data-template="showcase"
@@ -355,7 +382,9 @@
                                 <i class="bi bi-shop-window me-1"></i>{{ _('Showcase') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'gudang_event' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ 'active' if current_template == 'gudang_event' }}"
                                 data-bs-toggle="tab" data-bs-target="#type-gudang_event" data-template="gudang_event"
@@ -363,6 +392,7 @@
                                 <i class="bi bi-boxes me-1"></i>{{ _('Event Warehouse Stock') }}
                             </button>
                         </li>
+                        {% endif %}
 
                     </ul>
 
@@ -1035,7 +1065,7 @@
 
                         <!-- LOCATION -->
 
-                        <div class="col-lg-4 col-md-6 form-field-row">
+                        <div class="col-lg-4 col-md-6 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,tools_pantry,showcase,gudang_event">
 
 
                             <label for="location" class="form-label form-field-label">

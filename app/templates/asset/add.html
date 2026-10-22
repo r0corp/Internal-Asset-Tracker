@@ -505,105 +505,136 @@
 
                     <!-- ASSET TYPE TABS -->
 
+                    {% set allowed_tpl = allowed_category_templates %}
+                    {% set first_allowed = (allowed_tpl[0] if allowed_tpl else 'pc_laptop') %}
+
                     <ul class="nav nav-tabs asset-type-tabs mb-3" role="tablist">
 
+                        {% if not allowed_tpl or 'pc_laptop' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#type-pc_laptop"
+                            <button class="nav-link {{ 'active' if first_allowed == 'pc_laptop' }}" data-bs-toggle="tab" data-bs-target="#type-pc_laptop"
                                 data-template="pc_laptop" type="button" role="tab">
                                 <i class="bi bi-laptop me-1"></i>{{ _('PC / Laptop') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'ponsel' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-ponsel"
+                            <button class="nav-link {{ 'active' if first_allowed == 'ponsel' }}" data-bs-toggle="tab" data-bs-target="#type-ponsel"
                                 data-template="ponsel" type="button" role="tab">
                                 <i class="bi bi-phone me-1"></i>{{ _('Phone') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'server' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-server"
+                            <button class="nav-link {{ 'active' if first_allowed == 'server' }}" data-bs-toggle="tab" data-bs-target="#type-server"
                                 data-template="server" type="button" role="tab">
                                 <i class="bi bi-hdd-network me-1"></i>{{ _('Server & Network') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'non_pc' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-non_pc"
+                            <button class="nav-link {{ 'active' if first_allowed == 'non_pc' }}" data-bs-toggle="tab" data-bs-target="#type-non_pc"
                                 data-template="non_pc" type="button" role="tab">
                                 <i class="bi bi-display me-1"></i>{{ _('Other Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'elektronik_interior' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-elektronik_interior"
+                            <button class="nav-link {{ 'active' if first_allowed == 'elektronik_interior' }}" data-bs-toggle="tab" data-bs-target="#type-elektronik_interior"
                                 data-template="elektronik_interior" type="button" role="tab">
                                 <i class="bi bi-house me-1"></i>{{ _('Interior Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'elektronik_exterior' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-elektronik_exterior"
+                            <button class="nav-link {{ 'active' if first_allowed == 'elektronik_exterior' }}" data-bs-toggle="tab" data-bs-target="#type-elektronik_exterior"
                                 data-template="elektronik_exterior" type="button" role="tab">
                                 <i class="bi bi-lightning-charge me-1"></i>{{ _('Exterior Electronics') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'kendaraan' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-kendaraan"
+                            <button class="nav-link {{ 'active' if first_allowed == 'kendaraan' }}" data-bs-toggle="tab" data-bs-target="#type-kendaraan"
                                 data-template="kendaraan" type="button" role="tab">
                                 <i class="bi bi-car-front me-1"></i>{{ _('Vehicle') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'furniture' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-furniture"
+                            <button class="nav-link {{ 'active' if first_allowed == 'furniture' }}" data-bs-toggle="tab" data-bs-target="#type-furniture"
                                 data-template="furniture" type="button" role="tab">
                                 <i class="bi bi-box2 me-1"></i>{{ _('Furniture') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'tools_mekanik' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-tools_mekanik"
+                            <button class="nav-link {{ 'active' if first_allowed == 'tools_mekanik' }}" data-bs-toggle="tab" data-bs-target="#type-tools_mekanik"
                                 data-template="tools_mekanik" type="button" role="tab">
                                 <i class="bi bi-tools me-1"></i>{{ _('Mechanical Tools') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'atk' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-atk"
+                            <button class="nav-link {{ 'active' if first_allowed == 'atk' }}" data-bs-toggle="tab" data-bs-target="#type-atk"
                                 data-template="atk" type="button" role="tab">
                                 <i class="bi bi-pencil me-1"></i>{{ _('ATK') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'pantry' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-pantry"
+                            <button class="nav-link {{ 'active' if first_allowed == 'pantry' }}" data-bs-toggle="tab" data-bs-target="#type-pantry"
                                 data-template="pantry" type="button" role="tab">
                                 <i class="bi bi-cup-hot me-1"></i>{{ _('Pantry') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'tools_pantry' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-tools_pantry"
+                            <button class="nav-link {{ 'active' if first_allowed == 'tools_pantry' }}" data-bs-toggle="tab" data-bs-target="#type-tools_pantry"
                                 data-template="tools_pantry" type="button" role="tab">
                                 <i class="bi bi-bucket me-1"></i>{{ _('Pantry Tools') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'showcase' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-showcase"
+                            <button class="nav-link {{ 'active' if first_allowed == 'showcase' }}" data-bs-toggle="tab" data-bs-target="#type-showcase"
                                 data-template="showcase" type="button" role="tab">
                                 <i class="bi bi-shop-window me-1"></i>{{ _('Showcase') }}
                             </button>
                         </li>
+                        {% endif %}
 
+                        {% if not allowed_tpl or 'gudang_event' in allowed_tpl %}
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#type-gudang_event"
+                            <button class="nav-link {{ 'active' if first_allowed == 'gudang_event' }}" data-bs-toggle="tab" data-bs-target="#type-gudang_event"
                                 data-template="gudang_event" type="button" role="tab">
                                 <i class="bi bi-boxes me-1"></i>{{ _('Event Warehouse Stock') }}
                             </button>
                         </li>
+                        {% endif %}
 
                     </ul>
 
@@ -668,7 +699,7 @@
 
                         <!-- PC / LAPTOP -->
 
-                        <div class="tab-pane fade show active" id="type-pc_laptop" data-template-pane="pc_laptop">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'pc_laptop' }}" id="type-pc_laptop" data-template-pane="pc_laptop">
 
                             <div class="row g-3">
 
@@ -725,7 +756,7 @@
 
                         <!-- PHONE -->
 
-                        <div class="tab-pane fade" id="type-ponsel" data-template-pane="ponsel">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'ponsel' }}" id="type-ponsel" data-template-pane="ponsel">
 
                             <div class="row g-3">
 
@@ -782,7 +813,7 @@
 
                         <!-- SERVER & NETWORK -->
 
-                        <div class="tab-pane fade" id="type-server" data-template-pane="server">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'server' }}" id="type-server" data-template-pane="server">
 
                             <div class="row g-3">
 
@@ -819,7 +850,7 @@
 
                         <!-- OTHER ELECTRONICS -->
 
-                        <div class="tab-pane fade" id="type-non_pc" data-template-pane="non_pc">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'non_pc' }}" id="type-non_pc" data-template-pane="non_pc">
 
                             <div class="row g-3">
 
@@ -855,7 +886,7 @@
 
                         <!-- INTERIOR ELECTRONICS -->
 
-                        <div class="tab-pane fade" id="type-elektronik_interior" data-template-pane="elektronik_interior">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'elektronik_interior' }}" id="type-elektronik_interior" data-template-pane="elektronik_interior">
 
                             <div class="row g-3">
 
@@ -888,7 +919,7 @@
 
                         <!-- EXTERIOR ELECTRONICS -->
 
-                        <div class="tab-pane fade" id="type-elektronik_exterior" data-template-pane="elektronik_exterior">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'elektronik_exterior' }}" id="type-elektronik_exterior" data-template-pane="elektronik_exterior">
 
                             <div class="row g-3">
 
@@ -921,7 +952,7 @@
 
                         <!-- VEHICLE -->
 
-                        <div class="tab-pane fade" id="type-kendaraan" data-template-pane="kendaraan">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'kendaraan' }}" id="type-kendaraan" data-template-pane="kendaraan">
 
                             <div class="row g-3">
 
@@ -982,7 +1013,7 @@
 
                         <!-- FURNITURE -->
 
-                        <div class="tab-pane fade" id="type-furniture" data-template-pane="furniture">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'furniture' }}" id="type-furniture" data-template-pane="furniture">
 
                             <div class="row g-3">
 
@@ -1009,7 +1040,7 @@
 
                         <!-- MECHANICAL TOOLS -->
 
-                        <div class="tab-pane fade" id="type-tools_mekanik" data-template-pane="tools_mekanik">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'tools_mekanik' }}" id="type-tools_mekanik" data-template-pane="tools_mekanik">
 
                             <div class="row g-3">
 
@@ -1041,7 +1072,7 @@
 
                         <!-- ATK -->
 
-                        <div class="tab-pane fade" id="type-atk" data-template-pane="atk">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'atk' }}" id="type-atk" data-template-pane="atk">
 
                             <div class="row g-3">
 
@@ -1079,7 +1110,7 @@
 
                         <!-- PANTRY -->
 
-                        <div class="tab-pane fade" id="type-pantry" data-template-pane="pantry">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'pantry' }}" id="type-pantry" data-template-pane="pantry">
 
                             <div class="row g-3">
 
@@ -1116,7 +1147,7 @@
 
                         <!-- PANTRY TOOLS -->
 
-                        <div class="tab-pane fade" id="type-tools_pantry" data-template-pane="tools_pantry">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'tools_pantry' }}" id="type-tools_pantry" data-template-pane="tools_pantry">
 
                             <div class="row g-3">
 
@@ -1153,7 +1184,7 @@
 
                         <!-- SHOWCASE -->
 
-                        <div class="tab-pane fade" id="type-showcase" data-template-pane="showcase">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'showcase' }}" id="type-showcase" data-template-pane="showcase">
 
                             <div class="row g-3">
 
@@ -1198,7 +1229,7 @@
 
                         <!-- EVENT WAREHOUSE STOCK -->
 
-                        <div class="tab-pane fade" id="type-gudang_event" data-template-pane="gudang_event">
+                        <div class="tab-pane fade {{ 'show active' if first_allowed == 'gudang_event' }}" id="type-gudang_event" data-template-pane="gudang_event">
 
                             <div class="row g-3">
 
@@ -1328,7 +1359,7 @@
 
                         <!-- LOCATION -->
 
-                        <div class="col-md-4 form-field-row">
+                        <div class="col-md-4 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,tools_pantry,showcase,gudang_event">
 
                             <label for="location" class="form-label form-field-label">
 

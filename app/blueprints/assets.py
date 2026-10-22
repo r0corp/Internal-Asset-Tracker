@@ -1208,6 +1208,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         # ====================================================
@@ -1227,6 +1228,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         # ====================================================
@@ -1250,6 +1252,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         # ====================================================
@@ -1350,6 +1353,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         except Exception as exc:
@@ -1373,6 +1377,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         # ====================================================
@@ -1539,6 +1544,7 @@ def add_asset():
                 locations=locations,
                 departments=departments,
                 vendors=vendors,
+                allowed_category_templates=allowed_category_template_keys(),
             )
 
         # ====================================================
@@ -1698,6 +1704,7 @@ def edit_asset(asset_id):
             locations=locations,
             departments=departments,
             vendors=vendors,
+            allowed_category_templates=allowed_category_template_keys(),
         )
 
     # ========================================================

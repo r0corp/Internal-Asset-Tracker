@@ -144,7 +144,7 @@ html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active {
    ini jadi nyaris tidak kelihatan. */
 .sidebar-menu hr {
     border: none;
-    height: 2px;
+    height: 1px;
     background-color: #0d6efd;
     opacity: 1;
 }

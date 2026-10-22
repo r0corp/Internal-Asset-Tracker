@@ -30,6 +30,26 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   }
 
+  .asset-photo-box.asset-photo-box-compact {
+    max-width: 180px;
+
+    height: 130px;
+  }
+
+  .asset-photo-box-compact .asset-photo-empty i {
+    font-size: 30px;
+
+    margin-bottom: 4px;
+  }
+
+  .asset-photo-box-compact .asset-photo-empty {
+    font-size: 12px;
+  }
+
+  .asset-photo-gallery-compact {
+    max-width: 180px;
+  }
+
   .asset-photo-box img {
     width: 100%;
 
@@ -245,13 +265,15 @@
   }
 </style>
 
+{% set single_photo_mode = single_photo_mode|default(false) %}
+
 <div class="asset-section-title">
   <span class="section-icon"><i class="bi bi-camera"></i></span>
 
   {{ _('Asset Photo') }}
 </div>
 
-<div class="asset-photo-box" id="assetPhotoHeroBox">
+<div class="asset-photo-box{{ ' asset-photo-box-compact' if single_photo_mode }}" id="assetPhotoHeroBox">
   <img
     id="assetPhotoHero"
     src="{{ url_for(
@@ -271,7 +293,7 @@
   </div>
 </div>
 
-<div class="asset-photo-gallery" id="assetPhotoGallery" data-asset-id="{{ asset.id }}">
+<div class="asset-photo-gallery{{ ' asset-photo-gallery-compact' if single_photo_mode }}" id="assetPhotoGallery" data-asset-id="{{ asset.id }}">
   <input type="hidden" id="assetPhotoCsrfToken" value="{{ csrf_token() }}" />
 
   <div class="asset-photo-thumb-strip" id="assetPhotoThumbStrip">
@@ -285,14 +307,18 @@
         data-bs-target="#assetPhotoModal"
       />
 
+      {% if not single_photo_mode %}
       <span class="asset-photo-thumb-cover-badge">
         <i class="bi bi-star-fill"></i>
       </span>
+      {% endif %}
 
       <div class="asset-photo-thumb-actions">
+        {% if not single_photo_mode %}
         <button type="button" class="btn-thumb-cover" title="{{ _('Set as cover') }}">
           <i class="bi bi-star"></i>
         </button>
+        {% endif %}
 
         <button type="button" class="btn-thumb-delete" title="{{ _('Delete photo') }}">
           <i class="bi bi-trash"></i>
@@ -301,13 +327,17 @@
     </div>
     {% endfor %}
 
-    <label class="asset-photo-thumb asset-photo-thumb-add" title="{{ _('Add photo') }}">
+    <label
+      class="asset-photo-thumb asset-photo-thumb-add"
+      title="{{ _('Add photo') }}"
+      {{ 'style=display:none;' if (single_photo_mode and asset.photos) }}
+    >
       <i class="bi bi-plus-lg"></i>
 
       <input
         type="file"
         id="assetPhotoUploadInput"
-        multiple
+        {{ '' if single_photo_mode else 'multiple' }}
         accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
         class="d-none"
       />
@@ -315,7 +345,11 @@
   </div>
 
   <div class="asset-photo-gallery-help">
+    {% if single_photo_mode %}
+    {{ _('One photo only. Delete the current photo first to replace it.') }}
+    {% else %}
     {{ _('Click a photo to enlarge. Hover for cover/delete options.') }}
+    {% endif %}
   </div>
 </div>
 
@@ -386,6 +420,8 @@
     const heroEmpty = document.getElementById("assetPhotoEmpty");
     const modalImage = document.getElementById("assetPhotoModalImage");
 
+    const singlePhotoMode = {{ 'true' if single_photo_mode else 'false' }};
+
     const LABEL_SET_COVER = "{{ _('Set as cover') }}";
     const LABEL_DELETE = "{{ _('Delete photo') }}";
     const LABEL_CONFIRM_DELETE = "{{ _('Delete this photo?') }}";
@@ -416,9 +452,9 @@
       div.innerHTML =
         '<img src="' + photo.url + '" class="asset-photo-thumb-img asset-photo-clickable" ' +
         'data-bs-toggle="modal" data-bs-target="#assetPhotoModal" alt="">' +
-        '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>' +
+        (singlePhotoMode ? '' : '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>') +
         '<div class="asset-photo-thumb-actions">' +
-        '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>' +
+        (singlePhotoMode ? '' : '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>') +
         '<button type="button" class="btn-thumb-delete" title="' + LABEL_DELETE + '"><i class="bi bi-trash"></i></button>' +
         "</div>";
 
@@ -470,6 +506,10 @@
 
             thumbStrip.insertBefore(buildThumb(photo), addTile);
           });
+
+          if (singlePhotoMode) {
+            addTile.style.display = "none";
+          }
         })
         .catch(function () {
           alert(LABEL_UPLOAD_FAILED);
@@ -572,6 +612,10 @@
               } else {
                 setHero(null);
               }
+            }
+
+            if (singlePhotoMode) {
+              addTile.style.display = "";
             }
           })
           .catch(function () {

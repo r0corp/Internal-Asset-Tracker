@@ -939,6 +939,9 @@ ID_TRANSLATIONS = {
     '%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s).': '%(name)s: Stok Keluar (%(keluar)s) melebihi Stok Awal (%(awal)s).',
     '...and %(count)s more errors.': '...dan %(count)s error lainnya.',
     'Stock opname for %(period)s saved successfully.': 'Stok opname untuk %(period)s berhasil disimpan.',
+
+    # --- ATK single-photo mode ---
+    'One photo only. Delete the current photo first to replace it.': 'Hanya satu foto. Hapus foto saat ini dulu untuk menggantinya.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

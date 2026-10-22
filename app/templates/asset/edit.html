@@ -215,6 +215,14 @@
 
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+                {% set current_category = categories|selectattr('name', 'equalto', asset.category)|first %}
+                {% set current_template = current_category.field_template if current_category else 'pc_laptop' %}
+
+                {# Asset yang sedang diedit sudah pasti 1 kategori ATK -
+                   dipakai supaya tab kategori lain & opsi multi-foto
+                   tidak perlu ditampilkan sama sekali (edit tetap
+                   spesialisasi ke ATK saja). #}
+                {% set only_atk = (current_template == 'atk') %}
 
                 <div class="row g-4">
 
@@ -226,6 +234,7 @@
 
                 <div class="form-section">
 
+                    {% set single_photo_mode = only_atk %}
                     {% include "asset/_photo_gallery.html" %}
 
                 </div>
@@ -250,19 +259,9 @@
                     </div>
 
 
-                    {% set current_category = categories|selectattr('name', 'equalto', asset.category)|first %}
-                    {% set current_template = current_category.field_template if current_category else 'pc_laptop' %}
-
-
                     <!-- ASSET TYPE TABS -->
 
                     {% set allowed_tpl = allowed_category_templates %}
-
-                    {# Asset yang sedang diedit sudah pasti 1 kategori ATK -
-                       jangan tampilkan tab kategori lain sama sekali, supaya
-                       edit tetap spesialisasi ke ATK saja (bukan tempat
-                       pindah kategori ke Pantry/dst). #}
-                    {% set only_atk = (current_template == 'atk') %}
 
                     {% if not only_atk %}
 

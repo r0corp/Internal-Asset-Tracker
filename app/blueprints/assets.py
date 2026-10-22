@@ -49,6 +49,7 @@ from ..models import (
     FIELD_TEMPLATE_SHOWCASE,
     FIELD_TEMPLATE_GUDANG_EVENT,
     ASSET_TYPE_TAB_CHOICES,
+    STOCK_FIELD_TEMPLATES,
 )
 from ..auth import requires_permission
 
@@ -245,9 +246,49 @@ def assets():
         else "asset/list.html"
     )
 
+    # ------------------------------------------------------------
+    # Visibilitas kolom tabel per field_template - saat selected_tipe
+    # kosong ("Semua"), kolom yang tidak relevan untuk SEMUA kategori
+    # yang boleh dilihat role ini (allowed_tipe_keys) ikut disembunyikan
+    # juga, bukan cuma saat salah satu tab kategori dipilih secara
+    # eksplisit. Mencegah kolom kosong-semua (mis. Model/Serial untuk
+    # role yang cuma pegang ATK/Pantry) ikut nampang di tampilan "Semua".
+    # ------------------------------------------------------------
+
+    def _column_visible(relevant_templates):
+
+        if selected_tipe:
+            return selected_tipe in relevant_templates
+
+        if allowed_tipe_keys is None:
+            return True
+
+        return any(
+            key in relevant_templates for key in allowed_tipe_keys
+        )
+
+    show_model_col = _column_visible(
+        {"pc_laptop", "ponsel", "server", "non_pc", "kendaraan", "tools_mekanik"}
+    )
+    show_serial_col = _column_visible(
+        {"pc_laptop", "ponsel", "server", "non_pc"}
+    )
+    show_spec_col = _column_visible(
+        {"elektronik_interior", "elektronik_exterior"}
+    )
+    show_vehicle_cols = _column_visible({"kendaraan"})
+    show_stock_cols = _column_visible(set(STOCK_FIELD_TEMPLATES))
+    show_price_col = _column_visible({"showcase"})
+
     return render_template(
         template_name,
         assets=asset_list,
+        show_model_col=show_model_col,
+        show_serial_col=show_serial_col,
+        show_spec_col=show_spec_col,
+        show_vehicle_cols=show_vehicle_cols,
+        show_stock_cols=show_stock_cols,
+        show_price_col=show_price_col,
         pagination=pagination,
         categories=categories,
         locations=locations,

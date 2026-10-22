@@ -301,28 +301,28 @@
                         </th>
 
 
-                        {% if selected_tipe in ("", "pc_laptop", "ponsel", "server", "non_pc", "kendaraan", "tools_mekanik") %}
+                        {% if show_model_col %}
                         <th>
                             {{ _('Model') }}
                         </th>
                         {% endif %}
 
 
-                        {% if selected_tipe in ("", "pc_laptop", "ponsel", "server", "non_pc") %}
+                        {% if show_serial_col %}
                         <th>
                             {{ _('Serial Number') }}
                         </th>
                         {% endif %}
 
 
-                        {% if selected_tipe in ("", "elektronik_interior", "elektronik_exterior") %}
+                        {% if show_spec_col %}
                         <th>
                             {{ _('Specification / Capacity') }}
                         </th>
                         {% endif %}
 
 
-                        {% if selected_tipe in ("", "kendaraan") %}
+                        {% if show_vehicle_cols %}
                         <th>
                             {{ _('License Plate Number') }}
                         </th>
@@ -333,7 +333,7 @@
                         {% endif %}
 
 
-                        {% if selected_tipe in ("", "atk", "pantry", "tools_pantry", "showcase", "gudang_event") %}
+                        {% if show_stock_cols %}
                         <th>
                             {{ _('Quantity / Stock') }}
                         </th>
@@ -344,7 +344,7 @@
                         {% endif %}
 
 
-                        {% if selected_tipe in ("", "showcase") %}
+                        {% if show_price_col %}
                         <th>
                             {{ _('Selling Price') }}
                         </th>
@@ -488,7 +488,7 @@
 
                         <!-- MODEL -->
 
-                        {% if selected_tipe in ("", "pc_laptop", "ponsel", "server", "non_pc", "kendaraan", "tools_mekanik") %}
+                        {% if show_model_col %}
                         <td>
 
                             {{ asset.model or "-" }}
@@ -500,7 +500,7 @@
 
                         <!-- SERIAL -->
 
-                        {% if selected_tipe in ("", "pc_laptop", "ponsel", "server", "non_pc") %}
+                        {% if show_serial_col %}
                         <td>
 
                             {{ asset.serial_number or "-" }}
@@ -512,7 +512,7 @@
 
                         <!-- SPECIFICATION -->
 
-                        {% if selected_tipe in ("", "elektronik_interior", "elektronik_exterior") %}
+                        {% if show_spec_col %}
                         <td>
 
                             {{ asset.specification or "-" }}
@@ -524,7 +524,7 @@
 
                         <!-- PLAT NOMOR & MASA PAJAK -->
 
-                        {% if selected_tipe in ("", "kendaraan") %}
+                        {% if show_vehicle_cols %}
                         <td>
 
                             {{ asset.plat_nomor or "-" }}
@@ -542,7 +542,7 @@
 
                         <!-- STOCK & UNIT -->
 
-                        {% if selected_tipe in ("", "atk", "pantry", "tools_pantry", "showcase", "gudang_event") %}
+                        {% if show_stock_cols %}
                         <td>
 
                             {{ asset.stock_quantity if asset.stock_quantity is not none else "-" }}
@@ -560,7 +560,7 @@
 
                         <!-- SELLING PRICE -->
 
-                        {% if selected_tipe in ("", "showcase") %}
+                        {% if show_price_col %}
                         <td>
 
                             {% if asset.selling_price %}Rp {{ "{:,.0f}".format( asset.selling_price ).replace(",", ".") }}{% else %}-{% endif %}

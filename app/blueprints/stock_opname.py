@@ -1,23 +1,52 @@
 """
-Stok opname bulanan ATK - Sadam cuma input Stok Keluar per item tiap
+Stok opname bulanan - Sadam cuma input Stok Keluar per item tiap
 bulan, Stok Awal & Stok Akhir dihitung otomatis (mengikuti alur form
 kertas "DATA STOK ALAT TULIS KANTOR"). Setelah disimpan, stok_akhir
 ikut disalin ke Asset.stock_quantity supaya Asset List & alert stok
 rendah di Dashboard tetap sinkron dengan hasil opname terakhir.
+
+ATK dan Pantry masing-masing punya data & "pengajuan" (kebutuhan
+purchase requisition) sendiri-sendiri - TIDAK digabung jadi satu -
+jadi URL-nya dibedakan lewat <tipe> ("atk" atau "pantry"), bukan satu
+halaman bersama untuk semua kategori stok.
 """
 
 from datetime import date, datetime
 
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, abort
 from flask_babel import gettext as _
 from flask_login import current_user
 
 from .. import db
-from ..models import Asset, Category, StockOpnameRecord, FIELD_TEMPLATE_ATK
+from ..models import (
+    Asset,
+    Category,
+    StockOpnameRecord,
+    FIELD_TEMPLATE_ATK,
+    FIELD_TEMPLATE_PANTRY,
+)
 from ..auth import requires_permission
 
 from . import main
 from .helpers import apply_asset_category_restriction, log_action
+
+# Kategori yang sudah punya halaman Stok Opname sendiri. Tambah di
+# sini kalau nanti kategori stok lain (Tools Pantry/Showcase/Gudang
+# Event) juga perlu - jangan dibuat 1 halaman gabungan untuk semua.
+STOCK_OPNAME_TEMPLATES = {
+    "atk": (FIELD_TEMPLATE_ATK, _("Office Stationery (ATK)")),
+    "pantry": (FIELD_TEMPLATE_PANTRY, _("Pantry")),
+}
+
+
+def _resolve_tipe(tipe):
+
+    info = STOCK_OPNAME_TEMPLATES.get(tipe)
+
+    if not info:
+        abort(404)
+
+    return info
 
 
 def _month_start(value):
@@ -34,17 +63,17 @@ def _month_start(value):
     return date(parsed.year, parsed.month, 1)
 
 
-def _atk_assets_query():
+def _stock_assets_query(field_template):
 
-    atk_category_names = [
+    category_names = [
         c.name
         for c in Category.query.filter_by(
-            field_template=FIELD_TEMPLATE_ATK
+            field_template=field_template
         ).all()
     ]
 
     query = apply_asset_category_restriction(
-        Asset.query.filter(Asset.category.in_(atk_category_names))
+        Asset.query.filter(Asset.category.in_(category_names))
     )
 
     return query.all()
@@ -107,14 +136,16 @@ def _stok_awal_for(asset_id, period, fallback_quantity):
 
 
 @main.route(
-    "/stock-opname",
+    "/stock-opname/<tipe>",
     methods=["GET", "POST"],
 )
 @requires_permission("stock_opname", "create")
-def stock_opname_input():
+def stock_opname_input(tipe):
+
+    field_template, tipe_label = _resolve_tipe(tipe)
 
     categories = Category.query.filter_by(
-        field_template=FIELD_TEMPLATE_ATK
+        field_template=field_template
     ).all()
 
     sequence_map = {
@@ -122,7 +153,7 @@ def stock_opname_input():
         for c in categories
     }
 
-    assets = _atk_assets_query()
+    assets = _stock_assets_query(field_template)
     assets.sort(key=lambda a: _sort_key(a, sequence_map))
 
     if request.method == "POST":
@@ -137,7 +168,7 @@ def stock_opname_input():
             )
 
             return redirect(
-                url_for("main.stock_opname_input")
+                url_for("main.stock_opname_input", tipe=tipe)
             )
 
         rows = []
@@ -203,7 +234,7 @@ def stock_opname_input():
                 )
 
             return redirect(
-                url_for("main.stock_opname_input")
+                url_for("main.stock_opname_input", tipe=tipe)
             )
 
         for asset, stok_awal, stok_keluar, stok_akhir in rows:
@@ -234,7 +265,7 @@ def stock_opname_input():
         log_action(
             "create",
             "StockOpname",
-            entity_label=period.strftime("%Y-%m"),
+            entity_label=f"{tipe_label} {period.strftime('%Y-%m')}",
             description=f"{len(rows)} item",
         )
 
@@ -247,6 +278,7 @@ def stock_opname_input():
         return redirect(
             url_for(
                 "main.stock_opname_history",
+                tipe=tipe,
                 period=period.strftime("%Y-%m"),
             )
         )
@@ -278,6 +310,8 @@ def stock_opname_input():
         "stock_opname/input.html",
         rows=rows,
         default_period=default_period.strftime("%Y-%m"),
+        tipe=tipe,
+        tipe_label=tipe_label,
     )
 
 # ============================================================
@@ -285,12 +319,14 @@ def stock_opname_input():
 # ============================================================
 
 
-@main.route("/stock-opname/history")
+@main.route("/stock-opname/<tipe>/history")
 @requires_permission("stock_opname", "read")
-def stock_opname_history():
+def stock_opname_history(tipe):
+
+    field_template, tipe_label = _resolve_tipe(tipe)
 
     categories = Category.query.filter_by(
-        field_template=FIELD_TEMPLATE_ATK
+        field_template=field_template
     ).all()
 
     sequence_map = {
@@ -298,12 +334,12 @@ def stock_opname_history():
         for c in categories
     }
 
-    atk_category_names = list(sequence_map.keys())
+    category_names = list(sequence_map.keys())
 
     allowed_asset_ids = [
         a.id
         for a in apply_asset_category_restriction(
-            Asset.query.filter(Asset.category.in_(atk_category_names))
+            Asset.query.filter(Asset.category.in_(category_names))
         ).all()
     ]
 
@@ -346,4 +382,6 @@ def stock_opname_history():
         available_periods=available_periods,
         selected_period=selected_period,
         records=records,
+        tipe=tipe,
+        tipe_label=tipe_label,
     )

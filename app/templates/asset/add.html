@@ -1499,7 +1499,7 @@
 
                         <!-- STATUS -->
 
-                        <div class="col-md-4 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik">
+                        <div class="col-md-4 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,atk,pantry">
 
                             <label for="status" class="form-label form-field-label">
 
@@ -1883,7 +1883,7 @@
         function isSinglePhotoMode() {
             return (
                 typeof getActiveTypeTemplate === "function" &&
-                getActiveTypeTemplate() === "atk"
+                ["atk", "pantry"].includes(getActiveTypeTemplate())
             );
         }
 

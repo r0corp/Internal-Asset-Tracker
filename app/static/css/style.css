@@ -137,6 +137,29 @@ html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active {
     color: #fff !important;
 }
 
+/* Garis pemisah di sidebar (antar header kategori & menu "Pemisah")
+   - sidebar SELALU dark (lihat catatan di atas), jadi warnanya
+   di-set eksplisit di sini juga supaya kontras cukup jelas, tidak
+   mengandalkan class opacity Bootstrap yang di background segelap
+   ini jadi nyaris tidak kelihatan. */
+.sidebar-menu hr {
+    border: none;
+    height: 2px;
+    background-color: #0d6efd;
+    opacity: 1;
+}
+
+/* Judul section kategori (mis. "ATK", "Pantry") di sidebar role
+   yang dibatasi kategorinya - lihat inject_nav_menu di app/__init__.py. */
+.sidebar-menu .nav-header {
+    padding: 0.5rem 1rem 0.15rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+
 html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active .nav-icon,
 html:not([data-bs-theme="dark"]) .sidebar-menu .nav-link.active p {
     color: #fff !important;

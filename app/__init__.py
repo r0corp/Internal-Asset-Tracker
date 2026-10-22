@@ -237,7 +237,7 @@ def create_app():
                                 is_header=False,
                                 label=_("Stock Opname"),
                                 icon="bi-clipboard-check",
-                                url="/stock-opname",
+                                url=f"/stock-opname/{key}",
                             ),
                             "children": [],
                         })

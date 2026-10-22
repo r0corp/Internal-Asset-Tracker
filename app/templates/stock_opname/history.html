@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ _('Stock Opname History') }} - {{ app_setting.app_name }}{% endblock %}
+{% block title %}{{ _('Stock Opname History') }} - {{ tipe_label }} - {{ app_setting.app_name }}{% endblock %}
 
 {% block content %}
 
@@ -19,7 +19,7 @@
                 <div>
 
                     <h2 class="page-header-title">
-                        {{ _('Stock Opname History') }}
+                        {{ _('Stock Opname History') }} - {{ tipe_label }}
                     </h2>
 
                     <p class="page-header-subtitle mb-0">
@@ -33,7 +33,7 @@
             <div class="page-header-actions">
 
                 <a
-                    href="{{ url_for('main.stock_opname_input') }}"
+                    href="{{ url_for('main.stock_opname_input', tipe=tipe) }}"
                     class="btn btn-primary"
                 >
                     <i class="bi bi-pencil"></i>

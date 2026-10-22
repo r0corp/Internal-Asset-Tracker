@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ _('Stock Opname') }} - {{ app_setting.app_name }}{% endblock %}
+{% block title %}{{ _('Stock Opname') }} - {{ tipe_label }} - {{ app_setting.app_name }}{% endblock %}
 
 {% block content %}
 
@@ -19,7 +19,7 @@
                 <div>
 
                     <h2 class="page-header-title">
-                        {{ _('Stock Opname') }}
+                        {{ _('Stock Opname') }} - {{ tipe_label }}
                     </h2>
 
                     <p class="page-header-subtitle mb-0">
@@ -33,7 +33,7 @@
             <div class="page-header-actions">
 
                 <a
-                    href="{{ url_for('main.stock_opname_history') }}"
+                    href="{{ url_for('main.stock_opname_history', tipe=tipe) }}"
                     class="btn btn-outline-secondary"
                 >
                     <i class="bi bi-clock-history"></i>
@@ -104,7 +104,7 @@
 
                     <div>
                         <div class="card-header-accent-title">
-                            {{ _('Office Stationery (ATK)') }}
+                            {{ tipe_label }}
                         </div>
 
                         <div class="card-header-accent-subtitle">

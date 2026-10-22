@@ -218,11 +218,11 @@
                 {% set current_category = categories|selectattr('name', 'equalto', asset.category)|first %}
                 {% set current_template = current_category.field_template if current_category else 'pc_laptop' %}
 
-                {# Asset yang sedang diedit sudah pasti 1 kategori ATK -
-                   dipakai supaya tab kategori lain & opsi multi-foto
-                   tidak perlu ditampilkan sama sekali (edit tetap
-                   spesialisasi ke ATK saja). #}
-                {% set only_atk = (current_template == 'atk') %}
+                {# Asset yang sedang diedit sudah pasti 1 kategori (ATK
+                   atau Pantry) - dipakai supaya tab kategori lain &
+                   opsi multi-foto tidak perlu ditampilkan sama sekali
+                   (edit tetap spesialisasi ke kategori itu saja). #}
+                {% set is_simple_stock = current_template in ('atk', 'pantry') %}
 
                 <div class="row g-4">
 
@@ -234,7 +234,7 @@
 
                 <div class="form-section">
 
-                    {% set single_photo_mode = only_atk %}
+                    {% set single_photo_mode = is_simple_stock %}
                     {% include "asset/_photo_gallery.html" %}
 
                 </div>
@@ -263,7 +263,7 @@
 
                     {% set allowed_tpl = allowed_category_templates %}
 
-                    {% if not only_atk %}
+                    {% if not is_simple_stock %}
 
                     <ul class="nav nav-tabs asset-type-tabs mb-3" role="tablist">
 
@@ -417,7 +417,7 @@
 
                         <!-- ASSET TAG -->
 
-                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-4' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row">
 
 
                             <label for="asset_tag" class="form-label form-field-label">
@@ -435,7 +435,7 @@
 
                         <!-- ASSET NAME -->
 
-                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-8' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-8' }} col-md-6 form-field-row">
 
 
                             <label for="asset_name" class="form-label form-field-label">
@@ -909,7 +909,7 @@
 
                             <div class="row g-3">
 
-                                <div class="col-md-4 form-field-row">
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Category') }}</label>
                                     <select class="form-select category-input" name="category">
                                         <option value="">{{ _('Select Category') }}</option>
@@ -920,19 +920,23 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 form-field-row">
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Brand') }}</label>
                                     <input type="text" class="form-control" name="brand"
                                         value="{{ asset.brand or '' if current_template == 'pantry' else '' }}">
                                 </div>
 
-                                <div class="col-md-2 form-field-row">
+                            </div>
+
+                            <div class="row g-3 mt-0">
+
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
                                     <input type="number" class="form-control" name="stock_quantity" min="0"
                                         value="{{ asset.stock_quantity if current_template == 'pantry' and asset.stock_quantity is not none else '' }}">
                                 </div>
 
-                                <div class="col-md-2 form-field-row">
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Unit') }}</label>
                                     <input type="text" class="form-control" name="unit"
                                         value="{{ asset.unit or '' if current_template == 'pantry' else '' }}">
@@ -1161,7 +1165,7 @@
 
                         <!-- PIC -->
 
-                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-4' }} col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row">
 
 
                             <label for="pic" class="form-label form-field-label">
@@ -1178,7 +1182,7 @@
 
                         <!-- STATUS -->
 
-                        <div class="col-lg-4 col-md-6 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik">
+                        <div class="{{ 'col-lg-6' if is_simple_stock else 'col-lg-4' }} col-md-6 form-field-row" data-tpl-fields="pc_laptop,ponsel,server,non_pc,elektronik_interior,elektronik_exterior,kendaraan,furniture,tools_mekanik,atk,pantry">
 
 
                             <label for="status" class="form-label form-field-label">
@@ -1330,7 +1334,7 @@
 
                 </div>
 
-                {% if only_atk %}
+                {% if is_simple_stock %}
 
                 <!-- =================================================
                      DESCRIPTION (digabung ke panel Informasi Asset -
@@ -1363,7 +1367,7 @@
 
                 </div>
 
-                {% if not only_atk %}
+                {% if not is_simple_stock %}
 
                 <!-- =================================================
                      DESCRIPTION

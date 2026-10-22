@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 16:21+0700\n"
+"POT-Creation-Date: 2026-10-22 16:37+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,8 +71,8 @@ msgstr "Master Data"
 #: app/templates/asset/edit.html:702 app/templates/asset/edit.html:737
 #: app/templates/asset/edit.html:804 app/templates/asset/edit.html:833
 #: app/templates/asset/edit.html:868 app/templates/asset/edit.html:913
-#: app/templates/asset/edit.html:954 app/templates/asset/edit.html:995
-#: app/templates/asset/edit.html:1045 app/templates/asset/history.html:500
+#: app/templates/asset/edit.html:958 app/templates/asset/edit.html:999
+#: app/templates/asset/edit.html:1049 app/templates/asset/history.html:500
 #: app/templates/asset/labels_print.html:134
 #: app/templates/asset/movement_correct.html:314
 #: app/templates/dashboard.html:757 app/templates/dashboard.html:1076
@@ -83,7 +83,7 @@ msgstr "Category"
 #: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:177
 #: app/templates/asset/_list_fragment.html:361
 #: app/templates/asset/add.html:1435 app/templates/asset/detail.html:753
-#: app/templates/asset/detail.html:958 app/templates/asset/edit.html:1090
+#: app/templates/asset/detail.html:958 app/templates/asset/edit.html:1094
 #: app/templates/asset/history.html:543
 #: app/templates/asset/labels_select.html:364
 #: app/templates/asset/movement_add.html:627
@@ -104,7 +104,7 @@ msgstr "Location"
 #: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:213
 #: app/templates/asset/_list_fragment.html:366
 #: app/templates/asset/add.html:1472 app/templates/asset/detail.html:766
-#: app/templates/asset/detail.html:960 app/templates/asset/edit.html:1129
+#: app/templates/asset/detail.html:960 app/templates/asset/edit.html:1133
 #: app/templates/asset/history.html:551 app/templates/asset/history.html:623
 #: app/templates/asset/history.html:641
 #: app/templates/asset/labels_select.html:369
@@ -125,7 +125,7 @@ msgid "Department"
 msgstr "Department"
 
 #: app/menu_labels.py:22 app/templates/asset/add.html:1628
-#: app/templates/asset/detail.html:828 app/templates/asset/edit.html:1296
+#: app/templates/asset/detail.html:828 app/templates/asset/edit.html:1300
 #: app/templates/index.html:806 app/templates/master/vendor/list.html:93
 msgid "Vendor"
 msgstr "Vendor"
@@ -677,26 +677,42 @@ msgstr "Scrap record updated successfully."
 msgid "Scrap record deleted successfully."
 msgstr "Scrap record deleted successfully."
 
-#: app/blueprints/stock_opname.py:135
+#: app/blueprints/stock_opname.py:37
+#: app/templates/master/category/add.html:148
+#: app/templates/master/category/edit.html:148
+#: app/templates/master/category/list.html:176
+#: app/templates/stock_opname/history.html:120
+msgid "Office Stationery (ATK)"
+msgstr "Office Stationery (ATK)"
+
+#: app/blueprints/stock_opname.py:38 app/templates/asset/add.html:671
+#: app/templates/asset/edit.html:375
+#: app/templates/master/category/add.html:152
+#: app/templates/master/category/edit.html:152
+#: app/templates/master/category/list.html:178
+msgid "Pantry"
+msgstr "Pantry"
+
+#: app/blueprints/stock_opname.py:166
 msgid "Invalid period."
 msgstr "Invalid period."
 
-#: app/blueprints/stock_opname.py:161
+#: app/blueprints/stock_opname.py:192
 #, python-format
 msgid "%(name)s: invalid value."
 msgstr "%(name)s: invalid value."
 
-#: app/blueprints/stock_opname.py:177
+#: app/blueprints/stock_opname.py:208
 #, python-format
 msgid "%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s)."
 msgstr "%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s)."
 
-#: app/blueprints/stock_opname.py:200
+#: app/blueprints/stock_opname.py:231
 #, python-format
 msgid "...and %(count)s more errors."
 msgstr "...and %(count)s more errors."
 
-#: app/blueprints/stock_opname.py:242
+#: app/blueprints/stock_opname.py:273
 #, python-format
 msgid "Stock opname for %(period)s saved successfully."
 msgstr "Stock opname for %(period)s saved successfully."
@@ -854,7 +870,7 @@ msgstr "Assets by Status"
 #: app/templates/asset/_list_fragment.html:90
 #: app/templates/asset/_list_fragment.html:378
 #: app/templates/asset/add.html:1506 app/templates/asset/detail.html:842
-#: app/templates/asset/edit.html:1185 app/templates/asset/history.html:524
+#: app/templates/asset/edit.html:1189 app/templates/asset/history.html:524
 #: app/templates/asset/labels_select.html:374
 #: app/templates/asset/movement_add.html:452
 #: app/templates/asset/movements.html:112
@@ -1003,7 +1019,7 @@ msgstr "Asset Name"
 #: app/templates/asset/_list_fragment.html:103
 #: app/templates/asset/_list_fragment.html:626
 #: app/templates/asset/add.html:1515 app/templates/asset/detail.html:846
-#: app/templates/asset/edit.html:1198
+#: app/templates/asset/edit.html:1202
 #: app/templates/asset/labels_select.html:492
 #: app/templates/asset/movements.html:117 app/templates/dashboard.html:1114
 #: app/templates/index.html:1128 app/templates/master/menu/list.html:128
@@ -1015,7 +1031,7 @@ msgstr "Active"
 #: app/templates/asset/_list_fragment.html:108
 #: app/templates/asset/_list_fragment.html:641
 #: app/templates/asset/add.html:1522 app/templates/asset/detail.html:851
-#: app/templates/asset/edit.html:1203
+#: app/templates/asset/edit.html:1207
 #: app/templates/asset/labels_select.html:500
 #: app/templates/asset/movements.html:121 app/templates/dashboard.html:1119
 #: app/templates/index.html:569 app/templates/index.html:1139
@@ -1025,7 +1041,7 @@ msgstr "Maintenance"
 #: app/templates/asset/_list_fragment.html:118
 #: app/templates/asset/_list_fragment.html:669
 #: app/templates/asset/add.html:1536 app/templates/asset/detail.html:862
-#: app/templates/asset/edit.html:1213
+#: app/templates/asset/edit.html:1217
 #: app/templates/asset/labels_select.html:508
 #: app/templates/dashboard.html:1124 app/templates/index.html:704
 #: app/templates/index.html:1159
@@ -1035,7 +1051,7 @@ msgstr "Lost"
 #: app/templates/asset/_list_fragment.html:123
 #: app/templates/asset/_list_fragment.html:683
 #: app/templates/asset/add.html:1543 app/templates/asset/detail.html:866
-#: app/templates/asset/edit.html:1218
+#: app/templates/asset/edit.html:1222
 #: app/templates/asset/labels_select.html:516
 #: app/templates/dashboard.html:1128 app/templates/index.html:730
 #: app/templates/index.html:1169
@@ -1087,9 +1103,9 @@ msgstr "ATK Stock Needs Purchasing"
 #: app/templates/asset/add.html:1160 app/templates/asset/add.html:1197
 #: app/templates/asset/add.html:1234 app/templates/asset/add.html:1271
 #: app/templates/asset/add.html:1316 app/templates/asset/detail.html:720
-#: app/templates/asset/edit.html:889 app/templates/asset/edit.html:930
-#: app/templates/asset/edit.html:971 app/templates/asset/edit.html:1012
-#: app/templates/asset/edit.html:1062 app/templates/dashboard.html:1269
+#: app/templates/asset/edit.html:889 app/templates/asset/edit.html:934
+#: app/templates/asset/edit.html:975 app/templates/asset/edit.html:1016
+#: app/templates/asset/edit.html:1066 app/templates/dashboard.html:1269
 msgid "Quantity / Stock"
 msgstr "Quantity / Stock"
 
@@ -1153,7 +1169,7 @@ msgstr "Active Assets"
 #: app/templates/asset/_list_fragment.html:113
 #: app/templates/asset/_list_fragment.html:655
 #: app/templates/asset/add.html:1529 app/templates/asset/detail.html:857
-#: app/templates/asset/edit.html:1208 app/templates/asset/movements.html:125
+#: app/templates/asset/edit.html:1212 app/templates/asset/movements.html:125
 #: app/templates/index.html:678 app/templates/index.html:1149
 #: app/templates/master/menu/list.html:130
 #: app/templates/master/menu/list.html:188
@@ -1296,7 +1312,7 @@ msgstr "New Password"
 msgid "Confirm New Password"
 msgstr "Confirm New Password"
 
-#: app/templates/asset/edit.html:1417
+#: app/templates/asset/edit.html:1421
 #: app/templates/master/category/edit.html:180
 #: app/templates/master/department/edit.html:70
 #: app/templates/master/location/edit.html:84
@@ -1371,8 +1387,8 @@ msgstr "Photo"
 #: app/templates/asset/edit.html:713 app/templates/asset/edit.html:748
 #: app/templates/asset/edit.html:815 app/templates/asset/edit.html:844
 #: app/templates/asset/edit.html:879 app/templates/asset/edit.html:924
-#: app/templates/asset/edit.html:965 app/templates/asset/edit.html:1006
-#: app/templates/asset/edit.html:1056 app/templates/asset/history.html:506
+#: app/templates/asset/edit.html:969 app/templates/asset/edit.html:1010
+#: app/templates/asset/edit.html:1060 app/templates/asset/history.html:506
 #: app/templates/asset/labels_print.html:147
 #: app/templates/asset/movements.html:88
 msgid "Brand"
@@ -1424,8 +1440,8 @@ msgstr "Tax (STNK) Due Date"
 #: app/templates/asset/add.html:1165 app/templates/asset/add.html:1202
 #: app/templates/asset/add.html:1239 app/templates/asset/add.html:1276
 #: app/templates/asset/add.html:1321 app/templates/asset/edit.html:895
-#: app/templates/asset/edit.html:936 app/templates/asset/edit.html:977
-#: app/templates/asset/edit.html:1018 app/templates/asset/edit.html:1068
+#: app/templates/asset/edit.html:940 app/templates/asset/edit.html:981
+#: app/templates/asset/edit.html:1022 app/templates/asset/edit.html:1072
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
 #: app/templates/stock_opname/history.html:144
@@ -1435,13 +1451,13 @@ msgstr "Unit"
 
 #: app/templates/asset/_list_fragment.html:353
 #: app/templates/asset/add.html:1282 app/templates/asset/detail.html:737
-#: app/templates/asset/edit.html:1024
+#: app/templates/asset/edit.html:1028
 msgid "Selling Price"
 msgstr "Selling Price"
 
 #: app/templates/asset/_list_fragment.html:373
 #: app/templates/asset/add.html:1342 app/templates/asset/detail.html:779
-#: app/templates/asset/detail.html:962 app/templates/asset/edit.html:1168
+#: app/templates/asset/detail.html:962 app/templates/asset/edit.html:1172
 #: app/templates/asset/history.html:559 app/templates/asset/history.html:628
 #: app/templates/asset/history.html:646
 #: app/templates/asset/movement_add.html:677
@@ -1694,13 +1710,6 @@ msgstr "Mechanical Tools"
 msgid "ATK"
 msgstr "ATK"
 
-#: app/templates/asset/add.html:671 app/templates/asset/edit.html:375
-#: app/templates/master/category/add.html:152
-#: app/templates/master/category/edit.html:152
-#: app/templates/master/category/list.html:178
-msgid "Pantry"
-msgstr "Pantry"
-
 #: app/templates/asset/add.html:680 app/templates/asset/edit.html:385
 #: app/templates/master/category/add.html:156
 #: app/templates/master/category/edit.html:156
@@ -1888,17 +1897,17 @@ msgstr "-- Select Location --"
 msgid "-- Select Department --"
 msgstr "-- Select Department --"
 
-#: app/templates/asset/add.html:1569 app/templates/asset/edit.html:1246
+#: app/templates/asset/add.html:1569 app/templates/asset/edit.html:1250
 msgid "Purchase Information"
 msgstr "Purchase Information"
 
 #: app/templates/asset/add.html:1584 app/templates/asset/detail.html:793
-#: app/templates/asset/edit.html:1260
+#: app/templates/asset/edit.html:1264
 msgid "Purchase Date"
 msgstr "Purchase Date"
 
 #: app/templates/asset/add.html:1601 app/templates/asset/detail.html:810
-#: app/templates/asset/edit.html:1278
+#: app/templates/asset/edit.html:1282
 msgid "Purchase Price"
 msgstr "Purchase Price"
 
@@ -1907,8 +1916,8 @@ msgid "-- Select Vendor --"
 msgstr "-- Select Vendor --"
 
 #: app/templates/asset/add.html:1672 app/templates/asset/add.html:1681
-#: app/templates/asset/detail.html:892 app/templates/asset/edit.html:1349
-#: app/templates/asset/edit.html:1379 app/templates/audit/list.html:54
+#: app/templates/asset/detail.html:892 app/templates/asset/edit.html:1353
+#: app/templates/asset/edit.html:1383 app/templates/audit/list.html:54
 #: app/templates/master/category/add.html:90
 #: app/templates/master/category/edit.html:91
 #: app/templates/master/category/list.html:114
@@ -1928,7 +1937,7 @@ msgstr "Description"
 msgid "Enter notes or a description for this asset..."
 msgstr "Enter notes or a description for this asset..."
 
-#: app/templates/asset/add.html:1706 app/templates/asset/edit.html:1408
+#: app/templates/asset/add.html:1706 app/templates/asset/edit.html:1412
 #: app/templates/asset/movement_add.html:1210
 #: app/templates/asset/movement_batch_add.html:419
 #: app/templates/asset/movement_correct.html:862
@@ -2017,28 +2026,28 @@ msgstr "Add First Movement"
 #: app/templates/asset/edit.html:669 app/templates/asset/edit.html:704
 #: app/templates/asset/edit.html:739 app/templates/asset/edit.html:806
 #: app/templates/asset/edit.html:835 app/templates/asset/edit.html:870
-#: app/templates/asset/edit.html:915 app/templates/asset/edit.html:956
-#: app/templates/asset/edit.html:997 app/templates/asset/edit.html:1047
+#: app/templates/asset/edit.html:915 app/templates/asset/edit.html:960
+#: app/templates/asset/edit.html:1001 app/templates/asset/edit.html:1051
 msgid "Select Category"
 msgstr "Select Category"
 
-#: app/templates/asset/edit.html:1098
+#: app/templates/asset/edit.html:1102
 msgid "Select Location"
 msgstr "Select Location"
 
-#: app/templates/asset/edit.html:1137
+#: app/templates/asset/edit.html:1141
 msgid "Select Department"
 msgstr "Select Department"
 
-#: app/templates/asset/edit.html:1193
+#: app/templates/asset/edit.html:1197
 msgid "Select Status"
 msgstr "Select Status"
 
-#: app/templates/asset/edit.html:1304
+#: app/templates/asset/edit.html:1308
 msgid "Select Vendor"
 msgstr "Select Vendor"
 
-#: app/templates/asset/edit.html:1355 app/templates/asset/edit.html:1385
+#: app/templates/asset/edit.html:1359 app/templates/asset/edit.html:1389
 msgid "Enter the asset description..."
 msgstr "Enter the asset description..."
 
@@ -3585,14 +3594,6 @@ msgstr "Exterior Electronics (generator, etc.)"
 #: app/templates/master/category/edit.html:136
 msgid "Vehicle (adds plate number & tax due date)"
 msgstr "Vehicle (adds plate number & tax due date)"
-
-#: app/templates/master/category/add.html:148
-#: app/templates/master/category/edit.html:148
-#: app/templates/master/category/list.html:176
-#: app/templates/stock_opname/history.html:120
-#: app/templates/stock_opname/input.html:107
-msgid "Office Stationery (ATK)"
-msgstr "Office Stationery (ATK)"
 
 #: app/templates/master/category/add.html:160
 #: app/templates/master/category/edit.html:160

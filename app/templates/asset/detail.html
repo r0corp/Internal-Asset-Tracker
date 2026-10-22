@@ -432,7 +432,7 @@
 
       <div class="col-lg-5">
         <div class="asset-media-column">
-          {% set single_photo_mode = (asset_field_template == 'atk') %}
+          {% set single_photo_mode = (asset_field_template in ['atk', 'pantry']) %}
           {% include "asset/_photo_gallery.html" %}
 
           <!-- =========================================

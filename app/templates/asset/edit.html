@@ -885,13 +885,13 @@
 
                             <div class="row g-3 mt-0">
 
-                                <div class="col-md-3 form-field-row">
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
                                     <input type="number" class="form-control" name="stock_quantity" min="0"
                                         value="{{ asset.stock_quantity if current_template == 'atk' and asset.stock_quantity is not none else '' }}">
                                 </div>
 
-                                <div class="col-md-3 form-field-row">
+                                <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Unit') }}</label>
                                     <input type="text" class="form-control" name="unit"
                                         value="{{ asset.unit or '' if current_template == 'atk' else '' }}">
@@ -1161,7 +1161,7 @@
 
                         <!-- PIC -->
 
-                        <div class="col-lg-4 col-md-6 form-field-row">
+                        <div class="{{ 'col-lg-6' if only_atk else 'col-lg-4' }} col-md-6 form-field-row">
 
 
                             <label for="pic" class="form-label form-field-label">

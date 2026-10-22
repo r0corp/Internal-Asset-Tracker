@@ -92,6 +92,8 @@
    ============================================================ */
 
     .asset-photo-box {
+        position: relative;
+
         width: 100%;
 
         max-width: 380px;
@@ -115,6 +117,68 @@
         justify-content: center;
 
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .asset-photo-box.asset-photo-box-compact {
+        max-width: 180px;
+
+        height: 130px;
+    }
+
+    .asset-photo-box-compact .asset-photo-empty i {
+        font-size: 30px;
+
+        margin-bottom: 4px;
+    }
+
+    .asset-photo-box-compact .asset-photo-empty {
+        font-size: 12px;
+    }
+
+    .asset-photo-gallery-compact {
+        max-width: 180px;
+    }
+
+    .asset-photo-box-uploadable {
+        cursor: pointer;
+    }
+
+    .asset-photo-box-uploadable:hover {
+        border-color: #0d6efd;
+    }
+
+    .asset-photo-hero-delete {
+        position: absolute;
+
+        top: 6px;
+
+        right: 6px;
+
+        width: 26px;
+
+        height: 26px;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: rgba(0, 0, 0, 0.55);
+
+        color: #fff;
+
+        font-size: 13px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 0;
+    }
+
+    .asset-photo-hero-delete:hover {
+        background: #dc3545;
     }
 
     .asset-photo-box img {
@@ -1316,6 +1380,11 @@
                             <i class="bi bi-image"></i>
                             <div>{{ _('No asset photo yet') }}</div>
                         </div>
+
+                        <button type="button" class="asset-photo-hero-delete d-none" id="addPhotoHeroDelete"
+                            title="{{ _('Delete photo') }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </div>
 
                     <div class="asset-photo-gallery">
@@ -1328,7 +1397,7 @@
                             </label>
                         </div>
 
-                        <div class="asset-photo-gallery-help">
+                        <div class="asset-photo-gallery-help" id="addPhotoGalleryHelp">
                             {{ _('Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover a photo for cover/remove options.') }}
                         </div>
                     </div>
@@ -1747,6 +1816,10 @@
                     function () {
                         syncTypeTabPanes();
                         applyFieldTemplate(true);
+
+                        if (window.updatePhotoWidgetMode) {
+                            window.updatePhotoWidgetMode();
+                        }
                     }
                 );
 
@@ -1793,10 +1866,25 @@
         const addTile = thumbStrip.querySelector(".asset-photo-thumb-add");
         const heroImg = document.getElementById("addPhotoHero");
         const heroEmpty = document.getElementById("addPhotoEmpty");
+        const heroBox = document.getElementById("addPhotoHeroBox");
+        const heroDeleteBtn = document.getElementById("addPhotoHeroDelete");
         const modalImage = document.getElementById("addPhotoModalImage");
 
         if (!photoInput) {
             return;
+        }
+
+        /*
+         * ATK (dan hanya ATK) cukup 1 foto saja - lihat
+         * _photo_gallery.html untuk alasan yang sama di Detail/Edit.
+         * Kategori di Tambah Asset bisa berpindah-pindah lewat tab,
+         * jadi mode ini dicek ulang tiap kali tab berganti.
+         */
+        function isSinglePhotoMode() {
+            return (
+                typeof getActiveTypeTemplate === "function" &&
+                getActiveTypeTemplate() === "atk"
+            );
         }
 
         const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -1804,6 +1892,9 @@
 
         const LABEL_SET_COVER = "{{ _('Set as cover') }}";
         const LABEL_DELETE = "{{ _('Delete photo') }}";
+        const LABEL_GALLERY_HELP = "{{ _('Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover a photo for cover/remove options.') }}";
+        const LABEL_SINGLE_PHOTO_HELP = "{{ _('Click to upload a photo. Once added, click it again to zoom in.') }}";
+        const galleryHelp = document.getElementById("addPhotoGalleryHelp");
 
         /*
          * Native <input type="file" multiple> menimpa pilihan tiap
@@ -1840,6 +1931,48 @@
             }
         }
 
+        function updatePhotoWidgetMode() {
+
+            const single = isSinglePhotoMode();
+
+            heroBox.classList.toggle("asset-photo-box-compact", single);
+            heroBox.classList.toggle(
+                "asset-photo-box-uploadable",
+                single && selectedFiles.length === 0
+            );
+
+            thumbStrip.parentElement.classList.toggle(
+                "asset-photo-gallery-compact",
+                single
+            );
+
+            if (addTile) {
+                addTile.style.display = single ? "none" : "";
+            }
+
+            if (heroDeleteBtn) {
+                heroDeleteBtn.classList.toggle(
+                    "d-none",
+                    !(single && selectedFiles.length > 0)
+                );
+            }
+
+            if (galleryHelp) {
+                galleryHelp.textContent = single ? LABEL_SINGLE_PHOTO_HELP : LABEL_GALLERY_HELP;
+            }
+
+            // Masuk ke mode 1-foto dengan file yang sudah terlanjur
+            // lebih dari 1 (pindah tab dari kategori lain) - buang
+            // sisanya, cuma sampul yang dipertahankan.
+            if (single && selectedFiles.length > 1) {
+                selectedFiles = selectedFiles.slice(0, 1);
+                syncInputFiles();
+                renderGallery();
+            }
+        }
+
+        window.updatePhotoWidgetMode = updatePhotoWidgetMode;
+
         function renderGallery() {
 
             previewUrls.forEach(function (url) {
@@ -1856,43 +1989,49 @@
                     el.remove();
                 });
 
-            selectedFiles.forEach(function (file, index) {
+            const single = isSinglePhotoMode();
 
-                const url = previewUrls[index];
+            if (!single) {
 
-                const div = document.createElement("div");
-                div.className = "asset-photo-thumb" + (index === 0 ? " is-cover" : "");
+                selectedFiles.forEach(function (file, index) {
 
-                div.innerHTML =
-                    '<img src="' + url + '" class="asset-photo-thumb-img asset-photo-clickable" ' +
-                    'data-bs-toggle="modal" data-bs-target="#addPhotoModal" alt="">' +
-                    '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>' +
-                    '<div class="asset-photo-thumb-actions">' +
-                    '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>' +
-                    '<button type="button" class="btn-thumb-delete" title="' + LABEL_DELETE + '"><i class="bi bi-trash"></i></button>' +
-                    "</div>";
+                    const url = previewUrls[index];
 
-                div.querySelector(".btn-thumb-cover").addEventListener("click", function () {
-                    const moved = selectedFiles.splice(index, 1)[0];
-                    selectedFiles.unshift(moved);
-                    syncInputFiles();
-                    renderGallery();
+                    const div = document.createElement("div");
+                    div.className = "asset-photo-thumb" + (index === 0 ? " is-cover" : "");
+
+                    div.innerHTML =
+                        '<img src="' + url + '" class="asset-photo-thumb-img asset-photo-clickable" ' +
+                        'data-bs-toggle="modal" data-bs-target="#addPhotoModal" alt="">' +
+                        '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>' +
+                        '<div class="asset-photo-thumb-actions">' +
+                        '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>' +
+                        '<button type="button" class="btn-thumb-delete" title="' + LABEL_DELETE + '"><i class="bi bi-trash"></i></button>' +
+                        "</div>";
+
+                    div.querySelector(".btn-thumb-cover").addEventListener("click", function () {
+                        const moved = selectedFiles.splice(index, 1)[0];
+                        selectedFiles.unshift(moved);
+                        syncInputFiles();
+                        renderGallery();
+                    });
+
+                    div.querySelector(".btn-thumb-delete").addEventListener("click", function () {
+                        selectedFiles.splice(index, 1);
+                        syncInputFiles();
+                        renderGallery();
+                    });
+
+                    div.querySelector(".asset-photo-thumb-img").addEventListener("click", function () {
+                        modalImage.src = url;
+                    });
+
+                    thumbStrip.insertBefore(div, addTile);
                 });
-
-                div.querySelector(".btn-thumb-delete").addEventListener("click", function () {
-                    selectedFiles.splice(index, 1);
-                    syncInputFiles();
-                    renderGallery();
-                });
-
-                div.querySelector(".asset-photo-thumb-img").addEventListener("click", function () {
-                    modalImage.src = url;
-                });
-
-                thumbStrip.insertBefore(div, addTile);
-            });
+            }
 
             setHero(previewUrls[0] || null);
+            updatePhotoWidgetMode();
         }
 
         if (heroImg) {
@@ -1900,6 +2039,28 @@
                 modalImage.src = heroImg.getAttribute("src");
             });
         }
+
+        heroBox.addEventListener("click", function (event) {
+
+            if (event.target.closest("#addPhotoHeroDelete")) {
+                return;
+            }
+
+            if (isSinglePhotoMode() && selectedFiles.length === 0) {
+                photoInput.click();
+            }
+        });
+
+        if (heroDeleteBtn) {
+            heroDeleteBtn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                selectedFiles = [];
+                syncInputFiles();
+                renderGallery();
+            });
+        }
+
+        updatePhotoWidgetMode();
 
         photoInput.addEventListener("change", function () {
 
@@ -1920,7 +2081,9 @@
                 }
             }
 
-            selectedFiles = selectedFiles.concat(newFiles);
+            selectedFiles = isSinglePhotoMode()
+                ? newFiles.slice(0, 1)
+                : selectedFiles.concat(newFiles);
 
             syncInputFiles();
             renderGallery();

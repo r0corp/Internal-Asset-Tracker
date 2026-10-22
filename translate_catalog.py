@@ -856,6 +856,7 @@ ID_TRANSLATIONS = {
     'Specification / Capacity': 'Spesifikasi/Kapasitas',
     'Quantity / Stock': 'Jumlah/Stok',
     'Unit': 'Satuan',
+    'Brand': 'Merek',
     'Selling Price': 'Harga Jual',
     'Other Electronics (monitor, printer, CCTV, etc.)': 'Elektronik Lainnya (monitor, printer, CCTV, dst.)',
     'Interior Electronics (AC, dispenser, fridge, etc.)': 'Elektronik Interior (AC, dispenser, kulkas, dst.)',
@@ -941,7 +942,8 @@ ID_TRANSLATIONS = {
     'Stock opname for %(period)s saved successfully.': 'Stok opname untuk %(period)s berhasil disimpan.',
 
     # --- ATK single-photo mode ---
-    'One photo only. Delete the current photo first to replace it.': 'Hanya satu foto. Hapus foto saat ini dulu untuk menggantinya.',
+    'Click to upload a photo. Once added, click it again to zoom in.': 'Klik untuk unggah foto. Setelah ada, klik lagi untuk memperbesar.',
+    'Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover a photo for cover/remove options.': 'Format yang diperbolehkan: JPG, JPEG, PNG, WEBP. Klik + untuk menambah foto. Arahkan kursor ke foto untuk opsi sampul/hapus.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

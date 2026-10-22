@@ -5,6 +5,8 @@
 
 <style>
   .asset-photo-box {
+    position: relative;
+
     width: 100%;
 
     max-width: 380px;
@@ -48,6 +50,48 @@
 
   .asset-photo-gallery-compact {
     max-width: 180px;
+  }
+
+  .asset-photo-box-uploadable {
+    cursor: pointer;
+  }
+
+  .asset-photo-box-uploadable:hover {
+    border-color: #0d6efd;
+  }
+
+  .asset-photo-hero-delete {
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    width: 26px;
+
+    height: 26px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    color: #fff;
+
+    font-size: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+  }
+
+  .asset-photo-hero-delete:hover {
+    background: #dc3545;
   }
 
   .asset-photo-box img {
@@ -273,7 +317,10 @@
   {{ _('Asset Photo') }}
 </div>
 
-<div class="asset-photo-box{{ ' asset-photo-box-compact' if single_photo_mode }}" id="assetPhotoHeroBox">
+<div
+  class="asset-photo-box{{ ' asset-photo-box-compact' if single_photo_mode }}{{ ' asset-photo-box-uploadable' if (single_photo_mode and not asset.cover_photo_filename) }}"
+  id="assetPhotoHeroBox"
+>
   <img
     id="assetPhotoHero"
     src="{{ url_for(
@@ -291,10 +338,37 @@
 
     <div>{{ _('No asset photo yet') }}</div>
   </div>
+
+  {% if single_photo_mode %}
+  <button
+    type="button"
+    class="asset-photo-hero-delete{{ '' if asset.cover_photo_filename else ' d-none' }}"
+    id="assetPhotoHeroDelete"
+    title="{{ _('Delete photo') }}"
+    data-photo-id="{{ asset.photos[0].id if asset.photos else '' }}"
+  >
+    <i class="bi bi-trash"></i>
+  </button>
+  {% endif %}
 </div>
 
 <div class="asset-photo-gallery{{ ' asset-photo-gallery-compact' if single_photo_mode }}" id="assetPhotoGallery" data-asset-id="{{ asset.id }}">
   <input type="hidden" id="assetPhotoCsrfToken" value="{{ csrf_token() }}" />
+
+  {% if single_photo_mode %}
+
+  <input
+    type="file"
+    id="assetPhotoUploadInput"
+    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+    class="d-none"
+  />
+
+  <div class="asset-photo-gallery-help">
+    {{ _('Click to upload a photo. Once added, click it again to zoom in.') }}
+  </div>
+
+  {% else %}
 
   <div class="asset-photo-thumb-strip" id="assetPhotoThumbStrip">
     {% for photo in asset.photos %}
@@ -307,18 +381,14 @@
         data-bs-target="#assetPhotoModal"
       />
 
-      {% if not single_photo_mode %}
       <span class="asset-photo-thumb-cover-badge">
         <i class="bi bi-star-fill"></i>
       </span>
-      {% endif %}
 
       <div class="asset-photo-thumb-actions">
-        {% if not single_photo_mode %}
         <button type="button" class="btn-thumb-cover" title="{{ _('Set as cover') }}">
           <i class="bi bi-star"></i>
         </button>
-        {% endif %}
 
         <button type="button" class="btn-thumb-delete" title="{{ _('Delete photo') }}">
           <i class="bi bi-trash"></i>
@@ -327,17 +397,13 @@
     </div>
     {% endfor %}
 
-    <label
-      class="asset-photo-thumb asset-photo-thumb-add"
-      title="{{ _('Add photo') }}"
-      {{ 'style=display:none;' if (single_photo_mode and asset.photos) }}
-    >
+    <label class="asset-photo-thumb asset-photo-thumb-add" title="{{ _('Add photo') }}">
       <i class="bi bi-plus-lg"></i>
 
       <input
         type="file"
         id="assetPhotoUploadInput"
-        {{ '' if single_photo_mode else 'multiple' }}
+        multiple
         accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
         class="d-none"
       />
@@ -345,12 +411,11 @@
   </div>
 
   <div class="asset-photo-gallery-help">
-    {% if single_photo_mode %}
-    {{ _('One photo only. Delete the current photo first to replace it.') }}
-    {% else %}
     {{ _('Click a photo to enlarge. Hover for cover/delete options.') }}
-    {% endif %}
   </div>
+
+  {% endif %}
+
 </div>
 
 <!-- ============================================================
@@ -413,11 +478,10 @@
 
     const assetId = gallery.getAttribute("data-asset-id");
     const csrfToken = document.getElementById("assetPhotoCsrfToken").value;
-    const thumbStrip = document.getElementById("assetPhotoThumbStrip");
-    const addTile = thumbStrip.querySelector(".asset-photo-thumb-add");
     const uploadInput = document.getElementById("assetPhotoUploadInput");
     const heroImg = document.getElementById("assetPhotoHero");
     const heroEmpty = document.getElementById("assetPhotoEmpty");
+    const heroBox = document.getElementById("assetPhotoHeroBox");
     const modalImage = document.getElementById("assetPhotoModalImage");
 
     const singlePhotoMode = {{ 'true' if single_photo_mode else 'false' }};
@@ -443,57 +507,227 @@
       modalImage.src = url || "";
     }
 
-    function buildThumb(photo) {
+    if (singlePhotoMode) {
 
-      const div = document.createElement("div");
-      div.className = "asset-photo-thumb" + (photo.is_cover ? " is-cover" : "");
-      div.setAttribute("data-photo-id", photo.id);
+      // ========================================================
+      // 1 FOTO SAJA - klik box kosong untuk upload, tombol hapus
+      // kecil di pojok box kalau sudah ada foto (dipakai ATK).
+      // ========================================================
 
-      div.innerHTML =
-        '<img src="' + photo.url + '" class="asset-photo-thumb-img asset-photo-clickable" ' +
-        'data-bs-toggle="modal" data-bs-target="#assetPhotoModal" alt="">' +
-        (singlePhotoMode ? '' : '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>') +
-        '<div class="asset-photo-thumb-actions">' +
-        (singlePhotoMode ? '' : '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>') +
-        '<button type="button" class="btn-thumb-delete" title="' + LABEL_DELETE + '"><i class="bi bi-trash"></i></button>' +
-        "</div>";
+      const deleteBtn = document.getElementById("assetPhotoHeroDelete");
 
-      return div;
-    }
+      uploadInput.addEventListener("change", function () {
 
-    uploadInput.addEventListener("change", function () {
+        const file = this.files && this.files[0];
 
-      const files = Array.from(this.files || []);
+        if (!file) {
+          return;
+        }
 
-      if (!files.length) {
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("csrf_token", csrfToken);
-      files.forEach(function (file) {
+        const formData = new FormData();
+        formData.append("csrf_token", csrfToken);
         formData.append("photos", file);
+
+        fetch("/assets/" + assetId + "/photos", {
+          method: "POST",
+          body: formData,
+        })
+          .then(function (response) {
+            return response.json().then(function (data) {
+              return { ok: response.ok, data: data };
+            });
+          })
+          .then(function (result) {
+
+            if (!result.ok) {
+              alert(result.data.error || LABEL_UPLOAD_FAILED);
+              return;
+            }
+
+            const photo = result.data.photos[0];
+            setHero(photo.url);
+            heroBox.classList.remove("asset-photo-box-uploadable");
+
+            if (deleteBtn) {
+              deleteBtn.classList.remove("d-none");
+              deleteBtn.setAttribute("data-photo-id", photo.id);
+            }
+          })
+          .catch(function () {
+            alert(LABEL_UPLOAD_FAILED);
+          })
+          .finally(function () {
+            uploadInput.value = "";
+          });
       });
 
-      fetch("/assets/" + assetId + "/photos", {
-        method: "POST",
-        body: formData,
-      })
-        .then(function (response) {
-          return response.json().then(function (data) {
-            return { ok: response.ok, data: data };
-          });
-        })
-        .then(function (result) {
+      heroBox.addEventListener("click", function (event) {
 
-          if (!result.ok) {
-            alert(result.data.error || LABEL_UPLOAD_FAILED);
+        if (event.target.closest("#assetPhotoHeroDelete")) {
+          return;
+        }
+
+        if (heroImg.classList.contains("d-none")) {
+          uploadInput.click();
+        }
+      });
+
+      if (deleteBtn) {
+
+        deleteBtn.addEventListener("click", function (event) {
+
+          event.stopPropagation();
+
+          if (!confirm(LABEL_CONFIRM_DELETE)) {
             return;
           }
 
-          result.data.photos.forEach(function (photo) {
+          const photoId = deleteBtn.getAttribute("data-photo-id");
 
-            if (photo.is_cover) {
+          fetch("/assets/" + assetId + "/photos/" + photoId + "/delete", {
+            method: "POST",
+            body: (function () {
+              const fd = new FormData();
+              fd.append("csrf_token", csrfToken);
+              return fd;
+            })(),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+
+              if (!result.ok) {
+                alert(result.data.error || LABEL_ACTION_FAILED);
+                return;
+              }
+
+              setHero(null);
+              deleteBtn.classList.add("d-none");
+              heroBox.classList.add("asset-photo-box-uploadable");
+            })
+            .catch(function () {
+              alert(LABEL_ACTION_FAILED);
+            });
+        });
+      }
+
+    } else {
+
+      // ========================================================
+      // GALERI MULTI-FOTO (tipe asset selain ATK) - tidak berubah.
+      // ========================================================
+
+      const thumbStrip = document.getElementById("assetPhotoThumbStrip");
+      const addTile = thumbStrip.querySelector(".asset-photo-thumb-add");
+
+      function buildThumb(photo) {
+
+        const div = document.createElement("div");
+        div.className = "asset-photo-thumb" + (photo.is_cover ? " is-cover" : "");
+        div.setAttribute("data-photo-id", photo.id);
+
+        div.innerHTML =
+          '<img src="' + photo.url + '" class="asset-photo-thumb-img asset-photo-clickable" ' +
+          'data-bs-toggle="modal" data-bs-target="#assetPhotoModal" alt="">' +
+          '<span class="asset-photo-thumb-cover-badge"><i class="bi bi-star-fill"></i></span>' +
+          '<div class="asset-photo-thumb-actions">' +
+          '<button type="button" class="btn-thumb-cover" title="' + LABEL_SET_COVER + '"><i class="bi bi-star"></i></button>' +
+          '<button type="button" class="btn-thumb-delete" title="' + LABEL_DELETE + '"><i class="bi bi-trash"></i></button>' +
+          "</div>";
+
+        return div;
+      }
+
+      uploadInput.addEventListener("change", function () {
+
+        const files = Array.from(this.files || []);
+
+        if (!files.length) {
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("csrf_token", csrfToken);
+        files.forEach(function (file) {
+          formData.append("photos", file);
+        });
+
+        fetch("/assets/" + assetId + "/photos", {
+          method: "POST",
+          body: formData,
+        })
+          .then(function (response) {
+            return response.json().then(function (data) {
+              return { ok: response.ok, data: data };
+            });
+          })
+          .then(function (result) {
+
+            if (!result.ok) {
+              alert(result.data.error || LABEL_UPLOAD_FAILED);
+              return;
+            }
+
+            result.data.photos.forEach(function (photo) {
+
+              if (photo.is_cover) {
+
+                thumbStrip
+                  .querySelectorAll(".asset-photo-thumb.is-cover")
+                  .forEach(function (el) {
+                    el.classList.remove("is-cover");
+                  });
+
+                setHero(photo.url);
+              }
+
+              thumbStrip.insertBefore(buildThumb(photo), addTile);
+            });
+          })
+          .catch(function () {
+            alert(LABEL_UPLOAD_FAILED);
+          })
+          .finally(function () {
+            uploadInput.value = "";
+          });
+      });
+
+      thumbStrip.addEventListener("click", function (event) {
+
+        const coverBtn = event.target.closest(".btn-thumb-cover");
+        const deleteBtn = event.target.closest(".btn-thumb-delete");
+
+        if (!coverBtn && !deleteBtn) {
+          return;
+        }
+
+        const thumb = event.target.closest(".asset-photo-thumb");
+        const photoId = thumb.getAttribute("data-photo-id");
+
+        if (coverBtn) {
+
+          fetch("/assets/" + assetId + "/photos/" + photoId + "/cover", {
+            method: "POST",
+            body: (function () {
+              const fd = new FormData();
+              fd.append("csrf_token", csrfToken);
+              return fd;
+            })(),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+
+              if (!result.ok) {
+                alert(result.data.error || LABEL_ACTION_FAILED);
+                return;
+              }
 
               thumbStrip
                 .querySelectorAll(".asset-photo-thumb.is-cover")
@@ -501,137 +735,76 @@
                   el.classList.remove("is-cover");
                 });
 
-              setHero(photo.url);
-            }
+              thumb.classList.add("is-cover");
 
-            thumbStrip.insertBefore(buildThumb(photo), addTile);
-          });
-
-          if (singlePhotoMode) {
-            addTile.style.display = "none";
-          }
-        })
-        .catch(function () {
-          alert(LABEL_UPLOAD_FAILED);
-        })
-        .finally(function () {
-          uploadInput.value = "";
-        });
-    });
-
-    thumbStrip.addEventListener("click", function (event) {
-
-      const coverBtn = event.target.closest(".btn-thumb-cover");
-      const deleteBtn = event.target.closest(".btn-thumb-delete");
-
-      if (!coverBtn && !deleteBtn) {
-        return;
-      }
-
-      const thumb = event.target.closest(".asset-photo-thumb");
-      const photoId = thumb.getAttribute("data-photo-id");
-
-      if (coverBtn) {
-
-        fetch("/assets/" + assetId + "/photos/" + photoId + "/cover", {
-          method: "POST",
-          body: (function () {
-            const fd = new FormData();
-            fd.append("csrf_token", csrfToken);
-            return fd;
-          })(),
-        })
-          .then(function (response) {
-            return response.json().then(function (data) {
-              return { ok: response.ok, data: data };
+              const coverImg = thumb.querySelector(".asset-photo-thumb-img");
+              setHero(coverImg.getAttribute("src"));
+            })
+            .catch(function () {
+              alert(LABEL_ACTION_FAILED);
             });
-          })
-          .then(function (result) {
 
-            if (!result.ok) {
-              alert(result.data.error || LABEL_ACTION_FAILED);
-              return;
-            }
-
-            thumbStrip
-              .querySelectorAll(".asset-photo-thumb.is-cover")
-              .forEach(function (el) {
-                el.classList.remove("is-cover");
-              });
-
-            thumb.classList.add("is-cover");
-
-            const coverImg = thumb.querySelector(".asset-photo-thumb-img");
-            setHero(coverImg.getAttribute("src"));
-          })
-          .catch(function () {
-            alert(LABEL_ACTION_FAILED);
-          });
-
-        return;
-      }
-
-      if (deleteBtn) {
-
-        if (!confirm(LABEL_CONFIRM_DELETE)) {
           return;
         }
 
-        const wasCover = thumb.classList.contains("is-cover");
+        if (deleteBtn) {
 
-        fetch("/assets/" + assetId + "/photos/" + photoId + "/delete", {
-          method: "POST",
-          body: (function () {
-            const fd = new FormData();
-            fd.append("csrf_token", csrfToken);
-            return fd;
-          })(),
-        })
-          .then(function (response) {
-            return response.json().then(function (data) {
-              return { ok: response.ok, data: data };
-            });
+          if (!confirm(LABEL_CONFIRM_DELETE)) {
+            return;
+          }
+
+          const wasCover = thumb.classList.contains("is-cover");
+
+          fetch("/assets/" + assetId + "/photos/" + photoId + "/delete", {
+            method: "POST",
+            body: (function () {
+              const fd = new FormData();
+              fd.append("csrf_token", csrfToken);
+              return fd;
+            })(),
           })
-          .then(function (result) {
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
 
-            if (!result.ok) {
-              alert(result.data.error || LABEL_ACTION_FAILED);
-              return;
-            }
-
-            thumb.remove();
-
-            if (wasCover) {
-
-              const nextThumb = thumbStrip.querySelector(".asset-photo-thumb:not(.asset-photo-thumb-add)");
-
-              if (nextThumb) {
-                nextThumb.classList.add("is-cover");
-                const nextImg = nextThumb.querySelector(".asset-photo-thumb-img");
-                setHero(nextImg.getAttribute("src"));
-              } else {
-                setHero(null);
+              if (!result.ok) {
+                alert(result.data.error || LABEL_ACTION_FAILED);
+                return;
               }
-            }
 
-            if (singlePhotoMode) {
-              addTile.style.display = "";
-            }
-          })
-          .catch(function () {
-            alert(LABEL_ACTION_FAILED);
-          });
-      }
-    });
+              thumb.remove();
 
-    thumbStrip.addEventListener("click", function (event) {
+              if (wasCover) {
 
-      const img = event.target.closest(".asset-photo-clickable");
+                const nextThumb = thumbStrip.querySelector(".asset-photo-thumb:not(.asset-photo-thumb-add)");
 
-      if (img && img.tagName === "IMG") {
-        modalImage.src = img.getAttribute("src");
-      }
-    });
+                if (nextThumb) {
+                  nextThumb.classList.add("is-cover");
+                  const nextImg = nextThumb.querySelector(".asset-photo-thumb-img");
+                  setHero(nextImg.getAttribute("src"));
+                } else {
+                  setHero(null);
+                }
+              }
+            })
+            .catch(function () {
+              alert(LABEL_ACTION_FAILED);
+            });
+        }
+      });
+
+      thumbStrip.addEventListener("click", function (event) {
+
+        const img = event.target.closest(".asset-photo-clickable");
+
+        if (img && img.tagName === "IMG") {
+          modalImage.src = img.getAttribute("src");
+        }
+      });
+    }
 
     if (heroImg) {
       heroImg.addEventListener("click", function () {

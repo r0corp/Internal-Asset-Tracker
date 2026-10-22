@@ -258,6 +258,14 @@
 
                     {% set allowed_tpl = allowed_category_templates %}
 
+                    {# Asset yang sedang diedit sudah pasti 1 kategori ATK -
+                       jangan tampilkan tab kategori lain sama sekali, supaya
+                       edit tetap spesialisasi ke ATK saja (bukan tempat
+                       pindah kategori ke Pantry/dst). #}
+                    {% set only_atk = (current_template == 'atk') %}
+
+                    {% if not only_atk %}
+
                     <ul class="nav nav-tabs asset-type-tabs mb-3" role="tablist">
 
                         {% if not allowed_tpl or 'pc_laptop' in allowed_tpl %}
@@ -402,6 +410,7 @@
 
                     </ul>
 
+                    {% endif %}
 
 
                     <div class="row g-3">
@@ -1318,9 +1327,40 @@
 
                 </div>
 
+                {% if only_atk %}
+
+                <!-- =================================================
+                     DESCRIPTION (digabung ke panel Informasi Asset -
+                     khusus ATK, supaya tidak ada tab menu yang tidak
+                     perlu dan deskripsi tidak perlu seksi terpisah
+                     di bawah)
+                     ================================================= -->
+
+                <div class="form-section">
+
+
+                    <div class="form-section-title">
+
+                        <i class="bi bi-card-text me-2"></i>
+
+                        {{ _('Description') }}
+
+                    </div>
+
+
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="{{ _('Enter the asset description...') }}">{{ asset.description or '' }}</textarea>
+
+
+                </div>
+
+                {% endif %}
+
                 </div>
 
                 </div>
+
+                {% if not only_atk %}
 
                 <!-- =================================================
                      DESCRIPTION
@@ -1343,6 +1383,8 @@
 
 
                 </div>
+
+                {% endif %}
 
 
 
@@ -1402,7 +1444,7 @@
 
         return (
             (activeTabButton && activeTabButton.dataset.template) ||
-            "pc_laptop"
+            "{{ current_template }}"
         );
     }
 

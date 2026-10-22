@@ -355,6 +355,8 @@
                         {% endif %}
 
 
+                        {% if selected_tipe != 'atk' %}
+
                         <th>
                             {{ _('Location') }}
                         </th>
@@ -363,6 +365,8 @@
                         <th>
                             {{ _('Department') }}
                         </th>
+
+                        {% endif %}
 
 
                         <th>
@@ -574,6 +578,8 @@
 
 
 
+                        {% if selected_tipe != 'atk' %}
+
                         <!-- LOCATION -->
 
                         <td>
@@ -581,7 +587,6 @@
                             {{ asset.location or "-" }}
 
                         </td>
-
 
 
                         <!-- DEPARTMENT -->
@@ -592,6 +597,7 @@
 
                         </td>
 
+                        {% endif %}
 
 
                         <!-- PIC -->
@@ -601,7 +607,6 @@
                             {{ asset.pic or "-" }}
 
                         </td>
-
 
 
                         <!-- STATUS -->

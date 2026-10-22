@@ -537,6 +537,12 @@ class Asset(db.Model):
             category.field_template if category else None
         )
 
+        # ATK tidak melacak Departemen/PIC (lihat data-tpl-fields di
+        # add.html/edit.html) - jadi kelengkapannya cuma dicek dari
+        # lokasi, bukan lokasi+departemen seperti kategori stok lain.
+        if field_template == FIELD_TEMPLATE_ATK:
+            return not self.location
+
         missing_org = not (self.location and self.department)
 
         if field_template in STOCK_FIELD_TEMPLATES:

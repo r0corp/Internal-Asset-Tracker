@@ -916,6 +916,29 @@ ID_TRANSLATIONS = {
 
     # --- dashboard category summary capped ---
     'and %(count)s more categories': 'dan %(count)s kategori lainnya',
+
+    # --- stock opname (ATK) ---
+    'Stock Opname': 'Stok Opname',
+    'Fill in Stock Out for this period - Initial Stock & Final Stock are calculated automatically.': 'Isi Stok Keluar untuk periode ini - Stok Awal & Stok Akhir dihitung otomatis.',
+    'Period': 'Periode',
+    'Save Stock Opname': 'Simpan Stok Opname',
+    'items': 'item',
+    'Item Name': 'Nama Barang',
+    'Initial Stock': 'Stok Awal',
+    'Stock Out': 'Stok Keluar',
+    'Final Stock': 'Stok Akhir',
+    'No ATK items available.': 'Belum ada item ATK.',
+    'Stock Opname History': 'Riwayat Stok Opname',
+    'Monthly stock opname results per item.': 'Hasil stok opname bulanan per item.',
+    'Input Stock Opname': 'Input Stok Opname',
+    'No data yet': 'Belum ada data',
+    'Show': 'Tampilkan',
+    'No stock opname records for this period yet.': 'Belum ada data stok opname untuk periode ini.',
+    'Invalid period.': 'Periode tidak valid.',
+    '%(name)s: invalid value.': '%(name)s: nilai tidak valid.',
+    '%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s).': '%(name)s: Stok Keluar (%(keluar)s) melebihi Stok Awal (%(awal)s).',
+    '...and %(count)s more errors.': '...dan %(count)s error lainnya.',
+    'Stock opname for %(period)s saved successfully.': 'Stok opname untuk %(period)s berhasil disimpan.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,
@@ -932,6 +955,7 @@ MENU_LABELS = {
     "Role Akses": "Access Roles",
     "Pengaturan Aplikasi": "Application Settings",
     "Pemisah": "Divider",
+    "Stok Opname": "Stock Opname",
 }
 
 

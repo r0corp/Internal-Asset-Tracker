@@ -1114,6 +1114,7 @@ PERMISSION_OBJECTS = [
     ("vendor", "Vendor"),
     ("company", "Company"),
     ("scrap", "Scrap"),
+    ("stock_opname", "Stok Opname"),
 ]
 
 # Kunci field_template yang direstriksi per role (lihat ASSET_TYPE_TABS
@@ -1441,3 +1442,83 @@ class ScrapRecord(db.Model):
 
     def __repr__(self):
         return f"<ScrapRecord {self.scrap_type} {self.quantity}{self.unit}>"
+
+# ============================================================
+# STOK OPNAME (PENCATATAN STOK BULANAN ATK)
+# ============================================================
+
+
+class StockOpnameRecord(db.Model):
+    """
+    Satu baris = hasil stok opname 1 item ATK untuk 1 bulan (period).
+    Sadam cuma input stok_keluar - stok_awal diambil otomatis dari
+    stok_akhir bulan sebelumnya (atau Asset.stock_quantity kalau ini
+    opname pertama untuk item tsb), stok_akhir dihitung otomatis
+    (stok_awal - stok_keluar). Lihat blueprints/stock_opname.py.
+    """
+
+    __tablename__ = "stock_opname_records"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    asset_id = db.Column(
+        db.Integer,
+        db.ForeignKey("assets.id"),
+        nullable=False,
+        index=True,
+    )
+
+    # Awal bulan periode opname (selalu tanggal 1) - dipakai untuk
+    # mengelompokkan & mengurutkan riwayat per bulan.
+    period = db.Column(
+        db.Date,
+        nullable=False,
+        index=True,
+    )
+
+    stok_awal = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    stok_keluar = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    stok_akhir = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    recorded_by = db.Column(
+        db.String(50),
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+        onupdate=datetime.utcnow,
+    )
+
+    asset = db.relationship("Asset")
+
+    __table_args__ = (
+        db.UniqueConstraint(
+            "asset_id",
+            "period",
+            name="uq_stock_opname_asset_period",
+        ),
+    )
+
+    def __repr__(self):
+        return f"<StockOpnameRecord asset={self.asset_id} period={self.period}>"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 14:51+0700\n"
+"POT-Creation-Date: 2026-10-22 15:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgid "Master Data"
 msgstr "Master Data"
 
 #: app/menu_labels.py:19 app/templates/asset/_list_fragment.html:139
-#: app/templates/asset/_list_fragment.html:295
+#: app/templates/asset/_list_fragment.html:299
 #: app/templates/asset/add.html:707 app/templates/asset/add.html:764
 #: app/templates/asset/add.html:821 app/templates/asset/add.html:858
 #: app/templates/asset/add.html:894 app/templates/asset/add.html:927
@@ -75,8 +75,8 @@ msgstr "Master Data"
 msgid "Category"
 msgstr "Kategori"
 
-#: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:175
-#: app/templates/asset/_list_fragment.html:355
+#: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:177
+#: app/templates/asset/_list_fragment.html:359
 #: app/templates/asset/add.html:1366 app/templates/asset/detail.html:752
 #: app/templates/asset/detail.html:957 app/templates/asset/edit.html:1078
 #: app/templates/asset/history.html:543
@@ -96,8 +96,8 @@ msgstr "Kategori"
 msgid "Location"
 msgstr "Lokasi"
 
-#: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:211
-#: app/templates/asset/_list_fragment.html:360
+#: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:213
+#: app/templates/asset/_list_fragment.html:364
 #: app/templates/asset/add.html:1403 app/templates/asset/detail.html:765
 #: app/templates/asset/detail.html:959 app/templates/asset/edit.html:1117
 #: app/templates/asset/history.html:551 app/templates/asset/history.html:623
@@ -196,110 +196,110 @@ msgstr "Nama aplikasi wajib diisi."
 msgid "Application settings saved successfully."
 msgstr "Pengaturan aplikasi berhasil disimpan."
 
-#: app/blueprints/assets.py:524
+#: app/blueprints/assets.py:541
 msgid "Excel file has not been selected."
 msgstr "Excel file has not been selected."
 
-#: app/blueprints/assets.py:539
+#: app/blueprints/assets.py:556
 msgid "File format must be .xlsx or .xlsm."
 msgstr "File format must be .xlsx or .xlsm."
 
-#: app/blueprints/assets.py:569
+#: app/blueprints/assets.py:586
 msgid "Excel file is empty."
 msgstr "Excel file is empty."
 
-#: app/blueprints/assets.py:598
+#: app/blueprints/assets.py:615
 #, python-format
 msgid "Required columns not found: %(columns)s"
 msgstr "Required columns not found: %(columns)s"
 
-#: app/blueprints/assets.py:1023
+#: app/blueprints/assets.py:1040
 msgid "Select at least one asset to print."
 msgstr "Select at least one asset to print."
 
-#: app/blueprints/assets.py:1051
+#: app/blueprints/assets.py:1068
 msgid "Selected assets are invalid."
 msgstr "Selected assets are invalid."
 
-#: app/blueprints/assets.py:1073 app/blueprints/assets.py:2497
+#: app/blueprints/assets.py:1090 app/blueprints/assets.py:2514
 msgid "Selected assets were not found."
 msgstr "Selected assets were not found."
 
-#: app/blueprints/assets.py:1179
+#: app/blueprints/assets.py:1196
 msgid "Asset was successfully deleted."
 msgstr "Asset was successfully deleted."
 
-#: app/blueprints/assets.py:1242
+#: app/blueprints/assets.py:1259
 msgid "Asset Tag is required."
 msgstr "Asset Tag is required."
 
-#: app/blueprints/assets.py:1262
+#: app/blueprints/assets.py:1279
 msgid "Asset name is required."
 msgstr "Asset name is required."
 
-#: app/blueprints/assets.py:1286
+#: app/blueprints/assets.py:1303
 msgid "Asset Tag is already in use."
 msgstr "Asset Tag is already in use."
 
-#: app/blueprints/assets.py:1386
+#: app/blueprints/assets.py:1403
 #, python-format
 msgid "Invalid asset photo: %(error)s"
 msgstr "Invalid asset photo: %(error)s"
 
-#: app/blueprints/assets.py:1411 app/blueprints/assets.py:2261
+#: app/blueprints/assets.py:1428 app/blueprints/assets.py:2278
 #: app/templates/asset/_photo_gallery.html:392
 msgid "Asset photo failed to upload."
 msgstr "Asset photo failed to upload."
 
-#: app/blueprints/assets.py:1578
+#: app/blueprints/assets.py:1595
 msgid "Asset failed to save."
 msgstr "Asset failed to save."
 
-#: app/blueprints/assets.py:1613
+#: app/blueprints/assets.py:1630
 msgid "Asset was successfully added."
 msgstr "Asset was successfully added."
 
-#: app/blueprints/assets.py:1930
+#: app/blueprints/assets.py:1947
 msgid "Invalid stock quantity."
 msgstr "Jumlah stok tidak valid."
 
-#: app/blueprints/assets.py:1963
+#: app/blueprints/assets.py:1980
 msgid "Invalid selling price."
 msgstr "Harga jual tidak valid."
 
-#: app/blueprints/assets.py:2066
+#: app/blueprints/assets.py:2083
 msgid "Invalid purchase date format."
 msgstr "Invalid purchase date format."
 
-#: app/blueprints/assets.py:2106
+#: app/blueprints/assets.py:2123
 msgid "Invalid purchase price."
 msgstr "Invalid purchase price."
 
-#: app/blueprints/assets.py:2136
+#: app/blueprints/assets.py:2153
 msgid "Asset was successfully updated."
 msgstr "Asset was successfully updated."
 
-#: app/blueprints/assets.py:2157
+#: app/blueprints/assets.py:2174
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2204
+#: app/blueprints/assets.py:2221
 msgid "No photo file was sent."
 msgstr "Tidak ada file foto yang dikirim."
 
-#: app/blueprints/assets.py:2268
+#: app/blueprints/assets.py:2285
 msgid "Added asset photo(s)."
 msgstr "Menambahkan foto asset."
 
-#: app/blueprints/assets.py:2297 app/blueprints/assets.py:2324
+#: app/blueprints/assets.py:2314 app/blueprints/assets.py:2341
 msgid "Photo not found."
 msgstr "Foto tidak ditemukan."
 
-#: app/blueprints/assets.py:2419
+#: app/blueprints/assets.py:2436
 msgid "Select at least one asset to export to Excel."
 msgstr "Select at least one asset to export to Excel."
 
-#: app/blueprints/assets.py:2463
+#: app/blueprints/assets.py:2480
 msgid "Invalid asset ID."
 msgstr "Invalid asset ID."
 
@@ -672,6 +672,30 @@ msgstr "Data scrap berhasil diperbarui."
 msgid "Scrap record deleted successfully."
 msgstr "Data scrap berhasil dihapus."
 
+#: app/blueprints/stock_opname.py:135
+msgid "Invalid period."
+msgstr "Periode tidak valid."
+
+#: app/blueprints/stock_opname.py:161
+#, python-format
+msgid "%(name)s: invalid value."
+msgstr "%(name)s: nilai tidak valid."
+
+#: app/blueprints/stock_opname.py:177
+#, python-format
+msgid "%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s)."
+msgstr "%(name)s: Stok Keluar (%(keluar)s) melebihi Stok Awal (%(awal)s)."
+
+#: app/blueprints/stock_opname.py:200
+#, python-format
+msgid "...and %(count)s more errors."
+msgstr "...dan %(count)s error lainnya."
+
+#: app/blueprints/stock_opname.py:242
+#, python-format
+msgid "Stock opname for %(period)s saved successfully."
+msgstr "Stok opname untuk %(period)s berhasil disimpan."
+
 #: app/blueprints/users.py:133
 msgid "Username, full name, and password are required."
 msgstr "Username, full name, and password are required."
@@ -823,7 +847,7 @@ msgid "Assets by Status"
 msgstr "Asset Berdasarkan Status"
 
 #: app/templates/asset/_list_fragment.html:90
-#: app/templates/asset/_list_fragment.html:370
+#: app/templates/asset/_list_fragment.html:374
 #: app/templates/asset/add.html:1437 app/templates/asset/detail.html:841
 #: app/templates/asset/edit.html:1173 app/templates/asset/history.html:524
 #: app/templates/asset/labels_select.html:374
@@ -929,7 +953,7 @@ msgstr "Asset Terbaru"
 msgid "View All"
 msgstr "Lihat Semua"
 
-#: app/templates/asset/_list_fragment.html:280
+#: app/templates/asset/_list_fragment.html:284
 #: app/templates/asset/movement_detail.html:886
 #: app/templates/asset/movement_report.html:652
 #: app/templates/asset/movements_global.html:468
@@ -940,10 +964,12 @@ msgstr "Lihat Semua"
 #: app/templates/master/location/list.html:93
 #: app/templates/master/user/list.html:92
 #: app/templates/master/vendor/list.html:92 app/templates/scrap/list.html:163
+#: app/templates/stock_opname/history.html:142
+#: app/templates/stock_opname/input.html:128
 msgid "No."
 msgstr "No"
 
-#: app/templates/asset/_list_fragment.html:285
+#: app/templates/asset/_list_fragment.html:289
 #: app/templates/asset/add.html:652 app/templates/asset/detail.html:485
 #: app/templates/asset/edit.html:416 app/templates/asset/history.html:488
 #: app/templates/asset/labels_print.html:108
@@ -958,7 +984,7 @@ msgstr "No"
 msgid "Asset Tag"
 msgstr "Kode Asset"
 
-#: app/templates/asset/_list_fragment.html:290
+#: app/templates/asset/_list_fragment.html:294
 #: app/templates/asset/add.html:678 app/templates/asset/detail.html:498
 #: app/templates/asset/edit.html:434 app/templates/asset/history.html:494
 #: app/templates/asset/movement_add.html:418
@@ -970,7 +996,7 @@ msgid "Asset Name"
 msgstr "Nama Asset"
 
 #: app/templates/asset/_list_fragment.html:103
-#: app/templates/asset/_list_fragment.html:617
+#: app/templates/asset/_list_fragment.html:621
 #: app/templates/asset/add.html:1446 app/templates/asset/detail.html:845
 #: app/templates/asset/edit.html:1186
 #: app/templates/asset/labels_select.html:492
@@ -982,7 +1008,7 @@ msgid "Active"
 msgstr "Aktif"
 
 #: app/templates/asset/_list_fragment.html:108
-#: app/templates/asset/_list_fragment.html:632
+#: app/templates/asset/_list_fragment.html:636
 #: app/templates/asset/add.html:1453 app/templates/asset/detail.html:850
 #: app/templates/asset/edit.html:1191
 #: app/templates/asset/labels_select.html:500
@@ -992,7 +1018,7 @@ msgid "Maintenance"
 msgstr "Perbaikan"
 
 #: app/templates/asset/_list_fragment.html:118
-#: app/templates/asset/_list_fragment.html:660
+#: app/templates/asset/_list_fragment.html:664
 #: app/templates/asset/add.html:1467 app/templates/asset/detail.html:861
 #: app/templates/asset/edit.html:1201
 #: app/templates/asset/labels_select.html:508
@@ -1002,7 +1028,7 @@ msgid "Lost"
 msgstr "Hilang"
 
 #: app/templates/asset/_list_fragment.html:123
-#: app/templates/asset/_list_fragment.html:674
+#: app/templates/asset/_list_fragment.html:678
 #: app/templates/asset/add.html:1474 app/templates/asset/detail.html:865
 #: app/templates/asset/edit.html:1206
 #: app/templates/asset/labels_select.html:516
@@ -1020,7 +1046,7 @@ msgstr "Belum ada asset."
 msgid "Vehicle Insurance Expiring Soon"
 msgstr "Asuransi Kendaraan Akan Habis"
 
-#: app/templates/asset/_list_fragment.html:327
+#: app/templates/asset/_list_fragment.html:331
 #: app/templates/asset/add.html:982 app/templates/asset/detail.html:621
 #: app/templates/asset/edit.html:752 app/templates/dashboard.html:1183
 msgid "License Plate Number"
@@ -1052,7 +1078,7 @@ msgstr "Tidak ada asuransi kendaraan yang akan habis."
 msgid "ATK Stock Needs Purchasing"
 msgstr "Stok ATK Perlu Dibeli"
 
-#: app/templates/asset/_list_fragment.html:338
+#: app/templates/asset/_list_fragment.html:342
 #: app/templates/asset/add.html:1096 app/templates/asset/add.html:1133
 #: app/templates/asset/add.html:1170 app/templates/asset/add.html:1207
 #: app/templates/asset/add.html:1252 app/templates/asset/detail.html:719
@@ -1120,7 +1146,7 @@ msgid "Active Assets"
 msgstr "Asset Active"
 
 #: app/templates/asset/_list_fragment.html:113
-#: app/templates/asset/_list_fragment.html:646
+#: app/templates/asset/_list_fragment.html:650
 #: app/templates/asset/add.html:1460 app/templates/asset/detail.html:856
 #: app/templates/asset/edit.html:1196 app/templates/asset/movements.html:125
 #: app/templates/index.html:678 app/templates/index.html:1149
@@ -1150,7 +1176,7 @@ msgstr "Distribusi asset berdasarkan department"
 msgid "10 most recently added assets"
 msgstr "10 asset terakhir ditambahkan"
 
-#: app/templates/asset/_list_fragment.html:375
+#: app/templates/asset/_list_fragment.html:379
 #: app/templates/asset/detail.html:965
 #: app/templates/asset/movement_report.html:668
 #: app/templates/asset/movements.html:242
@@ -1166,7 +1192,7 @@ msgstr "10 asset terakhir ditambahkan"
 msgid "Actions"
 msgstr "Aksi"
 
-#: app/templates/asset/_list_fragment.html:688
+#: app/templates/asset/_list_fragment.html:692
 #: app/templates/asset/detail.html:870 app/templates/index.html:1182
 #: app/templates/index.html:1268
 msgid "No Status"
@@ -1313,21 +1339,21 @@ msgstr "Semua Status"
 msgid "All Categories"
 msgstr "Semua Category"
 
-#: app/templates/asset/_list_fragment.html:183
+#: app/templates/asset/_list_fragment.html:185
 #: app/templates/asset/movements_global.html:196
 msgid "All Locations"
 msgstr "Semua Location"
 
-#: app/templates/asset/_list_fragment.html:219
+#: app/templates/asset/_list_fragment.html:221
 #: app/templates/asset/movements_global.html:241
 msgid "All Departments"
 msgstr "Semua Department"
 
-#: app/templates/asset/_list_fragment.html:275
+#: app/templates/asset/_list_fragment.html:279
 msgid "Photo"
 msgstr "Foto"
 
-#: app/templates/asset/_list_fragment.html:300
+#: app/templates/asset/_list_fragment.html:304
 #: app/templates/asset/add.html:717 app/templates/asset/add.html:774
 #: app/templates/asset/add.html:831 app/templates/asset/add.html:868
 #: app/templates/asset/add.html:904 app/templates/asset/add.html:937
@@ -1348,7 +1374,7 @@ msgstr "Foto"
 msgid "Brand"
 msgstr "Brand"
 
-#: app/templates/asset/_list_fragment.html:306
+#: app/templates/asset/_list_fragment.html:310
 #: app/templates/asset/add.html:723 app/templates/asset/add.html:780
 #: app/templates/asset/add.html:837 app/templates/asset/add.html:873
 #: app/templates/asset/add.html:976 app/templates/asset/add.html:1064
@@ -1361,7 +1387,7 @@ msgstr "Brand"
 msgid "Model"
 msgstr "Model"
 
-#: app/templates/asset/_list_fragment.html:313
+#: app/templates/asset/_list_fragment.html:317
 #: app/templates/asset/add.html:729 app/templates/asset/add.html:731
 #: app/templates/asset/add.html:786 app/templates/asset/add.html:842
 #: app/templates/asset/add.html:878 app/templates/asset/detail.html:553
@@ -1377,20 +1403,20 @@ msgstr "Model"
 msgid "Serial Number"
 msgstr "Serial Number"
 
-#: app/templates/asset/_list_fragment.html:320
+#: app/templates/asset/_list_fragment.html:324
 #: app/templates/asset/add.html:910 app/templates/asset/add.html:943
 #: app/templates/asset/detail.html:702 app/templates/asset/edit.html:676
 #: app/templates/asset/edit.html:711
 msgid "Specification / Capacity"
 msgstr "Spesifikasi/Kapasitas"
 
-#: app/templates/asset/_list_fragment.html:331
+#: app/templates/asset/_list_fragment.html:335
 #: app/templates/asset/add.html:988 app/templates/asset/detail.html:638
 #: app/templates/asset/edit.html:758
 msgid "Tax (STNK) Due Date"
 msgstr "Masa Berlaku Pajak (STNK)"
 
-#: app/templates/asset/_list_fragment.html:342
+#: app/templates/asset/_list_fragment.html:346
 #: app/templates/asset/add.html:1101 app/templates/asset/add.html:1138
 #: app/templates/asset/add.html:1175 app/templates/asset/add.html:1212
 #: app/templates/asset/add.html:1257 app/templates/asset/edit.html:883
@@ -1398,16 +1424,18 @@ msgstr "Masa Berlaku Pajak (STNK)"
 #: app/templates/asset/edit.html:1006 app/templates/asset/edit.html:1056
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
+#: app/templates/stock_opname/history.html:144
+#: app/templates/stock_opname/input.html:130
 msgid "Unit"
 msgstr "Satuan"
 
-#: app/templates/asset/_list_fragment.html:349
+#: app/templates/asset/_list_fragment.html:353
 #: app/templates/asset/add.html:1218 app/templates/asset/detail.html:736
 #: app/templates/asset/edit.html:1012
 msgid "Selling Price"
 msgstr "Harga Jual"
 
-#: app/templates/asset/_list_fragment.html:365
+#: app/templates/asset/_list_fragment.html:369
 #: app/templates/asset/add.html:1278 app/templates/asset/detail.html:778
 #: app/templates/asset/detail.html:961 app/templates/asset/edit.html:1156
 #: app/templates/asset/history.html:559 app/templates/asset/history.html:628
@@ -1424,11 +1452,11 @@ msgstr "Harga Jual"
 msgid "PIC"
 msgstr "PIC"
 
-#: app/templates/asset/_list_fragment.html:412
+#: app/templates/asset/_list_fragment.html:416
 msgid "No photo yet"
 msgstr "Belum ada foto"
 
-#: app/templates/asset/_list_fragment.html:697
+#: app/templates/asset/_list_fragment.html:701
 #: app/templates/asset/detail.html:876
 msgid ""
 "Some asset information is still missing (e.g. serial number, brand/model, "
@@ -1437,12 +1465,12 @@ msgstr ""
 "Sebagian data asset ini masih kosong (misalnya serial number, brand/model, "
 "lokasi, atau departemen)."
 
-#: app/templates/asset/_list_fragment.html:699
+#: app/templates/asset/_list_fragment.html:703
 #: app/templates/asset/detail.html:878
 msgid "Incomplete Data"
 msgstr "Data Tidak Lengkap"
 
-#: app/templates/asset/_list_fragment.html:716
+#: app/templates/asset/_list_fragment.html:720
 #: app/templates/asset/history.html:712
 #: app/templates/asset/movement_report.html:793
 #: app/templates/asset/movements.html:371
@@ -1450,7 +1478,7 @@ msgstr "Data Tidak Lengkap"
 msgid "Detail"
 msgstr "Detail"
 
-#: app/templates/asset/_list_fragment.html:728
+#: app/templates/asset/_list_fragment.html:732
 #: app/templates/master/category/list.html:197
 #: app/templates/master/department/list.html:122
 #: app/templates/master/location/list.html:128
@@ -1461,25 +1489,25 @@ msgstr "Detail"
 msgid "Edit"
 msgstr "Edit"
 
-#: app/templates/asset/_list_fragment.html:740
+#: app/templates/asset/_list_fragment.html:744
 #: app/templates/asset/list.html:405 app/templates/asset/list.html:408
 msgid "Print QR / Label"
 msgstr "Cetak QR / Label"
 
-#: app/templates/asset/_list_fragment.html:774
+#: app/templates/asset/_list_fragment.html:778
 msgid "No assets found."
 msgstr "Tidak ada asset ditemukan."
 
-#: app/templates/asset/_list_fragment.html:781
+#: app/templates/asset/_list_fragment.html:785
 msgid "Try changing your search term or filters."
 msgstr "Coba ubah kata pencarian atau filter Anda."
 
-#: app/templates/asset/_list_fragment.html:790 app/templates/asset/add.html:4
+#: app/templates/asset/_list_fragment.html:794 app/templates/asset/add.html:4
 #: app/templates/asset/add.html:435 app/templates/asset/list.html:432
 msgid "Add Asset"
 msgstr "Tambah Asset"
 
-#: app/templates/asset/_list_fragment.html:826
+#: app/templates/asset/_list_fragment.html:830
 #: app/templates/asset/labels_select.html:247
 #: app/templates/asset/labels_select.html:990
 #: app/templates/asset/labels_select.html:997
@@ -1487,13 +1515,13 @@ msgstr "Tambah Asset"
 msgid "Showing"
 msgstr "Menampilkan"
 
-#: app/templates/asset/_list_fragment.html:832
+#: app/templates/asset/_list_fragment.html:836
 #: app/templates/asset/labels_select.html:999
 #: app/templates/asset/movement_report.html:837
 msgid "of"
 msgstr "dari"
 
-#: app/templates/asset/_list_fragment.html:838
+#: app/templates/asset/_list_fragment.html:842
 #: app/templates/asset/labels_print.html:31
 #: app/templates/asset/labels_select.html:249
 #: app/templates/asset/labels_select.html:992
@@ -1501,21 +1529,21 @@ msgstr "dari"
 msgid "assets"
 msgstr "asset"
 
-#: app/templates/asset/_list_fragment.html:847
+#: app/templates/asset/_list_fragment.html:851
 msgid "Search:"
 msgstr "Pencarian:"
 
-#: app/templates/asset/_list_fragment.html:864
+#: app/templates/asset/_list_fragment.html:868
 msgid "Asset page navigation"
 msgstr "Navigasi halaman asset"
 
-#: app/templates/asset/_list_fragment.html:870
+#: app/templates/asset/_list_fragment.html:874
 #: app/templates/asset/movements_global.html:728
 #: app/templates/audit/list.html:100
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: app/templates/asset/_list_fragment.html:892
+#: app/templates/asset/_list_fragment.html:896
 #: app/templates/asset/movements_global.html:750
 #: app/templates/audit/list.html:114
 msgid "Next"
@@ -3173,6 +3201,7 @@ msgid "Current"
 msgstr "Saat Ini"
 
 #: app/templates/asset/movements_global.html:400
+#: app/templates/stock_opname/input.html:40
 msgid "History"
 msgstr "Riwayat"
 
@@ -3549,6 +3578,8 @@ msgstr "Kendaraan (tambah nomor plat & masa pajak)"
 #: app/templates/master/category/add.html:148
 #: app/templates/master/category/edit.html:148
 #: app/templates/master/category/list.html:176
+#: app/templates/stock_opname/history.html:120
+#: app/templates/stock_opname/input.html:107
 msgid "Office Stationery (ATK)"
 msgstr "Alat Tulis Kantor (ATK)"
 
@@ -4270,6 +4301,83 @@ msgid "Recommended: 1:1 (square) ratio, also used as the browser tab favicon."
 msgstr ""
 "Disarankan: rasio 1:1 (persegi), dipakai juga sebagai favicon tab browser."
 
+#: app/templates/stock_opname/history.html:3
+#: app/templates/stock_opname/history.html:22
+msgid "Stock Opname History"
+msgstr "Riwayat Stok Opname"
+
+#: app/templates/stock_opname/history.html:26
+msgid "Monthly stock opname results per item."
+msgstr "Hasil stok opname bulanan per item."
+
+#: app/templates/stock_opname/history.html:40
+msgid "Input Stock Opname"
+msgstr "Input Stok Opname"
+
+#: app/templates/stock_opname/history.html:74
+#: app/templates/stock_opname/input.html:76
+msgid "Period"
+msgstr "Periode"
+
+#: app/templates/stock_opname/history.html:89
+msgid "No data yet"
+msgstr "Belum ada data"
+
+#: app/templates/stock_opname/history.html:98
+msgid "Show"
+msgstr "Tampilkan"
+
+#: app/templates/stock_opname/history.html:125
+#: app/templates/stock_opname/input.html:111
+msgid "items"
+msgstr "item"
+
+#: app/templates/stock_opname/history.html:143
+#: app/templates/stock_opname/input.html:129
+msgid "Item Name"
+msgstr "Nama Barang"
+
+#: app/templates/stock_opname/history.html:145
+#: app/templates/stock_opname/input.html:131
+msgid "Initial Stock"
+msgstr "Stok Awal"
+
+#: app/templates/stock_opname/history.html:146
+#: app/templates/stock_opname/input.html:132
+msgid "Stock Out"
+msgstr "Stok Keluar"
+
+#: app/templates/stock_opname/history.html:147
+#: app/templates/stock_opname/input.html:133
+msgid "Final Stock"
+msgstr "Stok Akhir"
+
+#: app/templates/stock_opname/history.html:176
+msgid "No stock opname records for this period yet."
+msgstr "Belum ada data stok opname untuk periode ini."
+
+#: app/templates/stock_opname/input.html:3
+#: app/templates/stock_opname/input.html:22
+msgid "Stock Opname"
+msgstr "Stok Opname"
+
+#: app/templates/stock_opname/input.html:26
+msgid ""
+"Fill in Stock Out for this period - Initial Stock & Final Stock are "
+"calculated automatically."
+msgstr ""
+"Isi Stok Keluar untuk periode ini - Stok Awal & Stok Akhir dihitung "
+"otomatis."
+
+#: app/templates/stock_opname/input.html:88
+#: app/templates/stock_opname/input.html:199
+msgid "Save Stock Opname"
+msgstr "Simpan Stok Opname"
+
+#: app/templates/stock_opname/input.html:180
+msgid "No ATK items available."
+msgstr "Belum ada item ATK."
+
 msgid "Laporan Mutasi"
 msgstr "Laporan Mutasi"
 
@@ -4290,3 +4398,6 @@ msgstr "Role Akses"
 
 msgid "Pengaturan Aplikasi"
 msgstr "Pengaturan Aplikasi"
+
+msgid "Stok Opname"
+msgstr "Stok Opname"

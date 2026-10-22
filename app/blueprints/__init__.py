@@ -233,3 +233,4 @@ from . import audit  # noqa: E402,F401
 from . import backup  # noqa: E402,F401
 from . import cache  # noqa: E402,F401
 from . import scrap  # noqa: E402,F401
+from . import stock_opname  # noqa: E402,F401

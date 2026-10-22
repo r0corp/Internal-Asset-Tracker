@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Stock Opname History') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="page-header-title">
+                        {{ _('Stock Opname History') }}
+                    </h2>
+
+                    <p class="page-header-subtitle mb-0">
+                        {{ _('Monthly stock opname results per item.') }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a
+                    href="{{ url_for('main.stock_opname_input') }}"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-pencil"></i>
+                    {{ _('Input Stock Opname') }}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-body">
+
+            <form method="GET" class="d-flex flex-wrap align-items-end gap-3">
+
+                <div>
+                    <label class="form-label small mb-1">{{ _('Period') }}</label>
+
+                    <select name="period" class="form-select form-select-sm" onchange="this.form.submit()">
+
+                        {% for period in available_periods %}
+
+                        <option
+                            value="{{ period.strftime('%Y-%m') }}"
+                            {% if selected_period and period == selected_period %}selected{% endif %}
+                        >
+                            {{ period.strftime('%Y-%m') }}
+                        </option>
+
+                        {% else %}
+
+                        <option value="">{{ _('No data yet') }}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <noscript>
+                    <button type="submit" class="btn btn-sm btn-primary">{{ _('Show') }}</button>
+                </noscript>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm overflow-hidden">
+
+        <div class="card-header-accent">
+
+            <div class="card-header-accent-left">
+
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+
+                <div>
+                    <div class="card-header-accent-title">
+                        {{ _('Office Stationery (ATK)') }}
+                        {% if selected_period %} - {{ selected_period.strftime('%Y-%m') }}{% endif %}
+                    </div>
+
+                    <div class="card-header-accent-subtitle">
+                        {{ records|length }} {{ _('items') }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-sm">
+
+                    <thead>
+
+                        <tr>
+                            <th>{{ _('No.') }}</th>
+                            <th>{{ _('Item Name') }}</th>
+                            <th>{{ _('Unit') }}</th>
+                            <th>{{ _('Initial Stock') }}</th>
+                            <th>{{ _('Stock Out') }}</th>
+                            <th>{{ _('Final Stock') }}</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ record.asset.asset_name }}</td>
+
+                            <td>{{ record.asset.unit or "-" }}</td>
+
+                            <td>{{ record.stok_awal }}</td>
+
+                            <td>{{ record.stok_keluar }}</td>
+
+                            <td class="fw-semibold">{{ record.stok_akhir }}</td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                {{ _('No stock opname records for this period yet.') }}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1636,11 +1636,18 @@ def asset_detail(asset_id):
                 exc,
             )
 
+    asset_category = Category.query.filter_by(
+        name=asset.category
+    ).first()
+
     return render_template(
         "asset/detail.html",
         asset=asset,
         movements=movements,
         qr_filename=qr_filename,
+        asset_field_template=(
+            asset_category.field_template if asset_category else None
+        ),
     )
 
 # ============================================================

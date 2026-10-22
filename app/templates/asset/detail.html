@@ -903,8 +903,11 @@
 
   <!-- ============================================================
      RIWAYAT MOVEMENT ASSET
+     (disembunyikan untuk kategori consumable ATK/Pantry - barang
+     stok habis pakai, bukan asset yang "berpindah tangan")
      ============================================================ -->
 
+  {% if asset_field_template not in ['atk', 'pantry'] %}
   <div class="card movement-card mt-4 overflow-hidden">
     <div class="card-header-accent">
       <div class="card-header-accent-left">
@@ -1072,6 +1075,7 @@
       {% endif %}
     </div>
   </div>
+  {% endif %}
 </div>
 
 {% endblock %}

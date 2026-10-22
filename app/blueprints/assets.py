@@ -62,6 +62,7 @@ from .helpers import (
     log_action,
     apply_asset_category_restriction,
     allowed_category_template_keys,
+    generate_next_asset_tag,
 )
 
 ASSET_TYPE_TABS = {
@@ -1176,6 +1177,19 @@ def add_asset():
             "asset_name",
             "",
         ).strip()
+
+        # ====================================================
+        # ASSET TAG OTOMATIS (kalau kategorinya sudah punya code)
+        # ====================================================
+
+        selected_category = Category.query.filter_by(
+            name=request.form.get("category", "").strip()
+        ).first()
+
+        auto_asset_tag = generate_next_asset_tag(selected_category)
+
+        if auto_asset_tag:
+            asset_tag = auto_asset_tag
 
         # ====================================================
         # VALIDASI ASSET TAG

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-22 09:23+0700\n"
+"POT-Creation-Date: 2026-10-22 11:52+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: app/__init__.py:97
+#: app/__init__.py:98
 msgid "The uploaded file is too large (maximum 5 MB)."
 msgstr ""
 
-#: app/__init__.py:119
+#: app/__init__.py:120
 msgid "Your session has expired. Please try again."
 msgstr ""
 
@@ -51,15 +51,15 @@ msgstr ""
 msgid "Master Data"
 msgstr ""
 
-#: app/menu_labels.py:19 app/templates/asset/_list_fragment.html:151
-#: app/templates/asset/_list_fragment.html:307 app/templates/asset/add.html:672
-#: app/templates/asset/add.html:729 app/templates/asset/add.html:786
-#: app/templates/asset/add.html:823 app/templates/asset/add.html:859
-#: app/templates/asset/add.html:892 app/templates/asset/add.html:925
-#: app/templates/asset/add.html:969 app/templates/asset/add.html:996
-#: app/templates/asset/add.html:1028 app/templates/asset/add.html:1066
-#: app/templates/asset/add.html:1103 app/templates/asset/add.html:1140
-#: app/templates/asset/add.html:1185 app/templates/asset/detail.html:511
+#: app/menu_labels.py:19 app/templates/asset/_list_fragment.html:139
+#: app/templates/asset/_list_fragment.html:295 app/templates/asset/add.html:676
+#: app/templates/asset/add.html:733 app/templates/asset/add.html:790
+#: app/templates/asset/add.html:827 app/templates/asset/add.html:863
+#: app/templates/asset/add.html:896 app/templates/asset/add.html:929
+#: app/templates/asset/add.html:973 app/templates/asset/add.html:1000
+#: app/templates/asset/add.html:1032 app/templates/asset/add.html:1070
+#: app/templates/asset/add.html:1107 app/templates/asset/add.html:1144
+#: app/templates/asset/add.html:1189 app/templates/asset/detail.html:511
 #: app/templates/asset/edit.html:423 app/templates/asset/edit.html:482
 #: app/templates/asset/edit.html:541 app/templates/asset/edit.html:582
 #: app/templates/asset/edit.html:623 app/templates/asset/edit.html:658
@@ -75,9 +75,9 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:187
-#: app/templates/asset/_list_fragment.html:367
-#: app/templates/asset/add.html:1314 app/templates/asset/detail.html:705
+#: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:175
+#: app/templates/asset/_list_fragment.html:355
+#: app/templates/asset/add.html:1318 app/templates/asset/detail.html:705
 #: app/templates/asset/detail.html:900 app/templates/asset/edit.html:1022
 #: app/templates/asset/history.html:543
 #: app/templates/asset/labels_select.html:364
@@ -96,9 +96,9 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:223
-#: app/templates/asset/_list_fragment.html:372
-#: app/templates/asset/add.html:1351 app/templates/asset/detail.html:718
+#: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:211
+#: app/templates/asset/_list_fragment.html:360
+#: app/templates/asset/add.html:1355 app/templates/asset/detail.html:718
 #: app/templates/asset/detail.html:902 app/templates/asset/edit.html:1061
 #: app/templates/asset/history.html:551 app/templates/asset/history.html:623
 #: app/templates/asset/history.html:641
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
-#: app/menu_labels.py:22 app/templates/asset/add.html:1507
+#: app/menu_labels.py:22 app/templates/asset/add.html:1511
 #: app/templates/asset/detail.html:780 app/templates/asset/edit.html:1228
 #: app/templates/index.html:806 app/templates/master/vendor/list.html:93
 msgid "Vendor"
@@ -196,110 +196,110 @@ msgstr ""
 msgid "Application settings saved successfully."
 msgstr ""
 
-#: app/blueprints/assets.py:480
+#: app/blueprints/assets.py:483
 msgid "Excel file has not been selected."
 msgstr ""
 
-#: app/blueprints/assets.py:495
+#: app/blueprints/assets.py:498
 msgid "File format must be .xlsx or .xlsm."
 msgstr ""
 
-#: app/blueprints/assets.py:525
+#: app/blueprints/assets.py:528
 msgid "Excel file is empty."
 msgstr ""
 
-#: app/blueprints/assets.py:554
+#: app/blueprints/assets.py:557
 #, python-format
 msgid "Required columns not found: %(columns)s"
 msgstr ""
 
-#: app/blueprints/assets.py:979
+#: app/blueprints/assets.py:982
 msgid "Select at least one asset to print."
 msgstr ""
 
-#: app/blueprints/assets.py:1007
+#: app/blueprints/assets.py:1010
 msgid "Selected assets are invalid."
 msgstr ""
 
-#: app/blueprints/assets.py:1029 app/blueprints/assets.py:2392
+#: app/blueprints/assets.py:1032 app/blueprints/assets.py:2408
 msgid "Selected assets were not found."
 msgstr ""
 
-#: app/blueprints/assets.py:1135
+#: app/blueprints/assets.py:1138
 msgid "Asset was successfully deleted."
 msgstr ""
 
-#: app/blueprints/assets.py:1185
+#: app/blueprints/assets.py:1201
 msgid "Asset Tag is required."
 msgstr ""
 
-#: app/blueprints/assets.py:1204
+#: app/blueprints/assets.py:1220
 msgid "Asset name is required."
 msgstr ""
 
-#: app/blueprints/assets.py:1227
+#: app/blueprints/assets.py:1243
 msgid "Asset Tag is already in use."
 msgstr ""
 
-#: app/blueprints/assets.py:1326
+#: app/blueprints/assets.py:1342
 #, python-format
 msgid "Invalid asset photo: %(error)s"
 msgstr ""
 
-#: app/blueprints/assets.py:1350 app/blueprints/assets.py:2156
+#: app/blueprints/assets.py:1366 app/blueprints/assets.py:2172
 #: app/templates/asset/_photo_gallery.html:392
 msgid "Asset photo failed to upload."
 msgstr ""
 
-#: app/blueprints/assets.py:1502
+#: app/blueprints/assets.py:1518
 msgid "Asset failed to save."
 msgstr ""
 
-#: app/blueprints/assets.py:1536
+#: app/blueprints/assets.py:1552
 msgid "Asset was successfully added."
 msgstr ""
 
-#: app/blueprints/assets.py:1825
+#: app/blueprints/assets.py:1841
 msgid "Invalid stock quantity."
 msgstr ""
 
-#: app/blueprints/assets.py:1858
+#: app/blueprints/assets.py:1874
 msgid "Invalid selling price."
 msgstr ""
 
-#: app/blueprints/assets.py:1961
+#: app/blueprints/assets.py:1977
 msgid "Invalid purchase date format."
 msgstr ""
 
-#: app/blueprints/assets.py:2001
+#: app/blueprints/assets.py:2017
 msgid "Invalid purchase price."
 msgstr ""
 
-#: app/blueprints/assets.py:2031
+#: app/blueprints/assets.py:2047
 msgid "Asset was successfully updated."
 msgstr ""
 
-#: app/blueprints/assets.py:2052
+#: app/blueprints/assets.py:2068
 msgid "Failed to update asset."
 msgstr ""
 
-#: app/blueprints/assets.py:2099
+#: app/blueprints/assets.py:2115
 msgid "No photo file was sent."
 msgstr ""
 
-#: app/blueprints/assets.py:2163
+#: app/blueprints/assets.py:2179
 msgid "Added asset photo(s)."
 msgstr ""
 
-#: app/blueprints/assets.py:2192 app/blueprints/assets.py:2219
+#: app/blueprints/assets.py:2208 app/blueprints/assets.py:2235
 msgid "Photo not found."
 msgstr ""
 
-#: app/blueprints/assets.py:2314
+#: app/blueprints/assets.py:2330
 msgid "Select at least one asset to export to Excel."
 msgstr ""
 
-#: app/blueprints/assets.py:2358
+#: app/blueprints/assets.py:2374
 msgid "Invalid asset ID."
 msgstr ""
 
@@ -358,7 +358,7 @@ msgstr ""
 msgid "Company data updated successfully."
 msgstr ""
 
-#: app/blueprints/helpers.py:324 app/templates/asset/add.html:1859
+#: app/blueprints/helpers.py:359 app/templates/asset/add.html:1863
 msgid "Photo format must be JPG, JPEG, PNG, or WEBP."
 msgstr ""
 
@@ -370,83 +370,83 @@ msgstr ""
 msgid "You have been logged out."
 msgstr ""
 
-#: app/blueprints/master_data.py:72 app/blueprints/master_data.py:152
+#: app/blueprints/master_data.py:72 app/blueprints/master_data.py:153
 msgid "Category name is required."
 msgstr ""
 
-#: app/blueprints/master_data.py:87 app/blueprints/master_data.py:169
+#: app/blueprints/master_data.py:87 app/blueprints/master_data.py:170
 msgid "Category already exists."
 msgstr ""
 
-#: app/blueprints/master_data.py:109
+#: app/blueprints/master_data.py:110
 msgid "Category added successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:189
+#: app/blueprints/master_data.py:191
 msgid "Category updated successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:226
+#: app/blueprints/master_data.py:228
 msgid "Category deleted successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:281 app/blueprints/master_data.py:358
+#: app/blueprints/master_data.py:283 app/blueprints/master_data.py:360
 msgid "Location name is required."
 msgstr ""
 
-#: app/blueprints/master_data.py:296 app/blueprints/master_data.py:375
+#: app/blueprints/master_data.py:298 app/blueprints/master_data.py:377
 msgid "Location already exists."
 msgstr ""
 
-#: app/blueprints/master_data.py:315
+#: app/blueprints/master_data.py:317
 msgid "Location added successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:392
+#: app/blueprints/master_data.py:394
 msgid "Location updated successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:429
+#: app/blueprints/master_data.py:431
 msgid "Location deleted successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:484 app/blueprints/master_data.py:561
+#: app/blueprints/master_data.py:486 app/blueprints/master_data.py:563
 msgid "Department name is required."
 msgstr ""
 
-#: app/blueprints/master_data.py:499 app/blueprints/master_data.py:578
+#: app/blueprints/master_data.py:501 app/blueprints/master_data.py:580
 msgid "Department already exists."
 msgstr ""
 
-#: app/blueprints/master_data.py:518
+#: app/blueprints/master_data.py:520
 msgid "Department added successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:595
+#: app/blueprints/master_data.py:597
 msgid "Department updated successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:632
+#: app/blueprints/master_data.py:634
 msgid "Department deleted successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:682 app/blueprints/master_data.py:768
+#: app/blueprints/master_data.py:684 app/blueprints/master_data.py:770
 msgid "Vendor name is required."
 msgstr ""
 
-#: app/blueprints/master_data.py:697 app/blueprints/master_data.py:785
+#: app/blueprints/master_data.py:699 app/blueprints/master_data.py:787
 msgid "Vendor already exists."
 msgstr ""
 
-#: app/blueprints/master_data.py:730
+#: app/blueprints/master_data.py:732
 msgid "Vendor added successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:821
+#: app/blueprints/master_data.py:823
 msgid "Vendor updated successfully."
 msgstr ""
 
-#: app/blueprints/master_data.py:858
+#: app/blueprints/master_data.py:860
 msgid "Vendor deleted successfully."
 msgstr ""
 
@@ -718,7 +718,7 @@ msgstr ""
 msgid "Other users online"
 msgstr ""
 
-#: app/templates/base.html:1180 app/templates/base.html:1498
+#: app/templates/base.html:1180 app/templates/base.html:1499
 msgid "No other users online right now."
 msgstr ""
 
@@ -798,9 +798,9 @@ msgstr ""
 msgid "Assets by Status"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:102
-#: app/templates/asset/_list_fragment.html:382
-#: app/templates/asset/add.html:1385 app/templates/asset/detail.html:794
+#: app/templates/asset/_list_fragment.html:90
+#: app/templates/asset/_list_fragment.html:370
+#: app/templates/asset/add.html:1389 app/templates/asset/detail.html:794
 #: app/templates/asset/edit.html:1117 app/templates/asset/history.html:524
 #: app/templates/asset/labels_select.html:374
 #: app/templates/asset/movement_add.html:452
@@ -899,7 +899,7 @@ msgstr ""
 msgid "View All"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:292
+#: app/templates/asset/_list_fragment.html:280
 #: app/templates/asset/movement_detail.html:886
 #: app/templates/asset/movement_report.html:652
 #: app/templates/asset/movements_global.html:468
@@ -912,7 +912,7 @@ msgstr ""
 msgid "No."
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:297 app/templates/asset/add.html:621
+#: app/templates/asset/_list_fragment.html:285 app/templates/asset/add.html:621
 #: app/templates/asset/detail.html:485 app/templates/asset/edit.html:380
 #: app/templates/asset/history.html:488
 #: app/templates/asset/labels_print.html:108
@@ -926,7 +926,7 @@ msgstr ""
 msgid "Asset Tag"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:302 app/templates/asset/add.html:643
+#: app/templates/asset/_list_fragment.html:290 app/templates/asset/add.html:647
 #: app/templates/asset/detail.html:498 app/templates/asset/edit.html:398
 #: app/templates/asset/history.html:494
 #: app/templates/asset/movement_add.html:418
@@ -936,9 +936,9 @@ msgstr ""
 msgid "Asset Name"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:115
-#: app/templates/asset/_list_fragment.html:629
-#: app/templates/asset/add.html:1394 app/templates/asset/detail.html:798
+#: app/templates/asset/_list_fragment.html:103
+#: app/templates/asset/_list_fragment.html:617
+#: app/templates/asset/add.html:1398 app/templates/asset/detail.html:798
 #: app/templates/asset/edit.html:1130
 #: app/templates/asset/labels_select.html:492
 #: app/templates/asset/movements.html:117 app/templates/dashboard.html:1108
@@ -948,9 +948,9 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:120
-#: app/templates/asset/_list_fragment.html:644
-#: app/templates/asset/add.html:1401 app/templates/asset/detail.html:803
+#: app/templates/asset/_list_fragment.html:108
+#: app/templates/asset/_list_fragment.html:632
+#: app/templates/asset/add.html:1405 app/templates/asset/detail.html:803
 #: app/templates/asset/edit.html:1135
 #: app/templates/asset/labels_select.html:500
 #: app/templates/asset/movements.html:121 app/templates/dashboard.html:1113
@@ -958,18 +958,18 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:130
-#: app/templates/asset/_list_fragment.html:672
-#: app/templates/asset/add.html:1415 app/templates/asset/detail.html:814
+#: app/templates/asset/_list_fragment.html:118
+#: app/templates/asset/_list_fragment.html:660
+#: app/templates/asset/add.html:1419 app/templates/asset/detail.html:814
 #: app/templates/asset/edit.html:1145
 #: app/templates/asset/labels_select.html:508 app/templates/dashboard.html:1118
 #: app/templates/index.html:704 app/templates/index.html:1159
 msgid "Lost"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:135
-#: app/templates/asset/_list_fragment.html:686
-#: app/templates/asset/add.html:1422 app/templates/asset/detail.html:818
+#: app/templates/asset/_list_fragment.html:123
+#: app/templates/asset/_list_fragment.html:674
+#: app/templates/asset/add.html:1426 app/templates/asset/detail.html:818
 #: app/templates/asset/edit.html:1150
 #: app/templates/asset/labels_select.html:516 app/templates/dashboard.html:1122
 #: app/templates/index.html:730 app/templates/index.html:1169
@@ -1030,9 +1030,9 @@ msgstr ""
 msgid "Active Assets"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:125
-#: app/templates/asset/_list_fragment.html:658
-#: app/templates/asset/add.html:1408 app/templates/asset/detail.html:809
+#: app/templates/asset/_list_fragment.html:113
+#: app/templates/asset/_list_fragment.html:646
+#: app/templates/asset/add.html:1412 app/templates/asset/detail.html:809
 #: app/templates/asset/edit.html:1140 app/templates/asset/movements.html:125
 #: app/templates/index.html:678 app/templates/index.html:1149
 #: app/templates/master/menu/list.html:130
@@ -1061,13 +1061,13 @@ msgstr ""
 msgid "10 most recently added assets"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:387
+#: app/templates/asset/_list_fragment.html:375
 #: app/templates/asset/detail.html:908
 #: app/templates/asset/movement_report.html:668
 #: app/templates/asset/movements.html:242
 #: app/templates/asset/movements_global.html:506
 #: app/templates/audit/list.html:51 app/templates/backup/list.html:66
-#: app/templates/index.html:1036 app/templates/master/category/list.html:118
+#: app/templates/index.html:1036 app/templates/master/category/list.html:122
 #: app/templates/master/department/list.html:91
 #: app/templates/master/location/list.html:96
 #: app/templates/master/menu/list.html:98
@@ -1077,7 +1077,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:700
+#: app/templates/asset/_list_fragment.html:688
 #: app/templates/asset/detail.html:823 app/templates/index.html:1182
 #: app/templates/index.html:1268
 msgid "No Status"
@@ -1176,7 +1176,7 @@ msgid "Confirm New Password"
 msgstr ""
 
 #: app/templates/asset/edit.html:1314
-#: app/templates/master/category/edit.html:157
+#: app/templates/master/category/edit.html:180
 #: app/templates/master/department/edit.html:70
 #: app/templates/master/location/edit.html:84
 #: app/templates/master/menu/edit.html:221
@@ -1185,161 +1185,65 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:11
+#: app/templates/asset/_list_fragment.html:15
 msgid "All"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:16 app/templates/asset/add.html:513
-#: app/templates/asset/edit.html:259 app/templates/master/category/add.html:90
-#: app/templates/master/category/edit.html:89
-#: app/templates/master/category/list.html:174
-msgid "PC / Laptop"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:17 app/templates/asset/add.html:520
-#: app/templates/asset/edit.html:267 app/templates/company/edit.html:93
-#: app/templates/company/list.html:210
-#: app/templates/master/category/add.html:94
-#: app/templates/master/category/edit.html:93
-#: app/templates/master/category/list.html:148
-#: app/templates/master/vendor/add.html:74
-#: app/templates/master/vendor/edit.html:75
-#: app/templates/master/vendor/list.html:95
-msgid "Phone"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:18 app/templates/asset/add.html:527
-#: app/templates/asset/edit.html:275 app/templates/master/category/add.html:98
-#: app/templates/master/category/edit.html:97
-#: app/templates/master/category/list.html:150
-msgid "Server & Network"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:19 app/templates/asset/add.html:534
-#: app/templates/asset/edit.html:283
-#: app/templates/master/category/list.html:152
-msgid "Other Electronics"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:20 app/templates/asset/add.html:541
-#: app/templates/asset/edit.html:291
-#: app/templates/master/category/list.html:154
-msgid "Interior Electronics"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:21 app/templates/asset/add.html:548
-#: app/templates/asset/edit.html:299
-#: app/templates/master/category/list.html:156
-msgid "Exterior Electronics"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:22 app/templates/asset/add.html:555
-#: app/templates/asset/edit.html:307
-#: app/templates/master/category/list.html:158
-msgid "Vehicle"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:23 app/templates/asset/add.html:562
-#: app/templates/asset/edit.html:315 app/templates/master/category/add.html:118
-#: app/templates/master/category/edit.html:117
-#: app/templates/master/category/list.html:160
-msgid "Furniture"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:24 app/templates/asset/add.html:569
-#: app/templates/asset/edit.html:323 app/templates/master/category/add.html:122
-#: app/templates/master/category/edit.html:121
-#: app/templates/master/category/list.html:162
-msgid "Mechanical Tools"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:25 app/templates/asset/add.html:576
-#: app/templates/asset/edit.html:331
-msgid "ATK"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:26 app/templates/asset/add.html:583
-#: app/templates/asset/edit.html:339 app/templates/master/category/add.html:130
-#: app/templates/master/category/edit.html:129
-#: app/templates/master/category/list.html:166
-msgid "Pantry"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:27 app/templates/asset/add.html:590
-#: app/templates/asset/edit.html:347 app/templates/master/category/add.html:134
-#: app/templates/master/category/edit.html:133
-#: app/templates/master/category/list.html:168
-msgid "Pantry Tools"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:28 app/templates/asset/add.html:597
-#: app/templates/asset/edit.html:355
-#: app/templates/master/category/list.html:170
-msgid "Showcase"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:29 app/templates/asset/add.html:604
-#: app/templates/asset/edit.html:363 app/templates/master/category/add.html:142
-#: app/templates/master/category/edit.html:141
-#: app/templates/master/category/list.html:172
-msgid "Event Warehouse Stock"
-msgstr ""
-
-#: app/templates/asset/_list_fragment.html:58
-#: app/templates/asset/_list_fragment.html:78
+#: app/templates/asset/_list_fragment.html:46
+#: app/templates/asset/_list_fragment.html:66
 #: app/templates/asset/movements_global.html:82
 msgid "Search"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:74
+#: app/templates/asset/_list_fragment.html:62
 msgid "Asset tag, name, brand, serial..."
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:83
+#: app/templates/asset/_list_fragment.html:71
 #: app/templates/asset/movement_report.html:822
 #: app/templates/asset/movements_global.html:309
 #: app/templates/asset/movements_global.html:781
 msgid "Reset Filter"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:85
+#: app/templates/asset/_list_fragment.html:73
 #: app/templates/asset/movement_correct.html:873
 #: app/templates/asset/movement_report.html:606
 #: app/templates/scrap/list.html:120
 msgid "Reset"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:110
+#: app/templates/asset/_list_fragment.html:98
 #: app/templates/asset/movements_global.html:147
 msgid "All Statuses"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:159
+#: app/templates/asset/_list_fragment.html:147
 msgid "All Categories"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:195
+#: app/templates/asset/_list_fragment.html:183
 #: app/templates/asset/movements_global.html:196
 msgid "All Locations"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:231
+#: app/templates/asset/_list_fragment.html:219
 #: app/templates/asset/movements_global.html:241
 msgid "All Departments"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:287
+#: app/templates/asset/_list_fragment.html:275
 msgid "Photo"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:312 app/templates/asset/add.html:682
-#: app/templates/asset/add.html:739 app/templates/asset/add.html:796
-#: app/templates/asset/add.html:833 app/templates/asset/add.html:869
-#: app/templates/asset/add.html:902 app/templates/asset/add.html:935
-#: app/templates/asset/add.html:979 app/templates/asset/add.html:1006
-#: app/templates/asset/add.html:1038 app/templates/asset/add.html:1076
-#: app/templates/asset/add.html:1113 app/templates/asset/add.html:1150
-#: app/templates/asset/add.html:1195 app/templates/asset/detail.html:524
+#: app/templates/asset/_list_fragment.html:300 app/templates/asset/add.html:686
+#: app/templates/asset/add.html:743 app/templates/asset/add.html:800
+#: app/templates/asset/add.html:837 app/templates/asset/add.html:873
+#: app/templates/asset/add.html:906 app/templates/asset/add.html:939
+#: app/templates/asset/add.html:983 app/templates/asset/add.html:1010
+#: app/templates/asset/add.html:1042 app/templates/asset/add.html:1080
+#: app/templates/asset/add.html:1117 app/templates/asset/add.html:1154
+#: app/templates/asset/add.html:1199 app/templates/asset/detail.html:524
 #: app/templates/asset/edit.html:434 app/templates/asset/edit.html:493
 #: app/templates/asset/edit.html:552 app/templates/asset/edit.html:593
 #: app/templates/asset/edit.html:634 app/templates/asset/edit.html:669
@@ -1353,10 +1257,10 @@ msgstr ""
 msgid "Brand"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:318 app/templates/asset/add.html:688
-#: app/templates/asset/add.html:745 app/templates/asset/add.html:802
-#: app/templates/asset/add.html:838 app/templates/asset/add.html:941
-#: app/templates/asset/add.html:1012 app/templates/asset/detail.html:538
+#: app/templates/asset/_list_fragment.html:306 app/templates/asset/add.html:692
+#: app/templates/asset/add.html:749 app/templates/asset/add.html:806
+#: app/templates/asset/add.html:842 app/templates/asset/add.html:945
+#: app/templates/asset/add.html:1016 app/templates/asset/detail.html:538
 #: app/templates/asset/edit.html:440 app/templates/asset/edit.html:499
 #: app/templates/asset/edit.html:558 app/templates/asset/edit.html:599
 #: app/templates/asset/edit.html:710 app/templates/asset/edit.html:786
@@ -1366,9 +1270,9 @@ msgstr ""
 msgid "Model"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:325 app/templates/asset/add.html:694
-#: app/templates/asset/add.html:696 app/templates/asset/add.html:751
-#: app/templates/asset/add.html:807 app/templates/asset/add.html:843
+#: app/templates/asset/_list_fragment.html:313 app/templates/asset/add.html:698
+#: app/templates/asset/add.html:700 app/templates/asset/add.html:755
+#: app/templates/asset/add.html:811 app/templates/asset/add.html:847
 #: app/templates/asset/detail.html:553 app/templates/asset/edit.html:446
 #: app/templates/asset/edit.html:505 app/templates/asset/edit.html:564
 #: app/templates/asset/edit.html:605 app/templates/asset/history.html:518
@@ -1381,36 +1285,36 @@ msgstr ""
 msgid "Serial Number"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:332 app/templates/asset/add.html:875
-#: app/templates/asset/add.html:908 app/templates/asset/detail.html:655
+#: app/templates/asset/_list_fragment.html:320 app/templates/asset/add.html:879
+#: app/templates/asset/add.html:912 app/templates/asset/detail.html:655
 #: app/templates/asset/edit.html:640 app/templates/asset/edit.html:675
 msgid "Specification / Capacity"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:339 app/templates/asset/add.html:947
+#: app/templates/asset/_list_fragment.html:327 app/templates/asset/add.html:951
 #: app/templates/asset/detail.html:621 app/templates/asset/edit.html:716
 msgid "License Plate Number"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:343 app/templates/asset/add.html:953
+#: app/templates/asset/_list_fragment.html:331 app/templates/asset/add.html:957
 #: app/templates/asset/detail.html:638 app/templates/asset/edit.html:722
 msgid "Tax (STNK) Due Date"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:350
-#: app/templates/asset/add.html:1044 app/templates/asset/add.html:1081
-#: app/templates/asset/add.html:1118 app/templates/asset/add.html:1155
-#: app/templates/asset/add.html:1200 app/templates/asset/detail.html:672
+#: app/templates/asset/_list_fragment.html:338
+#: app/templates/asset/add.html:1048 app/templates/asset/add.html:1085
+#: app/templates/asset/add.html:1122 app/templates/asset/add.html:1159
+#: app/templates/asset/add.html:1204 app/templates/asset/detail.html:672
 #: app/templates/asset/edit.html:821 app/templates/asset/edit.html:862
 #: app/templates/asset/edit.html:903 app/templates/asset/edit.html:944
 #: app/templates/asset/edit.html:994
 msgid "Quantity / Stock"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:354
-#: app/templates/asset/add.html:1049 app/templates/asset/add.html:1086
-#: app/templates/asset/add.html:1123 app/templates/asset/add.html:1160
-#: app/templates/asset/add.html:1205 app/templates/asset/edit.html:827
+#: app/templates/asset/_list_fragment.html:342
+#: app/templates/asset/add.html:1053 app/templates/asset/add.html:1090
+#: app/templates/asset/add.html:1127 app/templates/asset/add.html:1164
+#: app/templates/asset/add.html:1209 app/templates/asset/edit.html:827
 #: app/templates/asset/edit.html:868 app/templates/asset/edit.html:909
 #: app/templates/asset/edit.html:950 app/templates/asset/edit.html:1000
 #: app/templates/asset/movement_detail.html:892
@@ -1418,14 +1322,14 @@ msgstr ""
 msgid "Unit"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:361
-#: app/templates/asset/add.html:1166 app/templates/asset/detail.html:689
+#: app/templates/asset/_list_fragment.html:349
+#: app/templates/asset/add.html:1170 app/templates/asset/detail.html:689
 #: app/templates/asset/edit.html:956
 msgid "Selling Price"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:377
-#: app/templates/asset/add.html:1226 app/templates/asset/detail.html:731
+#: app/templates/asset/_list_fragment.html:365
+#: app/templates/asset/add.html:1230 app/templates/asset/detail.html:731
 #: app/templates/asset/detail.html:904 app/templates/asset/edit.html:1100
 #: app/templates/asset/history.html:559 app/templates/asset/history.html:628
 #: app/templates/asset/history.html:646
@@ -1441,11 +1345,11 @@ msgstr ""
 msgid "PIC"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:424
+#: app/templates/asset/_list_fragment.html:412
 msgid "No photo yet"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:721
+#: app/templates/asset/_list_fragment.html:709
 #: app/templates/asset/history.html:712
 #: app/templates/asset/movement_report.html:793
 #: app/templates/asset/movements.html:371
@@ -1453,8 +1357,8 @@ msgstr ""
 msgid "Detail"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:733
-#: app/templates/master/category/list.html:185
+#: app/templates/asset/_list_fragment.html:721
+#: app/templates/master/category/list.html:197
 #: app/templates/master/department/list.html:122
 #: app/templates/master/location/list.html:128
 #: app/templates/master/menu/list.html:140
@@ -1464,25 +1368,25 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:745
+#: app/templates/asset/_list_fragment.html:733
 #: app/templates/asset/list.html:405 app/templates/asset/list.html:408
 msgid "Print QR / Label"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:779
+#: app/templates/asset/_list_fragment.html:767
 msgid "No assets found."
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:786
+#: app/templates/asset/_list_fragment.html:774
 msgid "Try changing your search term or filters."
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:795 app/templates/asset/add.html:4
+#: app/templates/asset/_list_fragment.html:783 app/templates/asset/add.html:4
 #: app/templates/asset/add.html:435 app/templates/asset/list.html:432
 msgid "Add Asset"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:831
+#: app/templates/asset/_list_fragment.html:819
 #: app/templates/asset/labels_select.html:247
 #: app/templates/asset/labels_select.html:990
 #: app/templates/asset/labels_select.html:997
@@ -1490,13 +1394,13 @@ msgstr ""
 msgid "Showing"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:837
+#: app/templates/asset/_list_fragment.html:825
 #: app/templates/asset/labels_select.html:999
 #: app/templates/asset/movement_report.html:837
 msgid "of"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:843
+#: app/templates/asset/_list_fragment.html:831
 #: app/templates/asset/labels_print.html:31
 #: app/templates/asset/labels_select.html:249
 #: app/templates/asset/labels_select.html:992
@@ -1504,50 +1408,50 @@ msgstr ""
 msgid "assets"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:852
+#: app/templates/asset/_list_fragment.html:840
 msgid "Search:"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:869
+#: app/templates/asset/_list_fragment.html:857
 msgid "Asset page navigation"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:875
+#: app/templates/asset/_list_fragment.html:863
 #: app/templates/asset/movements_global.html:728
 #: app/templates/audit/list.html:100
 msgid "Previous"
 msgstr ""
 
-#: app/templates/asset/_list_fragment.html:897
+#: app/templates/asset/_list_fragment.html:885
 #: app/templates/asset/movements_global.html:750
 #: app/templates/audit/list.html:114
 msgid "Next"
 msgstr ""
 
 #: app/templates/asset/_photo_gallery.html:251
-#: app/templates/asset/add.html:1254 app/templates/asset/add.html:1718
+#: app/templates/asset/add.html:1258 app/templates/asset/add.html:1722
 msgid "Asset Photo"
 msgstr ""
 
 #: app/templates/asset/_photo_gallery.html:270
-#: app/templates/asset/add.html:1265
+#: app/templates/asset/add.html:1269
 msgid "No asset photo yet"
 msgstr ""
 
 #: app/templates/asset/_photo_gallery.html:293
 #: app/templates/asset/_photo_gallery.html:389
-#: app/templates/asset/add.html:1753
+#: app/templates/asset/add.html:1757
 msgid "Set as cover"
 msgstr ""
 
 #: app/templates/asset/_photo_gallery.html:297
 #: app/templates/asset/_photo_gallery.html:390
-#: app/templates/asset/add.html:1754
+#: app/templates/asset/add.html:1758
 msgid "Delete photo"
 msgstr ""
 
 #: app/templates/asset/_photo_gallery.html:304
-#: app/templates/asset/add.html:1271
+#: app/templates/asset/add.html:1275
 msgid "Add photo"
 msgstr ""
 
@@ -1596,174 +1500,269 @@ msgstr ""
 msgid "Main Information"
 msgstr ""
 
+#: app/templates/asset/add.html:513 app/templates/asset/edit.html:259
+#: app/templates/master/category/add.html:112
+#: app/templates/master/category/edit.html:112
+#: app/templates/master/category/list.html:186
+msgid "PC / Laptop"
+msgstr ""
+
+#: app/templates/asset/add.html:520 app/templates/asset/edit.html:267
+#: app/templates/company/edit.html:93 app/templates/company/list.html:210
+#: app/templates/master/category/add.html:116
+#: app/templates/master/category/edit.html:116
+#: app/templates/master/category/list.html:160
+#: app/templates/master/vendor/add.html:74
+#: app/templates/master/vendor/edit.html:75
+#: app/templates/master/vendor/list.html:95
+msgid "Phone"
+msgstr ""
+
+#: app/templates/asset/add.html:527 app/templates/asset/edit.html:275
+#: app/templates/master/category/add.html:120
+#: app/templates/master/category/edit.html:120
+#: app/templates/master/category/list.html:162
+msgid "Server & Network"
+msgstr ""
+
+#: app/templates/asset/add.html:534 app/templates/asset/edit.html:283
+#: app/templates/master/category/list.html:164
+msgid "Other Electronics"
+msgstr ""
+
+#: app/templates/asset/add.html:541 app/templates/asset/edit.html:291
+#: app/templates/master/category/list.html:166
+msgid "Interior Electronics"
+msgstr ""
+
+#: app/templates/asset/add.html:548 app/templates/asset/edit.html:299
+#: app/templates/master/category/list.html:168
+msgid "Exterior Electronics"
+msgstr ""
+
+#: app/templates/asset/add.html:555 app/templates/asset/edit.html:307
+#: app/templates/master/category/list.html:170
+msgid "Vehicle"
+msgstr ""
+
+#: app/templates/asset/add.html:562 app/templates/asset/edit.html:315
+#: app/templates/master/category/add.html:140
+#: app/templates/master/category/edit.html:140
+#: app/templates/master/category/list.html:172
+msgid "Furniture"
+msgstr ""
+
+#: app/templates/asset/add.html:569 app/templates/asset/edit.html:323
+#: app/templates/master/category/add.html:144
+#: app/templates/master/category/edit.html:144
+#: app/templates/master/category/list.html:174
+msgid "Mechanical Tools"
+msgstr ""
+
+#: app/templates/asset/add.html:576 app/templates/asset/edit.html:331
+msgid "ATK"
+msgstr ""
+
+#: app/templates/asset/add.html:583 app/templates/asset/edit.html:339
+#: app/templates/master/category/add.html:152
+#: app/templates/master/category/edit.html:152
+#: app/templates/master/category/list.html:178
+msgid "Pantry"
+msgstr ""
+
+#: app/templates/asset/add.html:590 app/templates/asset/edit.html:347
+#: app/templates/master/category/add.html:156
+#: app/templates/master/category/edit.html:156
+#: app/templates/master/category/list.html:180
+msgid "Pantry Tools"
+msgstr ""
+
+#: app/templates/asset/add.html:597 app/templates/asset/edit.html:355
+#: app/templates/master/category/list.html:182
+msgid "Showcase"
+msgstr ""
+
+#: app/templates/asset/add.html:604 app/templates/asset/edit.html:363
+#: app/templates/master/category/add.html:164
+#: app/templates/master/category/edit.html:164
+#: app/templates/master/category/list.html:184
+msgid "Event Warehouse Stock"
+msgstr ""
+
 #: app/templates/asset/add.html:631
 msgid "Example: AST-001"
 msgstr ""
 
-#: app/templates/asset/add.html:653
+#: app/templates/asset/add.html:634
+msgid ""
+"Leave blank to auto-generate (e.g. TCI-LP-2026-0001) when the selected "
+"category has an Asset Tag Code set."
+msgstr ""
+
+#: app/templates/asset/add.html:657
 msgid "Example: Dell Latitude Laptop"
 msgstr ""
 
-#: app/templates/asset/add.html:674 app/templates/asset/add.html:731
-#: app/templates/asset/add.html:788 app/templates/asset/add.html:825
-#: app/templates/asset/add.html:861 app/templates/asset/add.html:894
-#: app/templates/asset/add.html:927 app/templates/asset/add.html:971
-#: app/templates/asset/add.html:998 app/templates/asset/add.html:1030
-#: app/templates/asset/add.html:1068 app/templates/asset/add.html:1105
-#: app/templates/asset/add.html:1142 app/templates/asset/add.html:1187
+#: app/templates/asset/add.html:678 app/templates/asset/add.html:735
+#: app/templates/asset/add.html:792 app/templates/asset/add.html:829
+#: app/templates/asset/add.html:865 app/templates/asset/add.html:898
+#: app/templates/asset/add.html:931 app/templates/asset/add.html:975
+#: app/templates/asset/add.html:1002 app/templates/asset/add.html:1034
+#: app/templates/asset/add.html:1072 app/templates/asset/add.html:1109
+#: app/templates/asset/add.html:1146 app/templates/asset/add.html:1191
 msgid "-- Select Category --"
 msgstr ""
 
-#: app/templates/asset/add.html:684
+#: app/templates/asset/add.html:688
 msgid "Example: Dell"
 msgstr ""
 
-#: app/templates/asset/add.html:690
+#: app/templates/asset/add.html:694
 msgid "Example: Latitude 5440"
 msgstr ""
 
-#: app/templates/asset/add.html:700 app/templates/asset/add.html:757
+#: app/templates/asset/add.html:704 app/templates/asset/add.html:761
 #: app/templates/asset/detail.html:570 app/templates/asset/edit.html:452
 #: app/templates/asset/edit.html:511
 msgid "Phone / WhatsApp Number"
 msgstr ""
 
-#: app/templates/asset/add.html:702 app/templates/asset/add.html:759
+#: app/templates/asset/add.html:706 app/templates/asset/add.html:763
 msgid "Example: 081234567890"
 msgstr ""
 
-#: app/templates/asset/add.html:706 app/templates/asset/add.html:763
+#: app/templates/asset/add.html:710 app/templates/asset/add.html:767
 #: app/templates/asset/detail.html:587 app/templates/asset/edit.html:458
 #: app/templates/asset/edit.html:517
 msgid "Office Email"
 msgstr ""
 
-#: app/templates/asset/add.html:708 app/templates/asset/add.html:765
+#: app/templates/asset/add.html:712 app/templates/asset/add.html:769
 msgid "Example: name@company.com"
 msgstr ""
 
-#: app/templates/asset/add.html:712 app/templates/asset/add.html:769
+#: app/templates/asset/add.html:716 app/templates/asset/add.html:773
 #: app/templates/asset/detail.html:604 app/templates/asset/edit.html:464
 #: app/templates/asset/edit.html:523
 msgid "Personal Email"
 msgstr ""
 
-#: app/templates/asset/add.html:714 app/templates/asset/add.html:771
+#: app/templates/asset/add.html:718 app/templates/asset/add.html:775
 msgid "Example: name@gmail.com"
 msgstr ""
 
-#: app/templates/asset/add.html:741
+#: app/templates/asset/add.html:745
 msgid "Example: Samsung"
 msgstr ""
 
-#: app/templates/asset/add.html:747
+#: app/templates/asset/add.html:751
 msgid "Example: Galaxy A54"
 msgstr ""
 
-#: app/templates/asset/add.html:753
+#: app/templates/asset/add.html:757
 msgid "Example: IMEI"
 msgstr ""
 
-#: app/templates/asset/add.html:798
+#: app/templates/asset/add.html:802
 msgid "Example: Cisco"
 msgstr ""
 
-#: app/templates/asset/add.html:871
+#: app/templates/asset/add.html:875
 msgid "Example: Daikin"
 msgstr ""
 
-#: app/templates/asset/add.html:877
+#: app/templates/asset/add.html:881
 msgid "Example: 1 PK Split"
 msgstr ""
 
-#: app/templates/asset/add.html:904
+#: app/templates/asset/add.html:908
 msgid "Example: Honda"
 msgstr ""
 
-#: app/templates/asset/add.html:910
+#: app/templates/asset/add.html:914
 msgid "Example: 5000 Watt"
 msgstr ""
 
-#: app/templates/asset/add.html:937
+#: app/templates/asset/add.html:941
 msgid "Example: Toyota"
 msgstr ""
 
-#: app/templates/asset/add.html:943
+#: app/templates/asset/add.html:947
 msgid "Example: Avanza"
 msgstr ""
 
-#: app/templates/asset/add.html:949
+#: app/templates/asset/add.html:953
 msgid "Example: B 1234 XYZ"
 msgstr ""
 
-#: app/templates/asset/add.html:981
+#: app/templates/asset/add.html:985
 msgid "Example: Informa"
 msgstr ""
 
-#: app/templates/asset/add.html:1008
+#: app/templates/asset/add.html:1012
 msgid "Example: Bosch"
 msgstr ""
 
-#: app/templates/asset/add.html:1040
+#: app/templates/asset/add.html:1044
 msgid "Example: Pilot"
 msgstr ""
 
-#: app/templates/asset/add.html:1051 app/templates/asset/add.html:1088
-#: app/templates/asset/add.html:1125 app/templates/asset/add.html:1162
-#: app/templates/asset/add.html:1207
+#: app/templates/asset/add.html:1055 app/templates/asset/add.html:1092
+#: app/templates/asset/add.html:1129 app/templates/asset/add.html:1166
+#: app/templates/asset/add.html:1211
 msgid "Example: PCS"
 msgstr ""
 
-#: app/templates/asset/add.html:1231
+#: app/templates/asset/add.html:1235
 #: app/templates/asset/movements_global.html:285
 msgid "PIC Name"
 msgstr ""
 
-#: app/templates/asset/add.html:1280
+#: app/templates/asset/add.html:1284
 msgid ""
 "Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover "
 "a photo for cover/remove options."
 msgstr ""
 
-#: app/templates/asset/add.html:1299
+#: app/templates/asset/add.html:1303
 msgid "Location & Organization"
 msgstr ""
 
-#: app/templates/asset/add.html:1322 app/templates/asset/movement_add.html:755
+#: app/templates/asset/add.html:1326 app/templates/asset/movement_add.html:755
 #: app/templates/asset/movement_batch_add.html:269
 #: app/templates/asset/movement_correct.html:510
 msgid "-- Select Location --"
 msgstr ""
 
-#: app/templates/asset/add.html:1359 app/templates/asset/movement_add.html:812
+#: app/templates/asset/add.html:1363 app/templates/asset/movement_add.html:812
 #: app/templates/asset/movement_batch_add.html:283
 #: app/templates/asset/movement_correct.html:542
 msgid "-- Select Department --"
 msgstr ""
 
-#: app/templates/asset/add.html:1448 app/templates/asset/edit.html:1178
+#: app/templates/asset/add.html:1452 app/templates/asset/edit.html:1178
 msgid "Purchase Information"
 msgstr ""
 
-#: app/templates/asset/add.html:1463 app/templates/asset/detail.html:745
+#: app/templates/asset/add.html:1467 app/templates/asset/detail.html:745
 #: app/templates/asset/edit.html:1192
 msgid "Purchase Date"
 msgstr ""
 
-#: app/templates/asset/add.html:1480 app/templates/asset/detail.html:762
+#: app/templates/asset/add.html:1484 app/templates/asset/detail.html:762
 #: app/templates/asset/edit.html:1210
 msgid "Purchase Price"
 msgstr ""
 
-#: app/templates/asset/add.html:1515
+#: app/templates/asset/add.html:1519
 msgid "-- Select Vendor --"
 msgstr ""
 
-#: app/templates/asset/add.html:1551 app/templates/asset/add.html:1560
+#: app/templates/asset/add.html:1555 app/templates/asset/add.html:1564
 #: app/templates/asset/detail.html:837 app/templates/asset/edit.html:1278
-#: app/templates/audit/list.html:54 app/templates/master/category/add.html:68
-#: app/templates/master/category/edit.html:68
-#: app/templates/master/category/list.html:110
+#: app/templates/audit/list.html:54 app/templates/master/category/add.html:90
+#: app/templates/master/category/edit.html:91
+#: app/templates/master/category/list.html:114
 #: app/templates/master/department/add.html:55
 #: app/templates/master/department/edit.html:55
 #: app/templates/master/department/list.html:90
@@ -1776,18 +1775,18 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: app/templates/asset/add.html:1566
+#: app/templates/asset/add.html:1570
 msgid "Enter notes or a description for this asset..."
 msgstr ""
 
-#: app/templates/asset/add.html:1585 app/templates/asset/edit.html:1305
+#: app/templates/asset/add.html:1589 app/templates/asset/edit.html:1305
 #: app/templates/asset/movement_add.html:1210
 #: app/templates/asset/movement_batch_add.html:419
 #: app/templates/asset/movement_correct.html:862
 #: app/templates/backup/list.html:127
 #: app/templates/backup/restore_upload.html:50
-#: app/templates/master/category/add.html:165
-#: app/templates/master/category/edit.html:164
+#: app/templates/master/category/add.html:187
+#: app/templates/master/category/edit.html:187
 #: app/templates/master/department/add.html:77
 #: app/templates/master/department/edit.html:77
 #: app/templates/master/location/add.html:91
@@ -1803,11 +1802,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: app/templates/asset/add.html:1594
+#: app/templates/asset/add.html:1598
 msgid "Save Asset"
 msgstr ""
 
-#: app/templates/asset/add.html:1865
+#: app/templates/asset/add.html:1869
 msgid "Maximum photo size is 5 MB."
 msgstr ""
 
@@ -2494,7 +2493,7 @@ msgstr ""
 #: app/templates/asset/movement_batch_add.html:403
 #: app/templates/asset/movement_correct.html:711
 #: app/templates/asset/movement_correct.html:818
-#: app/templates/audit/list.html:70 app/templates/master/category/list.html:201
+#: app/templates/audit/list.html:70 app/templates/master/category/list.html:213
 #: app/templates/master/department/list.html:138
 #: app/templates/master/location/list.html:144
 #: app/templates/master/menu/list.html:156
@@ -3288,7 +3287,7 @@ msgid "Upload Logo"
 msgstr ""
 
 #: app/templates/company/edit.html:264
-#: app/templates/master/category/add.html:158
+#: app/templates/master/category/add.html:180
 #: app/templates/master/department/add.html:70
 #: app/templates/master/location/add.html:84 app/templates/roles/edit.html:81
 #: app/templates/scrap/add.html:119 app/templates/scrap/edit.html:118
@@ -3347,49 +3346,67 @@ msgstr ""
 msgid "Example: Laptop"
 msgstr ""
 
+#: app/templates/master/category/add.html:68
+#: app/templates/master/category/edit.html:68
+#: app/templates/master/category/list.html:110
+msgid "Asset Tag Code"
+msgstr ""
+
 #: app/templates/master/category/add.html:75
+#: app/templates/master/category/edit.html:76
+msgid "Example: LP"
+msgstr ""
+
+#: app/templates/master/category/add.html:81
+#: app/templates/master/category/edit.html:82
+msgid ""
+"Short code used in the auto-generated Asset Tag, e.g. TCI-LP-2026-0001. "
+"Leave blank if this category should not auto-generate a tag yet."
+msgstr ""
+
+#: app/templates/master/category/add.html:97
 msgid "Category description..."
 msgstr ""
 
-#: app/templates/master/category/add.html:84
-#: app/templates/master/category/edit.html:83
-#: app/templates/master/category/list.html:114
+#: app/templates/master/category/add.html:106
+#: app/templates/master/category/edit.html:106
+#: app/templates/master/category/list.html:118
 msgid "Asset Field Template"
 msgstr ""
 
-#: app/templates/master/category/add.html:102
-#: app/templates/master/category/edit.html:101
+#: app/templates/master/category/add.html:124
+#: app/templates/master/category/edit.html:124
 msgid "Other Electronics (monitor, printer, CCTV, etc.)"
 msgstr ""
 
-#: app/templates/master/category/add.html:106
-#: app/templates/master/category/edit.html:105
+#: app/templates/master/category/add.html:128
+#: app/templates/master/category/edit.html:128
 msgid "Interior Electronics (AC, dispenser, fridge, etc.)"
 msgstr ""
 
-#: app/templates/master/category/add.html:110
-#: app/templates/master/category/edit.html:109
+#: app/templates/master/category/add.html:132
+#: app/templates/master/category/edit.html:132
 msgid "Exterior Electronics (generator, etc.)"
 msgstr ""
 
-#: app/templates/master/category/add.html:114
-#: app/templates/master/category/edit.html:113
+#: app/templates/master/category/add.html:136
+#: app/templates/master/category/edit.html:136
 msgid "Vehicle (adds plate number & tax due date)"
 msgstr ""
 
-#: app/templates/master/category/add.html:126
-#: app/templates/master/category/edit.html:125
-#: app/templates/master/category/list.html:164
+#: app/templates/master/category/add.html:148
+#: app/templates/master/category/edit.html:148
+#: app/templates/master/category/list.html:176
 msgid "Office Stationery (ATK)"
 msgstr ""
 
-#: app/templates/master/category/add.html:138
-#: app/templates/master/category/edit.html:137
+#: app/templates/master/category/add.html:160
+#: app/templates/master/category/edit.html:160
 msgid "Showcase (for customers)"
 msgstr ""
 
-#: app/templates/master/category/add.html:148
-#: app/templates/master/category/edit.html:147
+#: app/templates/master/category/add.html:170
+#: app/templates/master/category/edit.html:170
 msgid ""
 "Determines which fields appear on the Add/Edit Asset form when this "
 "category is selected."
@@ -3420,11 +3437,11 @@ msgstr ""
 msgid "categories found"
 msgstr ""
 
-#: app/templates/master/category/list.html:192
+#: app/templates/master/category/list.html:204
 msgid "Delete this category?"
 msgstr ""
 
-#: app/templates/master/category/list.html:218
+#: app/templates/master/category/list.html:230
 msgid "No categories yet."
 msgstr ""
 

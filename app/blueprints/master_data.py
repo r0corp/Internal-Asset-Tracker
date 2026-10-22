@@ -98,6 +98,7 @@ def add_category():
             field_template=_parse_field_template(
                 request.form.get("field_template")
             ),
+            code=request.form.get("code", "").strip().upper()[:10] or None,
         )
 
         db.session.add(category)
@@ -180,6 +181,7 @@ def edit_category(category_id):
         category.field_template = _parse_field_template(
             request.form.get("field_template")
         )
+        category.code = request.form.get("code", "").strip().upper()[:10] or None
 
         db.session.commit()
 

@@ -888,6 +888,12 @@ ID_TRANSLATIONS = {
     'Scrap record added successfully.': 'Data scrap berhasil ditambahkan.',
     'Scrap record updated successfully.': 'Data scrap berhasil diperbarui.',
     'Scrap record deleted successfully.': 'Data scrap berhasil dihapus.',
+
+    # --- auto-generated Asset Tag (Category code) ---
+    'Asset Tag Code': 'Kode Asset Tag',
+    'Example: LP': 'Contoh: LP',
+    'Short code used in the auto-generated Asset Tag, e.g. TCI-LP-2026-0001. Leave blank if this category should not auto-generate a tag yet.': 'Kode singkat untuk Asset Tag otomatis, contoh TCI-LP-2026-0001. Kosongkan kalau kategori ini belum mau pakai penomoran otomatis.',
+    'Leave blank to auto-generate (e.g. TCI-LP-2026-0001) when the selected category has an Asset Tag Code set.': 'Kosongkan untuk dibuat otomatis (contoh TCI-LP-2026-0001) kalau kategori yang dipilih sudah punya Kode Asset Tag.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

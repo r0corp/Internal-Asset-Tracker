@@ -266,6 +266,15 @@ class Category(db.Model):
         server_default=FIELD_TEMPLATE_PC_LAPTOP,
     )
 
+    # Singkatan kategori (misal "LP" untuk Laptop, "HP" untuk Handphone)
+    # dipakai sebagai bagian tengah format Asset Tag otomatis:
+    # TCI-<code>-<tahun>-<urutan>, lihat generate_next_asset_tag()
+    # di blueprints/assets.py.
+    code = db.Column(
+        db.String(10),
+        nullable=True,
+    )
+
     created_at = db.Column(
         db.DateTime,
         server_default=db.func.now()

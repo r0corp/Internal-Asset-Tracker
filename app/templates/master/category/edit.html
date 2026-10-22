@@ -62,6 +62,29 @@
                 </div>
 
 
+                <div class="mb-3 form-field-row">
+
+                    <label class="form-label form-field-label">
+                        {{ _('Asset Tag Code') }}
+                    </label>
+
+                    <input
+                        type="text"
+                        name="code"
+                        class="form-control"
+                        value="{{ category.code or '' }}"
+                        placeholder="{{ _('Example: LP') }}"
+                        maxlength="10"
+                        style="text-transform: uppercase;"
+                    >
+
+                    <div class="form-text">
+                        {{ _('Short code used in the auto-generated Asset Tag, e.g. TCI-LP-2026-0001. Leave blank if this category should not auto-generate a tag yet.') }}
+                    </div>
+
+                </div>
+
+
                 <div class="mb-3 form-field-row" style="align-items: flex-start;">
 
                     <label class="form-label form-field-label" style="padding-top: 0.4rem;">

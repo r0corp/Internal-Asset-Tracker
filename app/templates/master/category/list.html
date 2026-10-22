@@ -107,6 +107,10 @@
                             </th>
 
                             <th>
+                                {{ _('Asset Tag Code') }}
+                            </th>
+
+                            <th>
                                 {{ _('Description') }}
                             </th>
 
@@ -136,6 +140,14 @@
                                 <strong>
                                     {{ category.name }}
                                 </strong>
+                            </td>
+
+                            <td>
+                                {% if category.code %}
+                                <span class="badge bg-secondary">{{ category.code }}</span>
+                                {% else %}
+                                -
+                                {% endif %}
                             </td>
 
                             <td>
@@ -212,7 +224,7 @@
                         <tr>
 
                             <td
-                                colspan="5"
+                                colspan="6"
                                 class="text-center text-muted"
                             >
                                 {{ _('No categories yet.') }}

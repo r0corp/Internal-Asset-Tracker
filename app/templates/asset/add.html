@@ -628,7 +628,11 @@
 
 
                             <input type="text" class="form-control" id="asset_tag" name="asset_tag"
-                                placeholder="{{ _('Example: AST-001') }}" maxlength="30" required autocomplete="off">
+                                placeholder="{{ _('Example: AST-001') }}" maxlength="30" autocomplete="off">
+
+                            <div class="form-text">
+                                {{ _('Leave blank to auto-generate (e.g. TCI-LP-2026-0001) when the selected category has an Asset Tag Code set.') }}
+                            </div>
 
                         </div>
 

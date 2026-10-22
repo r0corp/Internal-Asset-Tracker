@@ -208,6 +208,41 @@ def apply_asset_category_restriction(query):
     return query.filter(Asset.category.in_(allowed))
 
 
+def generate_next_asset_tag(category):
+    """
+    Membuat Asset Tag otomatis format TCI-<code>-<tahun>-<urutan>
+    (misal TCI-LP-2026-0001), berdasarkan Category.code. Urutan
+    dihitung ulang tiap kategori+tahun dari tag tertinggi yang sudah
+    ada (bukan counter terpisah), supaya tidak perlu tabel tambahan.
+
+    Mengembalikan None kalau kategori tidak ditemukan atau belum
+    punya code (berarti kategori ini belum ikut skema penomoran
+    otomatis - asset_tag tetap harus diisi manual di form).
+    """
+
+    if not category or not category.code:
+        return None
+
+    year = datetime.now().year
+    prefix = f"TCI-{category.code}-{year}-"
+
+    existing_tags = (
+        Asset.query
+        .filter(Asset.asset_tag.like(f"{prefix}%"))
+        .with_entities(Asset.asset_tag)
+        .all()
+    )
+
+    max_sequence = 0
+
+    for (tag,) in existing_tags:
+        suffix = tag[len(prefix):]
+        if suffix.isdigit():
+            max_sequence = max(max_sequence, int(suffix))
+
+    return f"{prefix}{max_sequence + 1:04d}"
+
+
 def allowed_category_template_keys():
     """
     None kalau current_user tidak dibatasi (boleh lihat semua tab/

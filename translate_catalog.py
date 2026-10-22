@@ -894,6 +894,17 @@ ID_TRANSLATIONS = {
     'Example: LP': 'Contoh: LP',
     'Short code used in the auto-generated Asset Tag, e.g. TCI-LP-2026-0001. Leave blank if this category should not auto-generate a tag yet.': 'Kode singkat untuk Asset Tag otomatis, contoh TCI-LP-2026-0001. Kosongkan kalau kategori ini belum mau pakai penomoran otomatis.',
     'Leave blank to auto-generate (e.g. TCI-LP-2026-0001) when the selected category has an Asset Tag Code set.': 'Kosongkan untuk dibuat otomatis (contoh TCI-LP-2026-0001) kalau kategori yang dipilih sudah punya Kode Asset Tag.',
+
+    # --- vehicle insurance ---
+    'Insurance': 'Asuransi',
+    'Policy Number': 'Nomor Polis',
+    'Insurance Due Date': 'Masa Berlaku Asuransi',
+    'Example: Astra Insurance': 'Contoh: Asuransi Astra',
+    'Example: POL-123456': 'Contoh: POL-123456',
+    'Vehicle Insurance Expiring Soon': 'Asuransi Kendaraan Akan Habis',
+    'No vehicle insurance expiring soon.': 'Tidak ada asuransi kendaraan yang akan habis.',
+    'Expiring Soon': 'Akan Habis',
+    'Expired': 'Expired',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

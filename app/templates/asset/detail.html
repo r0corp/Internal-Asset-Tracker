@@ -643,6 +643,53 @@
             </div>
             {% endif %}
 
+            <!-- ASURANSI -->
+
+            {% if asset.asuransi %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-shield-check"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('Insurance') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.asuransi }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            {% if asset.nomor_polis %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-shield-check"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('Policy Number') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.nomor_polis }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            {% if asset.masa_asuransi %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('Insurance Due Date') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.masa_asuransi.strftime("%d-%m-%Y") }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
             <!-- SPECIFICATION -->
 
             {% if asset.specification %}

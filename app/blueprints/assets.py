@@ -1423,6 +1423,20 @@ def add_asset():
                 )
             ),
 
+            asuransi=request.form.get(
+                "asuransi"
+            ),
+
+            nomor_polis=request.form.get(
+                "nomor_polis"
+            ),
+
+            masa_asuransi=parse_date(
+                request.form.get(
+                    "masa_asuransi"
+                )
+            ),
+
             specification=request.form.get(
                 "specification"
             ),
@@ -1795,6 +1809,26 @@ def edit_asset(asset_id):
     asset.masa_pajak = parse_date(
         request.form.get(
             "masa_pajak"
+        )
+    )
+
+    asset.asuransi = (
+        request.form.get(
+            "asuransi",
+            ""
+        ).strip()
+    )
+
+    asset.nomor_polis = (
+        request.form.get(
+            "nomor_polis",
+            ""
+        ).strip()
+    )
+
+    asset.masa_asuransi = parse_date(
+        request.form.get(
+            "masa_asuransi"
         )
     )
 

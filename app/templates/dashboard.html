@@ -1147,6 +1147,92 @@ app_setting.app_name }} {% endblock %} {% block content %}
   </div>
 
   <!-- ============================================================
+         ASURANSI KENDARAAN AKAN/SUDAH HABIS
+         ============================================================ -->
+
+  <div class="card shadow-sm dashboard-section recent-table-card">
+    <div class="card-header-accent">
+      <div class="card-header-accent-left">
+        <div class="card-header-accent-icon">
+          <i class="bi bi-shield-exclamation"></i>
+        </div>
+        <div class="card-header-accent-title">
+          {{ _('Vehicle Insurance Expiring Soon') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      {% if expiring_insurance_assets %}
+
+      <div class="recent-table-wrapper">
+        <table
+          class="table table-hover mb-0 align-middle dashboard-table recent-table"
+        >
+          <thead class="table-light">
+            <tr>
+              <th>{{ _('No.') }}</th>
+              <th>{{ _('Asset Tag') }}</th>
+              <th>{{ _('Asset Name') }}</th>
+              <th>{{ _('License Plate Number') }}</th>
+              <th>{{ _('Insurance') }}</th>
+              <th>{{ _('Insurance Due Date') }}</th>
+              <th>{{ _('Status') }}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for asset in expiring_insurance_assets %}
+
+            <tr>
+              <td>{{ loop.index }}</td>
+
+              <td>
+                <a
+                  href="{{ url_for(
+                                        'main.asset_detail',
+                                        asset_id=asset.id
+                                    ) }}"
+                >
+                  {{ asset.asset_tag or "-" }}
+                </a>
+              </td>
+
+              <td>{{ asset.asset_name or "-" }}</td>
+
+              <td>{{ asset.plat_nomor or "-" }}</td>
+
+              <td>{{ asset.asuransi or "-" }}</td>
+
+              <td>{{ asset.masa_asuransi.strftime("%d-%m-%Y") }}</td>
+
+              <td>
+                {% if asset.masa_asuransi < today %}
+                <span class="badge bg-danger">{{ _('Expired') }}</span>
+                {% else %}
+                <span class="badge bg-warning text-dark">{{ _('Expiring Soon') }}</span>
+                {% endif %}
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% else %}
+
+      <div class="p-4 text-center text-muted">
+        <i class="bi bi-shield-check fs-1"></i>
+
+        <div class="mt-2">{{ _('No vehicle insurance expiring soon.') }}</div>
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
          MUTASI TERBARU
          ============================================================ -->
 

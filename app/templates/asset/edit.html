@@ -724,6 +724,26 @@
                                         value="{% if current_template == 'kendaraan' and asset.masa_pajak %}{{ asset.masa_pajak.strftime('%Y-%m-%d') }}{% endif %}">
                                 </div>
 
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('Insurance') }}</label>
+                                    <input type="text" class="form-control" name="asuransi"
+                                        value="{{ asset.asuransi or '' if current_template == 'kendaraan' else '' }}"
+                                        placeholder="{{ _('Example: Astra Insurance') }}" maxlength="100">
+                                </div>
+
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('Policy Number') }}</label>
+                                    <input type="text" class="form-control" name="nomor_polis"
+                                        value="{{ asset.nomor_polis or '' if current_template == 'kendaraan' else '' }}"
+                                        placeholder="{{ _('Example: POL-123456') }}" maxlength="50">
+                                </div>
+
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('Insurance Due Date') }}</label>
+                                    <input type="date" class="form-control" name="masa_asuransi"
+                                        value="{% if current_template == 'kendaraan' and asset.masa_asuransi %}{{ asset.masa_asuransi.strftime('%Y-%m-%d') }}{% endif %}">
+                                </div>
+
                             </div>
 
                         </div>

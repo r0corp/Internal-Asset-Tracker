@@ -2,7 +2,7 @@
 Halaman ringkasan: landing page asset (index) dan dashboard analitik.
 """
 
-from datetime import date
+from datetime import date, timedelta
 
 from flask import render_template
 
@@ -673,6 +673,24 @@ def dashboard():
     ]
 
     # ========================================================
+    # ASURANSI KENDARAAN AKAN HABIS (<= 30 HARI, TERMASUK YANG
+    # SUDAH LEWAT) - lihat Asset.masa_asuransi, khusus field_template
+    # "kendaraan".
+    # ========================================================
+
+    insurance_cutoff = date.today() + timedelta(days=30)
+
+    expiring_insurance_assets = (
+        apply_asset_category_restriction(Asset.query)
+        .filter(
+            Asset.masa_asuransi.isnot(None),
+            Asset.masa_asuransi <= insurance_cutoff,
+        )
+        .order_by(Asset.masa_asuransi.asc())
+        .all()
+    )
+
+    # ========================================================
     # RENDER DASHBOARD
     # ========================================================
 
@@ -680,6 +698,8 @@ def dashboard():
         "dashboard.html",
 
         today=date.today(),
+
+        expiring_insurance_assets=expiring_insurance_assets,
 
         # ----------------------------------------------------
         # ASSET

@@ -371,6 +371,18 @@ class Asset(db.Model):
         db.Date
     )
 
+    asuransi = db.Column(
+        db.String(100)
+    )
+
+    nomor_polis = db.Column(
+        db.String(50)
+    )
+
+    masa_asuransi = db.Column(
+        db.Date
+    )
+
     # Khusus kategori dengan field_template "lengkap" (elektronik).
     office_email = db.Column(
         db.String(150)

@@ -188,11 +188,21 @@ def assets():
         type=int,
     )
 
-    list_order = (
-        Asset.category.asc()
-        if selected_tipe == "atk"
-        else Asset.id.desc()
-    )
+    if selected_tipe == "atk":
+
+        # Urutan baris mengikuti nomor urut asli di catatan stok
+        # opname kertas Sadam (Category.stock_sequence), BUKAN abjad -
+        # supaya kolom "No." terlihat urut 1,2,3,... persis seperti
+        # catatan Sadam, bukan angka acak hasil sort abjad.
+        query = query.outerjoin(
+            Category,
+            Category.name == Asset.category,
+        )
+
+        list_order = Category.stock_sequence.asc()
+
+    else:
+        list_order = Asset.id.desc()
 
     pagination = query.order_by(
         list_order

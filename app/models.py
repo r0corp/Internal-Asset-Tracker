@@ -284,6 +284,14 @@ class Category(db.Model):
         nullable=True,
     )
 
+    # Batas minimum stok (stock opname bulanan) - kalau Asset.stock_quantity
+    # kategori ini turun sampai angka ini, dianggap perlu diajukan
+    # pembelian ulang. None = tidak dipantau (bukan kategori stok).
+    low_stock_threshold = db.Column(
+        db.Integer,
+        nullable=True,
+    )
+
     created_at = db.Column(
         db.DateTime,
         server_default=db.func.now()

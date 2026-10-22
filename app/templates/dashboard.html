@@ -1233,6 +1233,84 @@ app_setting.app_name }} {% endblock %} {% block content %}
   </div>
 
   <!-- ============================================================
+         STOK ATK PERLU DIBELI (PURCHASE REQUISITION)
+         ============================================================ -->
+
+  <div class="card shadow-sm dashboard-section recent-table-card">
+    <div class="card-header-accent">
+      <div class="card-header-accent-left">
+        <div class="card-header-accent-icon">
+          <i class="bi bi-cart-plus"></i>
+        </div>
+        <div class="card-header-accent-title">
+          {{ _('ATK Stock Needs Purchasing') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      {% if low_stock_atk_assets %}
+
+      <div class="recent-table-wrapper">
+        <table
+          class="table table-hover mb-0 align-middle dashboard-table recent-table"
+        >
+          <thead class="table-light">
+            <tr>
+              <th>{{ _('No.') }}</th>
+              <th>{{ _('Asset Tag') }}</th>
+              <th>{{ _('Asset Name') }}</th>
+              <th>{{ _('Quantity / Stock') }}</th>
+              <th>{{ _('Minimum Stock') }}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for asset in low_stock_atk_assets %}
+
+            <tr>
+              <td>{{ loop.index }}</td>
+
+              <td>
+                <a
+                  href="{{ url_for(
+                                        'main.asset_detail',
+                                        asset_id=asset.id
+                                    ) }}"
+                >
+                  {{ asset.asset_tag or "-" }}
+                </a>
+              </td>
+
+              <td>{{ asset.asset_name or "-" }}</td>
+
+              <td>
+                <span class="badge {{ 'bg-danger' if asset.stock_quantity == 0 else 'bg-warning text-dark' }}">
+                  {{ asset.stock_quantity }} {{ asset.unit or '' }}
+                </span>
+              </td>
+
+              <td>{{ threshold_by_category_name.get(asset.category, '-') }} {{ asset.unit or '' }}</td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% else %}
+
+      <div class="p-4 text-center text-muted">
+        <i class="bi bi-check-circle fs-1"></i>
+
+        <div class="mt-2">{{ _('No ATK stock below minimum right now.') }}</div>
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
          MUTASI TERBARU
          ============================================================ -->
 

@@ -691,6 +691,45 @@ def dashboard():
     )
 
     # ========================================================
+    # STOK ATK PERLU DIBELI (stock_quantity <= batas minimum
+    # kategorinya) - hasil stok opname bulanan, dasar pengajuan
+    # pembelian ulang (purchase requisition).
+    # ========================================================
+
+    atk_categories_with_threshold = (
+        Category.query
+        .filter(
+            Category.field_template == "atk",
+            Category.low_stock_threshold.isnot(None),
+        )
+        .all()
+    )
+
+    threshold_by_category_name = {
+        c.name: c.low_stock_threshold
+        for c in atk_categories_with_threshold
+    }
+
+    low_stock_atk_assets = []
+
+    if threshold_by_category_name:
+
+        candidates = (
+            apply_asset_category_restriction(Asset.query)
+            .filter(
+                Asset.category.in_(threshold_by_category_name.keys()),
+                Asset.stock_quantity.isnot(None),
+            )
+            .order_by(Asset.stock_quantity.asc())
+            .all()
+        )
+
+        for a in candidates:
+            threshold = threshold_by_category_name.get(a.category)
+            if threshold is not None and a.stock_quantity <= threshold:
+                low_stock_atk_assets.append(a)
+
+    # ========================================================
     # RENDER DASHBOARD
     # ========================================================
 
@@ -700,6 +739,10 @@ def dashboard():
         today=date.today(),
 
         expiring_insurance_assets=expiring_insurance_assets,
+
+        low_stock_atk_assets=low_stock_atk_assets,
+
+        threshold_by_category_name=threshold_by_category_name,
 
         # ----------------------------------------------------
         # ASSET

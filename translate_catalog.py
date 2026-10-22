@@ -908,6 +908,11 @@ ID_TRANSLATIONS = {
 
     # --- incomplete asset data badge ---
     'Some asset information is still missing (e.g. serial number, brand/model, location, or department).': 'Sebagian data asset ini masih kosong (misalnya serial number, brand/model, lokasi, atau departemen).',
+
+    # --- ATK low stock / purchase requisition ---
+    'ATK Stock Needs Purchasing': 'Stok ATK Perlu Dibeli',
+    'Minimum Stock': 'Stok Minimum',
+    'No ATK stock below minimum right now.': 'Tidak ada stok ATK di bawah batas minimum saat ini.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

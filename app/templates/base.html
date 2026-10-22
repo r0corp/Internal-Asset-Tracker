@@ -1270,7 +1270,8 @@
 
                         {% elif entry.children %}
 
-                        {% set group_open = entry.children | selectattr("url", "equalto", request.path) | list | length > 0 %}
+                        {% set current_full_path = request.full_path.rstrip('?') %}
+                        {% set group_open = (entry.children | selectattr("url", "equalto", request.path) | list | length > 0) or (entry.children | selectattr("url", "equalto", current_full_path) | list | length > 0) %}
 
                         <li class="nav-item {% if group_open %}menu-open{% endif %}">
 
@@ -1289,7 +1290,7 @@
 
                                 {% for child in entry.children %}
                                 <li class="nav-item">
-                                    <a href="{{ child.url or '#' }}" class="nav-link {% if child.url == request.path %}active{% endif %}">
+                                    <a href="{{ child.url or '#' }}" class="nav-link {% if child.url == request.path or child.url == current_full_path %}active{% endif %}">
                                         {% if child.icon %}<i class="nav-icon bi {{ child.icon }}"></i>{% else %}<i class="nav-icon bi bi-circle"></i>{% endif %}
                                         <p>{{ _(child.label) }}</p>
                                     </a>

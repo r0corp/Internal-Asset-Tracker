@@ -179,20 +179,39 @@ def create_app():
 
             if allowed_tipe_keys is not None and item.url == "/":
 
-                for key, label, icon in models.ASSET_TYPE_TAB_CHOICES:
+                category_items = [
+                    SimpleNamespace(
+                        is_divider=False,
+                        label=label,
+                        icon=icon,
+                        url=f"/assets?tipe={key}",
+                    )
+                    for key, label, icon in models.ASSET_TYPE_TAB_CHOICES
+                    if key in allowed_tipe_keys
+                ]
 
-                    if key not in allowed_tipe_keys:
-                        continue
-
+                if len(category_items) > 1:
+                    # 2+ kategori diizinkan -> dikelompokkan jadi satu
+                    # dropdown "Asset" (sama seperti "Master Data"),
+                    # supaya sidebar tidak penuh menu kategori yang
+                    # berjejer satu per satu.
                     nav_menu.append({
                         "item": SimpleNamespace(
                             is_divider=False,
-                            label=label,
-                            icon=icon,
-                            url=f"/assets?tipe={key}",
+                            label=item.label,
+                            icon=item.icon,
+                            url=None,
                         ),
-                        "children": [],
+                        "children": category_items,
                     })
+                else:
+                    # Cuma 1 kategori diizinkan -> langsung jadi 1 link,
+                    # dropdown untuk satu item saja tidak perlu.
+                    for category_item in category_items:
+                        nav_menu.append({
+                            "item": category_item,
+                            "children": [],
+                        })
 
                 continue
 

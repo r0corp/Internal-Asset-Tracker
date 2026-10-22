@@ -230,6 +230,16 @@ Tracker {% endblock %} {% block content %}
     background: #f8f9fa;
 
     display: inline-block;
+
+    cursor: zoom-in;
+
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .asset-list-photo:hover {
+    opacity: 0.9;
+
+    transform: scale(1.05);
   }
 
   .asset-list-photo-empty {
@@ -523,8 +533,59 @@ Tracker {% endblock %} {% block content %}
       window.addEventListener("popstate", function () {
         loadUrl(window.location.href, false);
       });
+
+      // ====================================================
+      // ZOOM FOTO ASSET (klik thumbnail FOTO di tabel) - modal
+      // dipakai bareng untuk semua baris, isinya diganti sesuai
+      // thumbnail yang diklik (event.relatedTarget). Listener ini
+      // dipasang di modal-nya sendiri (di luar #assetListPanel),
+      // jadi tetap jalan walau tabelnya di-refresh via AJAX.
+      // ====================================================
+
+      const photoModal = document.getElementById("assetListPhotoModal");
+
+      if (photoModal) {
+        photoModal.addEventListener("show.bs.modal", function (event) {
+          const trigger = event.relatedTarget;
+
+          if (!trigger) {
+            return;
+          }
+
+          const photoUrl = trigger.getAttribute("data-photo-url");
+          const assetName = trigger.getAttribute("data-asset-name");
+          const assetTag = trigger.getAttribute("data-asset-tag");
+
+          photoModal.querySelector("#assetListPhotoModalImage").src = photoUrl;
+          photoModal.querySelector("#assetListPhotoModalLabel").textContent =
+            assetName + " (" + assetTag + ")";
+        });
+      }
     });
   </script>
+
+  <!-- ============================================================
+       MODAL ZOOM FOTO (dipakai bareng semua baris tabel)
+       ============================================================ -->
+
+  <div class="modal fade" id="assetListPhotoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="assetListPhotoModalLabel">
+            <i class="bi bi-image me-2"></i>
+          </h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body text-center p-3">
+          <img id="assetListPhotoModalImage" src="" alt=""
+            style="max-width: 100%; max-height: 75vh; width: auto; height: auto; object-fit: contain; border-radius: 8px;">
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% endblock %}
 </div>

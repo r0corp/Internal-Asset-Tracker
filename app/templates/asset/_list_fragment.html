@@ -411,7 +411,10 @@
                             <img src="{{ url_for(
                                                 'static',
                                                 filename='uploads/assets/' ~ asset.cover_photo_filename
-                                            ) }}" alt="{{ asset.asset_name }}" class="asset-list-photo" loading="lazy">
+                                            ) }}" alt="{{ asset.asset_name }}" class="asset-list-photo" loading="lazy"
+                                data-bs-toggle="modal" data-bs-target="#assetListPhotoModal"
+                                data-photo-url="{{ url_for('static', filename='uploads/assets/' ~ asset.cover_photo_filename) }}"
+                                data-asset-name="{{ asset.asset_name }}" data-asset-tag="{{ asset.asset_tag }}">
 
 
                             {% else %}

@@ -30,9 +30,6 @@ FIELD_TEMPLATE_TOOLS_PANTRY = "tools_pantry"
 FIELD_TEMPLATE_SHOWCASE = "showcase"
 FIELD_TEMPLATE_GUDANG_EVENT = "gudang_event"
 
-# Template yang punya "Jumlah/Stok" + "Satuan" (barang consumable,
-# bukan aset bertag unik) - lihat juga STOCK_FIELD_TEMPLATES di
-# blueprints/assets.py untuk daftar yang sama dipakai saat render.
 FIELD_TEMPLATE_CHOICES = [
     FIELD_TEMPLATE_PC_LAPTOP,
     FIELD_TEMPLATE_PONSEL,
@@ -43,6 +40,18 @@ FIELD_TEMPLATE_CHOICES = [
     FIELD_TEMPLATE_KENDARAAN,
     FIELD_TEMPLATE_FURNITURE,
     FIELD_TEMPLATE_TOOLS_MEKANIK,
+    FIELD_TEMPLATE_ATK,
+    FIELD_TEMPLATE_PANTRY,
+    FIELD_TEMPLATE_TOOLS_PANTRY,
+    FIELD_TEMPLATE_SHOWCASE,
+    FIELD_TEMPLATE_GUDANG_EVENT,
+]
+
+# Template yang punya "Jumlah/Stok" + "Satuan" (barang consumable,
+# bukan aset bertag unik dengan serial/brand/model) - dipakai
+# Asset.is_incomplete() supaya kategori consumable tidak dianggap
+# "belum lengkap" hanya karena tidak ada serial number/brand/model.
+STOCK_FIELD_TEMPLATES = [
     FIELD_TEMPLATE_ATK,
     FIELD_TEMPLATE_PANTRY,
     FIELD_TEMPLATE_TOOLS_PANTRY,
@@ -486,6 +495,39 @@ class Asset(db.Model):
             return self.photos[0].filename
 
         return self.photo
+
+    @property
+    def is_incomplete(self):
+        """
+        True kalau data penting asset ini masih kosong - dipakai untuk
+        badge "Data Belum Lengkap", BUKAN untuk mengisi data secara
+        otomatis (data yang memang belum ada dari sumbernya sengaja
+        dibiarkan kosong, bukan direka-reka).
+
+        Kategori consumable (ATK/Pantry/dst, lihat STOCK_FIELD_TEMPLATES)
+        tidak realistis punya serial/brand/model, jadi cuma dicek
+        lokasi & departemennya saja.
+        """
+
+        category = (
+            Category.query.filter_by(name=self.category).first()
+            if self.category else None
+        )
+
+        field_template = (
+            category.field_template if category else None
+        )
+
+        missing_org = not (self.location and self.department)
+
+        if field_template in STOCK_FIELD_TEMPLATES:
+            return missing_org
+
+        missing_identity = not (
+            self.serial_number and self.brand and self.model
+        )
+
+        return missing_identity or missing_org
 
 
 class AssetPhoto(db.Model):

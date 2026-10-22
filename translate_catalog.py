@@ -905,6 +905,9 @@ ID_TRANSLATIONS = {
     'No vehicle insurance expiring soon.': 'Tidak ada asuransi kendaraan yang akan habis.',
     'Expiring Soon': 'Akan Habis',
     'Expired': 'Expired',
+
+    # --- incomplete asset data badge ---
+    'Some asset information is still missing (e.g. serial number, brand/model, location, or department).': 'Sebagian data asset ini masih kosong (misalnya serial number, brand/model, lokasi, atau departemen).',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

@@ -871,6 +871,13 @@
                   </span>
 
                   {% endif %}
+
+                  {% if asset.is_incomplete %}
+                  <span class="badge bg-secondary asset-status-badge" title="{{ _('Some asset information is still missing (e.g. serial number, brand/model, location, or department).') }}">
+                    <i class="bi bi-exclamation-circle"></i>
+                    {{ _('Incomplete Data') }}
+                  </span>
+                  {% endif %}
                 </div>
               </div>
             </div>

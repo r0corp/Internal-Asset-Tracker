@@ -2,31 +2,10 @@
 
 
             <!-- ASSET TYPE TABS -->
-            <!-- Role yang dibatasi kategorinya sudah punya menu sidebar
-                 terpisah per kategori, jadi tab ini tidak perlu tampil
-                 lagi (navigasi antar kategori sudah lewat sidebar). -->
-
-            {% if not allowed_category_templates %}
-            <ul class="nav nav-tabs asset-type-tabs mb-3">
-
-                <li class="nav-item">
-                    <a class="nav-link {{ 'active' if not selected_tipe }}"
-                        href="{{ url_for('main.assets', search=search, status=selected_status, location=selected_location, department=selected_department, vendor=selected_vendor) }}">
-                        {{ _('All') }}
-                    </a>
-                </li>
-
-                {% for tipe_slug, tipe_label, tipe_icon in asset_type_tab_choices %}
-                <li class="nav-item">
-                    <a class="nav-link {{ 'active' if selected_tipe == tipe_slug }}"
-                        href="{{ url_for('main.assets', tipe=tipe_slug, search=search, status=selected_status, location=selected_location, department=selected_department, vendor=selected_vendor) }}">
-                        <i class="bi {{ tipe_icon }} me-1"></i>{{ _(tipe_label) }}
-                    </a>
-                </li>
-                {% endfor %}
-
-            </ul>
-            {% endif %}
+            <!-- Dihapus - navigasi antar kategori sekarang sepenuhnya
+                 lewat sidebar (1 kategori = 1 menu/link sendiri), baik
+                 untuk role yang dibatasi kategorinya maupun yang tidak,
+                 jadi tab panjang ini di halaman sendiri sudah redundan. -->
 
 
             <form method="GET" action="{{ url_for('main.assets') }}">

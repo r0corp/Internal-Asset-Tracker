@@ -181,11 +181,12 @@ def create_app():
 
                 # Menu "Asset" SELALU dipecah per kategori (bukan cuma
                 # untuk role yang dibatasi kategorinya) - tiap kategori
-                # dapat header (judul) sendiri, lalu menu link kategori
-                # itu (dan untuk ATK/Pantry/Showcase, link Stok Opname
-                # menyusul di bawahnya kalau role ini punya izin
-                # stock_opname). Role tanpa pembatasan (allowed_tipe_keys
-                # None) melihat SEMUA kategori, bukan cuma sebagian.
+                # jadi 1 grup yang bisa dibuka/ditutup (lihat
+                # category_children di bawah), isinya link Asset List
+                # (dan untuk ATK/Pantry/Showcase, link Stok Opname kalau
+                # role ini punya izin stock_opname). Role tanpa
+                # pembatasan (allowed_tipe_keys None) melihat SEMUA
+                # kategori, bukan cuma sebagian.
                 stock_opname_perm = (
                     role_obj.permission_for("stock_opname")
                     if role_obj else None
@@ -206,16 +207,32 @@ def create_app():
                     if key not in visible_tipe_keys:
                         continue
 
-                    nav_menu.append({
-                        "item": SimpleNamespace(
+                    # Satu kategori = satu grup yang bisa dibuka/ditutup
+                    # (accordion), sama persis mekanismenya dengan
+                    # "Master Data"/"Settings" - bukan lagi header +
+                    # link lepas, supaya sidebar tidak terlalu panjang
+                    # saat semua/banyak kategori ditampilkan sekaligus
+                    # (khususnya untuk role tanpa pembatasan kategori).
+                    category_children = [
+                        SimpleNamespace(
                             is_divider=False,
-                            is_header=True,
-                            label=label,
-                            icon=None,
-                            url=None,
-                        ),
-                        "children": [],
-                    })
+                            is_header=False,
+                            label=_("Asset List"),
+                            icon="bi-list-ul",
+                            url=f"/assets?tipe={key}",
+                        )
+                    ]
+
+                    if key in ("atk", "pantry", "showcase") and can_see_stock_opname:
+                        category_children.append(
+                            SimpleNamespace(
+                                is_divider=False,
+                                is_header=False,
+                                label=_("Stock Opname"),
+                                icon="bi-clipboard-check",
+                                url=f"/stock-opname/{key}",
+                            )
+                        )
 
                     nav_menu.append({
                         "item": SimpleNamespace(
@@ -223,22 +240,10 @@ def create_app():
                             is_header=False,
                             label=label,
                             icon=icon,
-                            url=f"/assets?tipe={key}",
+                            url=None,
                         ),
-                        "children": [],
+                        "children": category_children,
                     })
-
-                    if key in ("atk", "pantry", "showcase") and can_see_stock_opname:
-                        nav_menu.append({
-                            "item": SimpleNamespace(
-                                is_divider=False,
-                                is_header=False,
-                                label=_("Stock Opname"),
-                                icon="bi-clipboard-check",
-                                url=f"/stock-opname/{key}",
-                            ),
-                            "children": [],
-                        })
 
                 continue
 

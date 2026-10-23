@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 17:19+0700\n"
+"POT-Creation-Date: 2026-10-23 17:50+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,16 +25,22 @@ msgstr "Ukuran file yang diunggah terlalu besar (maksimal 5 MB)."
 msgid "Your session has expired. Please try again."
 msgstr "Sesi Anda sudah kedaluwarsa. Silakan coba lagi."
 
-#: app/__init__.py:220 app/templates/asset/labels_select.html:274
+#: app/__init__.py:229 app/templates/asset/labels_select.html:274
 #: app/templates/asset/list.html:1 app/templates/asset/list.html:404
 #: app/templates/dashboard.html:525 app/templates/index.html:434
 msgid "Asset List"
 msgstr "Daftar Asset"
 
-#: app/__init__.py:231 app/templates/stock_opname/input.html:3
+#: app/__init__.py:240 app/templates/stock_opname/input.html:3
 #: app/templates/stock_opname/input.html:22
 msgid "Stock Opname"
 msgstr "Stok Opname"
+
+#: app/__init__.py:251 app/templates/atk_pickup/categories.html:3
+#: app/templates/atk_pickup/categories.html:29
+#: app/templates/atk_pickup/new.html:3 app/templates/atk_pickup/new.html:66
+msgid "ATK Pickup"
+msgstr "Pengambilan ATK"
 
 #: app/auth.py:26
 msgid "You do not have access to this page."
@@ -81,8 +87,10 @@ msgstr "Master Data"
 #: app/templates/asset/edit.html:1080 app/templates/asset/history.html:500
 #: app/templates/asset/labels_print.html:134
 #: app/templates/asset/movement_correct.html:314
-#: app/templates/dashboard.html:757 app/templates/dashboard.html:1076
-#: app/templates/index.html:773 app/templates/index.html:1020
+#: app/templates/atk_pickup/new.html:166
+#: app/templates/atk_pickup/report.html:107 app/templates/dashboard.html:757
+#: app/templates/dashboard.html:1076 app/templates/index.html:773
+#: app/templates/index.html:1020
 msgid "Category"
 msgstr "Kategori"
 
@@ -313,6 +321,24 @@ msgstr "Select at least one asset to export to Excel."
 #: app/blueprints/assets.py:2543
 msgid "Invalid asset ID."
 msgstr "Invalid asset ID."
+
+#: app/blueprints/atk_pickup.py:141
+msgid "Employee name is required."
+msgstr "Nama pegawai wajib diisi."
+
+#: app/blueprints/atk_pickup.py:179
+#, python-format
+msgid "%(name)s: requested (%(qty)s) exceeds available stock (%(stock)s)."
+msgstr "%(name)s: diminta (%(qty)s) melebihi stok tersedia (%(stock)s)."
+
+#: app/blueprints/atk_pickup.py:208
+msgid "Select at least one item with a quantity."
+msgstr "Pilih minimal satu barang dengan jumlahnya."
+
+#: app/blueprints/atk_pickup.py:251
+#, python-format
+msgid "Pickup for %(name)s saved successfully."
+msgstr "Pengambilan untuk %(name)s berhasil disimpan."
 
 #: app/blueprints/backup.py:286
 #, python-format
@@ -1267,8 +1293,9 @@ msgstr "No. Mutasi"
 #: app/templates/asset/movements_global.html:480
 #: app/templates/asset/vehicle_service.html:94
 #: app/templates/asset/vehicle_service.html:164
-#: app/templates/dashboard.html:1523 app/templates/scrap/add.html:64
-#: app/templates/scrap/edit.html:64 app/templates/scrap/list.html:164
+#: app/templates/atk_pickup/report.html:56 app/templates/dashboard.html:1523
+#: app/templates/scrap/add.html:64 app/templates/scrap/edit.html:64
+#: app/templates/scrap/list.html:164
 msgid "Date"
 msgstr "Tanggal"
 
@@ -1567,6 +1594,8 @@ msgstr "Spesifikasi/Kapasitas"
 #: app/templates/asset/edit.html:1053 app/templates/asset/edit.html:1103
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
+#: app/templates/atk_pickup/new.html:168
+#: app/templates/atk_pickup/report.html:109
 #: app/templates/stock_opname/history.html:144
 #: app/templates/stock_opname/input.html:130
 msgid "Unit"
@@ -2411,6 +2440,7 @@ msgstr "Pilih Asset"
 
 #: app/templates/asset/labels.html:972
 #: app/templates/asset/movement_report.html:503
+#: app/templates/atk_pickup/report.html:70
 msgid "Export Excel"
 msgstr "Ekspor Excel"
 
@@ -2864,6 +2894,7 @@ msgstr "Tanda tangan baru siap disimpan."
 
 #: app/templates/asset/movement_batch_add.html:596
 #: app/templates/asset/movement_correct.html:1326
+#: app/templates/atk_pickup/new.html:312
 msgid "Signature deleted."
 msgstr "Tanda tangan dihapus."
 
@@ -3187,6 +3218,7 @@ msgstr "Tidak ada tanda tangan"
 
 #: app/templates/asset/movement_detail.html:1029
 #: app/templates/asset/movement_detail.html:1064
+#: app/templates/atk_pickup/report.html:161
 msgid "Signed"
 msgstr "Ditandatangani"
 
@@ -3447,6 +3479,186 @@ msgstr "Hapus catatan servis ini?"
 #: app/templates/asset/vehicle_service.html:214
 msgid "No service records yet."
 msgstr "Belum ada catatan servis."
+
+#: app/templates/atk_pickup/categories.html:33
+msgid ""
+"Print a QR code per category and stick it on the shelf. Scanning it with any"
+" phone camera opens the pickup form directly."
+msgstr ""
+"Cetak QR untuk tiap kategori dan tempel di rak. Scan dengan kamera HP apa "
+"saja akan langsung membuka formulir pengambilan."
+
+#: app/templates/atk_pickup/categories.html:44
+#: app/templates/atk_pickup/report.html:31
+msgid "Input Pickup"
+msgstr "Input Pengambilan"
+
+#: app/templates/atk_pickup/categories.html:49
+#: app/templates/atk_pickup/new.html:81
+msgid "Report"
+msgstr "Laporan"
+
+#: app/templates/atk_pickup/categories.html:54
+msgid "Print All QR"
+msgstr "Cetak Semua QR"
+
+#: app/templates/atk_pickup/categories.html:99
+msgid "Open Form"
+msgstr "Buka Formulir"
+
+#: app/templates/atk_pickup/categories.html:112
+msgid "No ATK categories available."
+msgstr "Tidak ada kategori ATK tersedia."
+
+#: app/templates/atk_pickup/new.html:68
+msgid ""
+"Record items taken by an employee - available stock is deducted immediately."
+msgstr ""
+"Catat barang yang diambil pegawai - stok tersedia langsung berkurang saat "
+"itu juga."
+
+#: app/templates/atk_pickup/new.html:77
+msgid "Category QR"
+msgstr "QR Kategori"
+
+#: app/templates/atk_pickup/new.html:112
+msgid "Employee Name"
+msgstr "Nama Pegawai"
+
+#: app/templates/atk_pickup/new.html:120
+msgid "Signature (optional - name alone is also accepted as proof)"
+msgstr "Tanda Tangan (opsional - nama saja sudah cukup jadi bukti)"
+
+#: app/templates/atk_pickup/new.html:125
+msgid "Sign here"
+msgstr "Tanda tangan di sini"
+
+#: app/templates/atk_pickup/new.html:132
+msgid "Clear"
+msgstr "Hapus"
+
+#: app/templates/atk_pickup/new.html:148
+msgid "Select Items"
+msgstr "Pilih Barang"
+
+#: app/templates/atk_pickup/new.html:159
+msgid "Search item name..."
+msgstr "Cari nama barang..."
+
+#: app/templates/atk_pickup/new.html:167
+#: app/templates/atk_pickup/report.html:108
+#: app/templates/stock_opname/history.html:143
+#: app/templates/stock_opname/input.html:129
+msgid "Item Name"
+msgstr "Nama Barang"
+
+#: app/templates/atk_pickup/new.html:169
+msgid "Available Stock"
+msgstr "Stok Tersedia"
+
+#: app/templates/atk_pickup/new.html:170
+msgid "Qty to Take"
+msgstr "Qty Diambil"
+
+#: app/templates/atk_pickup/new.html:200
+#: app/templates/stock_opname/input.html:221
+msgid "No items available."
+msgstr "Tidak ada item tersedia."
+
+#: app/templates/atk_pickup/new.html:216
+msgid "Save Pickup"
+msgstr "Simpan Pengambilan"
+
+#: app/templates/atk_pickup/new.html:279
+msgid "Signature saved."
+msgstr "Tanda tangan tersimpan."
+
+#: app/templates/atk_pickup/report.html:3
+#: app/templates/atk_pickup/report.html:20
+msgid "ATK Pickup Report"
+msgstr "Laporan Pengambilan ATK"
+
+#: app/templates/atk_pickup/report.html:47
+#: app/templates/stock_opname/history.html:74
+#: app/templates/stock_opname/input.html:76
+msgid "Period"
+msgstr "Periode"
+
+#: app/templates/atk_pickup/report.html:49
+msgid "Daily"
+msgstr "Harian"
+
+#: app/templates/atk_pickup/report.html:50
+msgid "Weekly"
+msgstr "Mingguan"
+
+#: app/templates/atk_pickup/report.html:51
+msgid "Monthly"
+msgstr "Bulanan"
+
+#: app/templates/atk_pickup/report.html:61
+#: app/templates/stock_opname/history.html:98
+msgid "Show"
+msgstr "Tampilkan"
+
+#: app/templates/atk_pickup/report.html:77
+msgid "Export PDF"
+msgstr "Export PDF"
+
+#: app/templates/atk_pickup/report.html:96
+msgid "Recap per Item"
+msgstr "Rekap per Barang"
+
+#: app/templates/atk_pickup/report.html:97
+#: app/templates/stock_opname/history.html:125
+#: app/templates/stock_opname/input.html:111
+msgid "items"
+msgstr "item"
+
+#: app/templates/atk_pickup/report.html:110
+msgid "Qty Taken"
+msgstr "Qty Diambil"
+
+#: app/templates/atk_pickup/report.html:111
+msgid "Remaining Stock"
+msgstr "Sisa Stok"
+
+#: app/templates/atk_pickup/report.html:126
+#: app/templates/atk_pickup/report.html:186
+msgid "No pickups for this period yet."
+msgstr "Belum ada pengambilan untuk periode ini."
+
+#: app/templates/atk_pickup/report.html:146
+msgid "Pickup History"
+msgstr "Riwayat Pengambilan"
+
+#: app/templates/atk_pickup/report.html:147
+msgid "transactions"
+msgstr "transaksi"
+
+#: app/templates/atk_pickup/report.html:157
+msgid "Date/Time"
+msgstr "Tanggal/Waktu"
+
+#: app/templates/atk_pickup/report.html:158
+msgid "Employee"
+msgstr "Pegawai"
+
+#: app/templates/atk_pickup/report.html:159
+msgid "Items"
+msgstr "Barang"
+
+#: app/templates/atk_pickup/report.html:160
+msgid "Recorded By"
+msgstr "Dicatat Oleh"
+
+#: app/templates/atk_pickup/report.html:177
+msgid "Yes"
+msgstr "Ya"
+
+#: app/templates/atk_pickup/report.html:179
+msgid "No"
+msgstr "Tidak"
 
 #: app/templates/audit/list.html:17
 msgid "History of who added/changed/deleted data"
@@ -4517,28 +4729,9 @@ msgstr "Hasil stok opname bulanan per item."
 msgid "Input Stock Opname"
 msgstr "Input Stok Opname"
 
-#: app/templates/stock_opname/history.html:74
-#: app/templates/stock_opname/input.html:76
-msgid "Period"
-msgstr "Periode"
-
 #: app/templates/stock_opname/history.html:89
 msgid "No data yet"
 msgstr "Belum ada data"
-
-#: app/templates/stock_opname/history.html:98
-msgid "Show"
-msgstr "Tampilkan"
-
-#: app/templates/stock_opname/history.html:125
-#: app/templates/stock_opname/input.html:111
-msgid "items"
-msgstr "item"
-
-#: app/templates/stock_opname/history.html:143
-#: app/templates/stock_opname/input.html:129
-msgid "Item Name"
-msgstr "Nama Barang"
 
 #: app/templates/stock_opname/history.html:145
 #: app/templates/stock_opname/input.html:131
@@ -4596,10 +4789,6 @@ msgstr ""
 #: app/templates/stock_opname/input.html:258
 msgid "Save Stock Opname"
 msgstr "Simpan Stok Opname"
-
-#: app/templates/stock_opname/input.html:221
-msgid "No items available."
-msgstr "Tidak ada item tersedia."
 
 msgid "Laporan Mutasi"
 msgstr "Laporan Mutasi"

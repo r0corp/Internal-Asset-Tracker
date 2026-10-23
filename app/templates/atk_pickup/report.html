@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('ATK Pickup Report') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+                    <h2 class="page-header-title">{{ _('ATK Pickup Report') }}</h2>
+                    <p class="page-header-subtitle mb-0">
+                        {{ start.strftime('%d-%m-%Y') }} - {{ end.strftime('%d-%m-%Y') }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+                <a href="{{ url_for('main.atk_pickup_new') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i>
+                    {{ _('Input Pickup') }}
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-body">
+
+            <form method="GET" class="d-flex flex-wrap align-items-end gap-3">
+
+                <div>
+                    <label class="form-label small mb-1">{{ _('Period') }}</label>
+                    <select name="period" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="daily" {% if period == 'daily' %}selected{% endif %}>{{ _('Daily') }}</option>
+                        <option value="weekly" {% if period == 'weekly' %}selected{% endif %}>{{ _('Weekly') }}</option>
+                        <option value="monthly" {% if period == 'monthly' %}selected{% endif %}>{{ _('Monthly') }}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-label small mb-1">{{ _('Date') }}</label>
+                    <input type="date" name="date" class="form-control form-control-sm" value="{{ anchor }}" onchange="this.form.submit()">
+                </div>
+
+                <noscript>
+                    <button type="submit" class="btn btn-sm btn-primary">{{ _('Show') }}</button>
+                </noscript>
+
+                <div class="ms-auto d-flex gap-2">
+                    <a
+                        href="{{ url_for('main.atk_pickup_export_excel', period=period, date=anchor) }}"
+                        class="btn btn-sm btn-outline-success"
+                    >
+                        <i class="bi bi-file-earmark-excel"></i>
+                        {{ _('Export Excel') }}
+                    </a>
+                    <a
+                        href="{{ url_for('main.atk_pickup_export_pdf', period=period, date=anchor) }}"
+                        class="btn btn-sm btn-outline-danger"
+                    >
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        {{ _('Export PDF') }}
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm overflow-hidden mb-3">
+
+        <div class="card-header-accent">
+            <div class="card-header-accent-left">
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+                <div>
+                    <div class="card-header-accent-title">{{ _('Recap per Item') }}</div>
+                    <div class="card-header-accent-subtitle">{{ totals|length }} {{ _('items') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>{{ _('Category') }}</th>
+                            <th>{{ _('Item Name') }}</th>
+                            <th>{{ _('Unit') }}</th>
+                            <th>{{ _('Qty Taken') }}</th>
+                            <th>{{ _('Remaining Stock') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in totals %}
+                        <tr>
+                            <td>{{ row.category or "-" }}</td>
+                            <td>{{ row.asset_name }}</td>
+                            <td>{{ row.unit or "-" }}</td>
+                            <td class="fw-semibold">{{ row.qty }}</td>
+                            <td>{{ row.remaining if row.remaining is not none else "-" }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                {{ _('No pickups for this period yet.') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm overflow-hidden">
+
+        <div class="card-header-accent">
+            <div class="card-header-accent-left">
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+                <div>
+                    <div class="card-header-accent-title">{{ _('Pickup History') }}</div>
+                    <div class="card-header-accent-subtitle">{{ pickups|length }} {{ _('transactions') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>{{ _('Date/Time') }}</th>
+                            <th>{{ _('Employee') }}</th>
+                            <th>{{ _('Items') }}</th>
+                            <th>{{ _('Recorded By') }}</th>
+                            <th>{{ _('Signed') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pickup in pickups %}
+                        <tr>
+                            <td class="text-nowrap">{{ pickup.created_at.strftime('%d-%m-%Y %H:%M') }}</td>
+                            <td>{{ pickup.employee_name }}</td>
+                            <td>
+                                {% for item in pickup.items %}
+                                <div>{{ item.asset_name }} &times; {{ item.quantity }}</div>
+                                {% endfor %}
+                            </td>
+                            <td>{{ pickup.recorded_by or "-" }}</td>
+                            <td>
+                                {% if pickup.signature %}
+                                <span class="badge bg-success">{{ _('Yes') }}</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ _('No') }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                {{ _('No pickups for this period yet.') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

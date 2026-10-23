@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('ATK Pickup') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+@media print {
+    .no-print { display: none !important; }
+    .qr-card { break-inside: avoid; }
+}
+</style>
+
+<div class="container-fluid">
+
+    <div class="page-header-card no-print">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-qr-code"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="page-header-title">
+                        {{ _('ATK Pickup') }}
+                    </h2>
+
+                    <p class="page-header-subtitle mb-0">
+                        {{ _('Print a QR code per category and stick it on the shelf. Scanning it with any phone camera opens the pickup form directly.') }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a href="{{ url_for('main.atk_pickup_new') }}" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i>
+                    {{ _('Input Pickup') }}
+                </a>
+
+                <a href="{{ url_for('main.atk_pickup_report') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-clock-history"></i>
+                    {{ _('Report') }}
+                </a>
+
+                <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+                    <i class="bi bi-printer"></i>
+                    {{ _('Print All QR') }}
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} no-print">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <div class="row g-3">
+
+        {% for category in categories %}
+
+        <div class="col-6 col-md-4 col-lg-3">
+
+            <div class="card shadow-sm text-center qr-card">
+
+                <div class="card-body">
+
+                    <img
+                        src="{{ url_for('main.atk_pickup_qr_image', category_id=category.id) }}"
+                        alt="{{ category.name }}"
+                        style="width: 100%; max-width: 180px;"
+                    >
+
+                    <div class="fw-semibold mt-2">
+                        {{ category.name }}
+                    </div>
+
+                    <a
+                        href="{{ url_for('main.atk_pickup_new', category_id=category.id) }}"
+                        class="btn btn-sm btn-outline-primary mt-2 no-print"
+                    >
+                        {{ _('Open Form') }}
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+            <div class="text-center text-muted py-5">
+                {{ _('No ATK categories available.') }}
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

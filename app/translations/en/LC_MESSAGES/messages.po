@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 17:19+0700\n"
+"POT-Creation-Date: 2026-10-23 17:50+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,16 +25,22 @@ msgstr "The uploaded file is too large (maximum 5 MB)."
 msgid "Your session has expired. Please try again."
 msgstr "Your session has expired. Please try again."
 
-#: app/__init__.py:220 app/templates/asset/labels_select.html:274
+#: app/__init__.py:229 app/templates/asset/labels_select.html:274
 #: app/templates/asset/list.html:1 app/templates/asset/list.html:404
 #: app/templates/dashboard.html:525 app/templates/index.html:434
 msgid "Asset List"
 msgstr "Asset List"
 
-#: app/__init__.py:231 app/templates/stock_opname/input.html:3
+#: app/__init__.py:240 app/templates/stock_opname/input.html:3
 #: app/templates/stock_opname/input.html:22
 msgid "Stock Opname"
 msgstr "Stock Opname"
+
+#: app/__init__.py:251 app/templates/atk_pickup/categories.html:3
+#: app/templates/atk_pickup/categories.html:29
+#: app/templates/atk_pickup/new.html:3 app/templates/atk_pickup/new.html:66
+msgid "ATK Pickup"
+msgstr "ATK Pickup"
 
 #: app/auth.py:26
 msgid "You do not have access to this page."
@@ -81,8 +87,10 @@ msgstr "Master Data"
 #: app/templates/asset/edit.html:1080 app/templates/asset/history.html:500
 #: app/templates/asset/labels_print.html:134
 #: app/templates/asset/movement_correct.html:314
-#: app/templates/dashboard.html:757 app/templates/dashboard.html:1076
-#: app/templates/index.html:773 app/templates/index.html:1020
+#: app/templates/atk_pickup/new.html:166
+#: app/templates/atk_pickup/report.html:107 app/templates/dashboard.html:757
+#: app/templates/dashboard.html:1076 app/templates/index.html:773
+#: app/templates/index.html:1020
 msgid "Category"
 msgstr "Category"
 
@@ -313,6 +321,24 @@ msgstr "Select at least one asset to export to Excel."
 #: app/blueprints/assets.py:2543
 msgid "Invalid asset ID."
 msgstr "Invalid asset ID."
+
+#: app/blueprints/atk_pickup.py:141
+msgid "Employee name is required."
+msgstr "Employee name is required."
+
+#: app/blueprints/atk_pickup.py:179
+#, python-format
+msgid "%(name)s: requested (%(qty)s) exceeds available stock (%(stock)s)."
+msgstr "%(name)s: requested (%(qty)s) exceeds available stock (%(stock)s)."
+
+#: app/blueprints/atk_pickup.py:208
+msgid "Select at least one item with a quantity."
+msgstr "Select at least one item with a quantity."
+
+#: app/blueprints/atk_pickup.py:251
+#, python-format
+msgid "Pickup for %(name)s saved successfully."
+msgstr "Pickup for %(name)s saved successfully."
 
 #: app/blueprints/backup.py:286
 #, python-format
@@ -1267,8 +1293,9 @@ msgstr "Movement No."
 #: app/templates/asset/movements_global.html:480
 #: app/templates/asset/vehicle_service.html:94
 #: app/templates/asset/vehicle_service.html:164
-#: app/templates/dashboard.html:1523 app/templates/scrap/add.html:64
-#: app/templates/scrap/edit.html:64 app/templates/scrap/list.html:164
+#: app/templates/atk_pickup/report.html:56 app/templates/dashboard.html:1523
+#: app/templates/scrap/add.html:64 app/templates/scrap/edit.html:64
+#: app/templates/scrap/list.html:164
 msgid "Date"
 msgstr "Date"
 
@@ -1566,6 +1593,8 @@ msgstr "Specification / Capacity"
 #: app/templates/asset/edit.html:1053 app/templates/asset/edit.html:1103
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
+#: app/templates/atk_pickup/new.html:168
+#: app/templates/atk_pickup/report.html:109
 #: app/templates/stock_opname/history.html:144
 #: app/templates/stock_opname/input.html:130
 msgid "Unit"
@@ -2411,6 +2440,7 @@ msgstr "Select Asset"
 
 #: app/templates/asset/labels.html:972
 #: app/templates/asset/movement_report.html:503
+#: app/templates/atk_pickup/report.html:70
 msgid "Export Excel"
 msgstr "Export Excel"
 
@@ -2864,6 +2894,7 @@ msgstr "New signature ready to be saved."
 
 #: app/templates/asset/movement_batch_add.html:596
 #: app/templates/asset/movement_correct.html:1326
+#: app/templates/atk_pickup/new.html:312
 msgid "Signature deleted."
 msgstr "Signature deleted."
 
@@ -3185,6 +3216,7 @@ msgstr "No signature"
 
 #: app/templates/asset/movement_detail.html:1029
 #: app/templates/asset/movement_detail.html:1064
+#: app/templates/atk_pickup/report.html:161
 msgid "Signed"
 msgstr "Signed"
 
@@ -3445,6 +3477,185 @@ msgstr "Delete this service record?"
 #: app/templates/asset/vehicle_service.html:214
 msgid "No service records yet."
 msgstr "No service records yet."
+
+#: app/templates/atk_pickup/categories.html:33
+msgid ""
+"Print a QR code per category and stick it on the shelf. Scanning it with any"
+" phone camera opens the pickup form directly."
+msgstr ""
+"Print a QR code per category and stick it on the shelf. Scanning it with any"
+" phone camera opens the pickup form directly."
+
+#: app/templates/atk_pickup/categories.html:44
+#: app/templates/atk_pickup/report.html:31
+msgid "Input Pickup"
+msgstr "Input Pickup"
+
+#: app/templates/atk_pickup/categories.html:49
+#: app/templates/atk_pickup/new.html:81
+msgid "Report"
+msgstr "Report"
+
+#: app/templates/atk_pickup/categories.html:54
+msgid "Print All QR"
+msgstr "Print All QR"
+
+#: app/templates/atk_pickup/categories.html:99
+msgid "Open Form"
+msgstr "Open Form"
+
+#: app/templates/atk_pickup/categories.html:112
+msgid "No ATK categories available."
+msgstr "No ATK categories available."
+
+#: app/templates/atk_pickup/new.html:68
+msgid ""
+"Record items taken by an employee - available stock is deducted immediately."
+msgstr ""
+"Record items taken by an employee - available stock is deducted immediately."
+
+#: app/templates/atk_pickup/new.html:77
+msgid "Category QR"
+msgstr "Category QR"
+
+#: app/templates/atk_pickup/new.html:112
+msgid "Employee Name"
+msgstr "Employee Name"
+
+#: app/templates/atk_pickup/new.html:120
+msgid "Signature (optional - name alone is also accepted as proof)"
+msgstr "Signature (optional - name alone is also accepted as proof)"
+
+#: app/templates/atk_pickup/new.html:125
+msgid "Sign here"
+msgstr "Sign here"
+
+#: app/templates/atk_pickup/new.html:132
+msgid "Clear"
+msgstr "Clear"
+
+#: app/templates/atk_pickup/new.html:148
+msgid "Select Items"
+msgstr "Select Items"
+
+#: app/templates/atk_pickup/new.html:159
+msgid "Search item name..."
+msgstr "Search item name..."
+
+#: app/templates/atk_pickup/new.html:167
+#: app/templates/atk_pickup/report.html:108
+#: app/templates/stock_opname/history.html:143
+#: app/templates/stock_opname/input.html:129
+msgid "Item Name"
+msgstr "Item Name"
+
+#: app/templates/atk_pickup/new.html:169
+msgid "Available Stock"
+msgstr "Available Stock"
+
+#: app/templates/atk_pickup/new.html:170
+msgid "Qty to Take"
+msgstr "Qty to Take"
+
+#: app/templates/atk_pickup/new.html:200
+#: app/templates/stock_opname/input.html:221
+msgid "No items available."
+msgstr "No items available."
+
+#: app/templates/atk_pickup/new.html:216
+msgid "Save Pickup"
+msgstr "Save Pickup"
+
+#: app/templates/atk_pickup/new.html:279
+msgid "Signature saved."
+msgstr "Signature saved."
+
+#: app/templates/atk_pickup/report.html:3
+#: app/templates/atk_pickup/report.html:20
+msgid "ATK Pickup Report"
+msgstr "ATK Pickup Report"
+
+#: app/templates/atk_pickup/report.html:47
+#: app/templates/stock_opname/history.html:74
+#: app/templates/stock_opname/input.html:76
+msgid "Period"
+msgstr "Period"
+
+#: app/templates/atk_pickup/report.html:49
+msgid "Daily"
+msgstr "Daily"
+
+#: app/templates/atk_pickup/report.html:50
+msgid "Weekly"
+msgstr "Weekly"
+
+#: app/templates/atk_pickup/report.html:51
+msgid "Monthly"
+msgstr "Monthly"
+
+#: app/templates/atk_pickup/report.html:61
+#: app/templates/stock_opname/history.html:98
+msgid "Show"
+msgstr "Show"
+
+#: app/templates/atk_pickup/report.html:77
+msgid "Export PDF"
+msgstr "Export PDF"
+
+#: app/templates/atk_pickup/report.html:96
+msgid "Recap per Item"
+msgstr "Recap per Item"
+
+#: app/templates/atk_pickup/report.html:97
+#: app/templates/stock_opname/history.html:125
+#: app/templates/stock_opname/input.html:111
+msgid "items"
+msgstr "items"
+
+#: app/templates/atk_pickup/report.html:110
+msgid "Qty Taken"
+msgstr "Qty Taken"
+
+#: app/templates/atk_pickup/report.html:111
+msgid "Remaining Stock"
+msgstr "Remaining Stock"
+
+#: app/templates/atk_pickup/report.html:126
+#: app/templates/atk_pickup/report.html:186
+msgid "No pickups for this period yet."
+msgstr "No pickups for this period yet."
+
+#: app/templates/atk_pickup/report.html:146
+msgid "Pickup History"
+msgstr "Pickup History"
+
+#: app/templates/atk_pickup/report.html:147
+msgid "transactions"
+msgstr "transactions"
+
+#: app/templates/atk_pickup/report.html:157
+msgid "Date/Time"
+msgstr "Date/Time"
+
+#: app/templates/atk_pickup/report.html:158
+msgid "Employee"
+msgstr "Employee"
+
+#: app/templates/atk_pickup/report.html:159
+msgid "Items"
+msgstr "Items"
+
+#: app/templates/atk_pickup/report.html:160
+msgid "Recorded By"
+msgstr "Recorded By"
+
+#: app/templates/atk_pickup/report.html:177
+msgid "Yes"
+msgstr "Yes"
+
+#: app/templates/atk_pickup/report.html:179
+msgid "No"
+msgstr "No"
 
 #: app/templates/audit/list.html:17
 msgid "History of who added/changed/deleted data"
@@ -4517,28 +4728,9 @@ msgstr "Monthly stock opname results per item."
 msgid "Input Stock Opname"
 msgstr "Input Stock Opname"
 
-#: app/templates/stock_opname/history.html:74
-#: app/templates/stock_opname/input.html:76
-msgid "Period"
-msgstr "Period"
-
 #: app/templates/stock_opname/history.html:89
 msgid "No data yet"
 msgstr "No data yet"
-
-#: app/templates/stock_opname/history.html:98
-msgid "Show"
-msgstr "Show"
-
-#: app/templates/stock_opname/history.html:125
-#: app/templates/stock_opname/input.html:111
-msgid "items"
-msgstr "items"
-
-#: app/templates/stock_opname/history.html:143
-#: app/templates/stock_opname/input.html:129
-msgid "Item Name"
-msgstr "Item Name"
 
 #: app/templates/stock_opname/history.html:145
 #: app/templates/stock_opname/input.html:131
@@ -4596,10 +4788,6 @@ msgstr ""
 #: app/templates/stock_opname/input.html:258
 msgid "Save Stock Opname"
 msgstr "Save Stock Opname"
-
-#: app/templates/stock_opname/input.html:221
-msgid "No items available."
-msgstr "No items available."
 
 msgid "Laporan Mutasi"
 msgstr "Movement Report"

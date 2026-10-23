@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('ATK Pickup') }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+.signature-canvas-wrapper {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border: 2px dashed #adb5bd;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.signature-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+    background: #ffffff;
+}
+
+.signature-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: #adb5bd;
+    font-size: 13px;
+    text-align: center;
+    padding: 15px;
+}
+
+.signature-status {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.signature-status.saved { color: #198754; }
+.signature-status.empty { color: #6c757d; }
+
+.atk-picker-row.is-scanned { background-color: var(--bs-primary-bg-subtle); }
+.atk-qty-input { max-width: 90px; }
+</style>
+
+<div class="container-fluid">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-box-arrow-up"></i>
+                </div>
+
+                <div>
+                    <h2 class="page-header-title">{{ _('ATK Pickup') }}</h2>
+                    <p class="page-header-subtitle mb-0">
+                        {{ _('Record items taken by an employee - available stock is deducted immediately.') }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+                <a href="{{ url_for('main.atk_pickup_categories') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-qr-code"></i>
+                    {{ _('Category QR') }}
+                </a>
+                <a href="{{ url_for('main.atk_pickup_report') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-clock-history"></i>
+                    {{ _('Report') }}
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <form method="POST" id="atkPickupForm">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="category_id" value="{{ scanned_category_id or '' }}">
+        <input type="hidden" name="signature" id="signature" value="">
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">{{ _('Employee Name') }} <span class="text-danger">*</span></label>
+                        <input type="text" name="employee_name" class="form-control" required autofocus>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <label class="form-label">{{ _('Signature (optional - name alone is also accepted as proof)') }}</label>
+
+                <div class="signature-canvas-wrapper">
+                    <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                    <div id="signaturePlaceholder" class="signature-placeholder">
+                        {{ _('Sign here') }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-1">
+                    <div id="signatureStatus" class="signature-status empty"></div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearSignature()">
+                        {{ _('Clear') }}
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm overflow-hidden">
+
+            <div class="card-header-accent">
+
+                <div class="card-header-accent-left">
+                    <div class="card-header-accent-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="card-header-accent-title">{{ _('Select Items') }}</div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <input
+                    type="text"
+                    id="atkPickerSearch"
+                    class="form-control mb-3"
+                    placeholder="{{ _('Search item name...') }}"
+                >
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Category') }}</th>
+                                <th>{{ _('Item Name') }}</th>
+                                <th>{{ _('Unit') }}</th>
+                                <th>{{ _('Available Stock') }}</th>
+                                <th style="width: 110px;">{{ _('Qty to Take') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for asset in assets %}
+                            {% set asset_category_id = category_id_by_name.get(asset.category) %}
+                            <tr
+                                class="atk-picker-row{{ ' is-scanned' if asset_category_id == scanned_category_id else '' }}"
+                                data-search="{{ asset.asset_name | lower }}"
+                                data-category-id="{{ asset_category_id or '' }}"
+                            >
+                                <td>{{ asset.category or "-" }}</td>
+                                <td>{{ asset.asset_name }}</td>
+                                <td>{{ asset.unit or "-" }}</td>
+                                <td>{{ asset.stock_quantity if asset.stock_quantity is not none else "-" }}</td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="{{ asset.stock_quantity or 0 }}"
+                                        step="1"
+                                        class="form-control form-control-sm atk-qty-input"
+                                        name="qty_{{ asset.id }}"
+                                    >
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    {{ _('No items available.') }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mt-3 mb-5">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i>
+                {{ _('Save Pickup') }}
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+(function () {
+    "use strict";
+
+    var canvas = document.getElementById("signatureCanvas");
+    var ctx = canvas.getContext("2d");
+    var hasDrawing = false;
+    var drawing = false;
+
+    function resizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        var ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = Math.floor(rect.width * ratio);
+        canvas.height = Math.floor(rect.height * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.strokeStyle = "#111111";
+    }
+
+    function getPoint(event) {
+        var rect = canvas.getBoundingClientRect();
+        var clientX, clientY;
+        if (event.touches && event.touches.length > 0) {
+            clientX = event.touches[0].clientX;
+            clientY = event.touches[0].clientY;
+        } else if (event.changedTouches && event.changedTouches.length > 0) {
+            clientX = event.changedTouches[0].clientX;
+            clientY = event.changedTouches[0].clientY;
+        } else {
+            clientX = event.clientX;
+            clientY = event.clientY;
+        }
+        return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function setStatus(message, saved) {
+        var el = document.getElementById("signatureStatus");
+        el.textContent = message;
+        el.classList.remove("saved", "empty");
+        el.classList.add(saved ? "saved" : "empty");
+    }
+
+    function hidePlaceholder() {
+        document.getElementById("signaturePlaceholder").style.display = "none";
+    }
+
+    function showPlaceholder() {
+        document.getElementById("signaturePlaceholder").style.display = "flex";
+    }
+
+    function saveToHidden() {
+        if (!hasDrawing) { return; }
+        document.getElementById("signature").value = canvas.toDataURL("image/png");
+        setStatus("{{ _('Signature saved.') }}", true);
+    }
+
+    function startDrawing(event) {
+        var point = getPoint(event);
+        drawing = true;
+        hasDrawing = true;
+        ctx.beginPath();
+        ctx.moveTo(point.x, point.y);
+        hidePlaceholder();
+    }
+
+    function draw(event) {
+        if (!drawing) { return; }
+        var point = getPoint(event);
+        ctx.lineTo(point.x, point.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(point.x, point.y);
+    }
+
+    function stopDrawing() {
+        if (!drawing) { return; }
+        drawing = false;
+        saveToHidden();
+    }
+
+    window.clearSignature = function () {
+        var rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        hasDrawing = false;
+        document.getElementById("signature").value = "";
+        showPlaceholder();
+        setStatus("{{ _('Signature deleted.') }}", false);
+    };
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseleave", stopDrawing);
+    canvas.addEventListener("touchstart", function (e) { e.preventDefault(); startDrawing(e); }, { passive: false });
+    canvas.addEventListener("touchmove", function (e) { e.preventDefault(); draw(e); }, { passive: false });
+    canvas.addEventListener("touchend", function (e) { e.preventDefault(); stopDrawing(); }, { passive: false });
+
+    document.addEventListener("DOMContentLoaded", resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    document.getElementById("atkPickupForm").addEventListener("submit", function () {
+        if (hasDrawing) { saveToHidden(); }
+    });
+
+    var search = document.getElementById("atkPickerSearch");
+    search.addEventListener("input", function () {
+        var q = search.value.trim().toLowerCase();
+        document.querySelectorAll(".atk-picker-row").forEach(function (row) {
+            row.classList.toggle("d-none", q && row.getAttribute("data-search").indexOf(q) === -1);
+        });
+    });
+
+    var scannedId = {{ scanned_category_id|tojson if scanned_category_id else 'null' }};
+    if (scannedId) {
+        var firstScanned = document.querySelector('.atk-picker-row[data-category-id="' + scannedId + '"]');
+        if (firstScanned) {
+            firstScanned.scrollIntoView({ block: "center" });
+        }
+    }
+})();
+</script>
+
+{% endblock %}

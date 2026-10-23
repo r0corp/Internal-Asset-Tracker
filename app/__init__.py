@@ -196,6 +196,15 @@ def create_app():
                     or bool(stock_opname_perm and stock_opname_perm.can_read)
                 )
 
+                atk_pickup_perm = (
+                    role_obj.permission_for("atk_pickup")
+                    if role_obj else None
+                )
+                can_see_atk_pickup = (
+                    role == models.ROLE_ADMINISTRATOR
+                    or bool(atk_pickup_perm and atk_pickup_perm.can_read)
+                )
+
                 visible_tipe_keys = (
                     allowed_tipe_keys
                     if allowed_tipe_keys is not None
@@ -231,6 +240,17 @@ def create_app():
                                 label=_("Stock Opname"),
                                 icon="bi-clipboard-check",
                                 url=f"/stock-opname/{key}",
+                            )
+                        )
+
+                    if key == "atk" and can_see_atk_pickup:
+                        category_children.append(
+                            SimpleNamespace(
+                                is_divider=False,
+                                is_header=False,
+                                label=_("ATK Pickup"),
+                                icon="bi-box-arrow-up",
+                                url="/atk-pickup",
                             )
                         )
 

@@ -1137,6 +1137,7 @@ PERMISSION_OBJECTS = [
     ("company", "Company"),
     ("scrap", "Scrap"),
     ("stock_opname", "Stok Opname"),
+    ("atk_pickup", "Pengambilan ATK"),
 ]
 
 # Kunci field_template yang direstriksi per role (lihat ASSET_TYPE_TABS
@@ -1669,3 +1670,106 @@ class StickyNote(db.Model):
             "pinned": self.pinned,
             "updated_at": self.updated_at.strftime("%d-%m-%Y %H:%M"),
         }
+
+
+class AtkPickup(db.Model):
+    """
+    Satu transaksi pengambilan ATK oleh satu pegawai (bisa beberapa
+    item sekaligus, lihat AtkPickupItem) - dicatat oleh Office Boy
+    (Sadam/Taufik/Roni) lewat scan QR rak, bukan oleh pegawai itu
+    sendiri. Nama pegawai wajib diisi, tanda tangan opsional
+    (cukup salah satu sebagai bukti pengambilan).
+    """
+
+    __tablename__ = "atk_pickups"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    employee_name = db.Column(
+        db.String(100),
+        nullable=False,
+    )
+
+    # Data URL PNG dari canvas tanda tangan - opsional, nama pegawai
+    # saja sudah cukup jadi bukti kalau tidak diisi.
+    signature = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    recorded_by = db.Column(
+        db.String(50),
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    items = db.relationship(
+        "AtkPickupItem",
+        backref="pickup",
+        cascade="all, delete-orphan",
+    )
+
+    def __repr__(self):
+        return f"<AtkPickup {self.employee_name} at {self.created_at}>"
+
+
+class AtkPickupItem(db.Model):
+    """
+    Satu baris item dalam satu transaksi AtkPickup. Nama/kategori/
+    satuan disalin (snapshot) dari Asset saat transaksi dibuat, supaya
+    laporan lama tetap benar meskipun data Asset-nya berubah/dihapus
+    belakangan.
+    """
+
+    __tablename__ = "atk_pickup_items"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    pickup_id = db.Column(
+        db.Integer,
+        db.ForeignKey("atk_pickups.id"),
+        nullable=False,
+        index=True,
+    )
+
+    asset_id = db.Column(
+        db.Integer,
+        db.ForeignKey("assets.id"),
+        nullable=True,
+        index=True,
+    )
+
+    asset_name = db.Column(
+        db.String(100),
+        nullable=False,
+    )
+
+    category = db.Column(
+        db.String(50),
+        nullable=True,
+    )
+
+    unit = db.Column(
+        db.String(20),
+        nullable=True,
+    )
+
+    quantity = db.Column(
+        db.Integer,
+        nullable=False,
+    )
+
+    asset = db.relationship("Asset")
+
+    def __repr__(self):
+        return f"<AtkPickupItem {self.asset_name} x{self.quantity}>"

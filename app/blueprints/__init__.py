@@ -237,3 +237,4 @@ from . import stock_opname  # noqa: E402,F401
 from . import vehicle_service  # noqa: E402,F401
 from . import notes  # noqa: E402,F401
 from . import calendar  # noqa: E402,F401
+from . import atk_pickup  # noqa: E402,F401

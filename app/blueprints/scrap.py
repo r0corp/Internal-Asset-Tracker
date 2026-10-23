@@ -15,6 +15,9 @@ from ..models import (
     SCRAP_UNIT_CHOICES,
     SCRAP_PHOTO_CATEGORY_CHOICES,
     SCRAP_PHOTO_CATEGORY_LAINNYA,
+    SCRAP_PHOTO_CATEGORY_BEFORE,
+    SCRAP_PHOTO_CATEGORY_AFTER,
+    SCRAP_PHOTO_CATEGORY_TIMBANG,
 )
 from ..auth import requires_permission
 
@@ -111,6 +114,14 @@ def scrap_list():
 # ============================================================
 
 
+def _photo_files(field_name):
+
+    return [
+        f for f in request.files.getlist(field_name)
+        if f and f.filename
+    ]
+
+
 @main.route(
     "/scrap/add",
     methods=["GET", "POST"],
@@ -146,6 +157,21 @@ def add_scrap():
 
             return render_template("scrap/add.html")
 
+        photo_groups = (
+            (SCRAP_PHOTO_CATEGORY_BEFORE, _photo_files("photos_before")),
+            (SCRAP_PHOTO_CATEGORY_TIMBANG, _photo_files("photos_timbang")),
+            (SCRAP_PHOTO_CATEGORY_AFTER, _photo_files("photos_after")),
+        )
+
+        if any(not files for _category, files in photo_groups):
+
+            flash(
+                _("Before, Weighing Process, and After photos are all required."),
+                "danger",
+            )
+
+            return render_template("scrap/add.html")
+
         record = ScrapRecord(
             scrap_type=_parse_scrap_type(
                 request.form.get("scrap_type")
@@ -161,6 +187,32 @@ def add_scrap():
         )
 
         db.session.add(record)
+        db.session.flush()
+
+        try:
+
+            for category, files in photo_groups:
+                for photo_file in files:
+
+                    filename = save_scrap_photo(photo_file)
+
+                    db.session.add(
+                        ScrapPhoto(
+                            scrap_record_id=record.id,
+                            filename=filename,
+                            category=category,
+                            photo_date=recorded_date,
+                        )
+                    )
+
+        except ValueError as exc:
+
+            db.session.rollback()
+
+            flash(str(exc), "danger")
+
+            return render_template("scrap/add.html")
+
         db.session.commit()
 
         log_action(

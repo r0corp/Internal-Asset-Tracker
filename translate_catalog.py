@@ -1050,6 +1050,14 @@ ID_TRANSLATIONS = {
     # --- ATK single-photo mode ---
     'Click to upload a photo. Once added, click it again to zoom in.': 'Klik untuk unggah foto. Setelah ada, klik lagi untuk memperbesar.',
     'Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover a photo for cover/remove options.': 'Format yang diperbolehkan: JPG, JPEG, PNG, WEBP. Klik + untuk menambah foto. Arahkan kursor ke foto untuk opsi sampul/hapus.',
+
+    # --- Scrap: mandatory documentation photos on Add ---
+    'Documentation Photos': 'Foto Dokumentasi',
+    'All three photos below are required before this record can be saved.': 'Ketiga foto di bawah ini wajib diisi sebelum data bisa disimpan.',
+    'Before Photo(s)': 'Foto Before',
+    'Weighing Process Photo(s)': 'Foto Proses Timbang',
+    'After Photo(s)': 'Foto After',
+    'Before, Weighing Process, and After photos are all required.': 'Foto Before, Proses Timbang, dan After wajib semua diisi.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

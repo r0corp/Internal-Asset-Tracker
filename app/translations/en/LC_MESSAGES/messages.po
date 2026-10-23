@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 18:15+0700\n"
+"POT-Creation-Date: 2026-10-23 18:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -302,7 +302,7 @@ msgstr "Asset was successfully updated."
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:422
+#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:474
 msgid "No photo file was sent."
 msgstr "No photo file was sent."
 
@@ -690,40 +690,44 @@ msgstr ""
 "Import successful. %(role_count)s new role(s) created, permissions for "
 "%(permission_count)s object row(s) updated."
 
-#: app/blueprints/scrap.py:134 app/blueprints/scrap.py:210
+#: app/blueprints/scrap.py:145 app/blueprints/scrap.py:262
 #: app/blueprints/vehicle_service.py:63
 msgid "Date is required."
 msgstr "Date is required."
 
-#: app/blueprints/scrap.py:143 app/blueprints/scrap.py:222
+#: app/blueprints/scrap.py:154 app/blueprints/scrap.py:274
 msgid "Invalid quantity."
 msgstr "Invalid quantity."
 
-#: app/blueprints/scrap.py:173
+#: app/blueprints/scrap.py:169
+msgid "Before, Weighing Process, and After photos are all required."
+msgstr "Before, Weighing Process, and After photos are all required."
+
+#: app/blueprints/scrap.py:225
 msgid "Scrap record added successfully."
 msgstr "Scrap record added successfully."
 
-#: app/blueprints/scrap.py:252
+#: app/blueprints/scrap.py:304
 msgid "Scrap record updated successfully."
 msgstr "Scrap record updated successfully."
 
-#: app/blueprints/scrap.py:287
+#: app/blueprints/scrap.py:339
 msgid "Scrap record deleted successfully."
 msgstr "Scrap record deleted successfully."
 
-#: app/blueprints/scrap.py:487
+#: app/blueprints/scrap.py:539
 msgid "Scrap documentation photo"
 msgstr "Scrap documentation photo"
 
-#: app/blueprints/scrap.py:488 app/templates/scrap/photos.html:196
+#: app/blueprints/scrap.py:540 app/templates/scrap/photos.html:196
 msgid "photo(s)"
 msgstr "photo(s)"
 
-#: app/blueprints/scrap.py:492
+#: app/blueprints/scrap.py:544
 msgid "Photo(s) uploaded successfully."
 msgstr "Photo(s) uploaded successfully."
 
-#: app/blueprints/scrap.py:525
+#: app/blueprints/scrap.py:577
 msgid "Photo deleted successfully."
 msgstr "Photo deleted successfully."
 
@@ -2132,7 +2136,7 @@ msgstr "Enter notes or a description for this asset..."
 #: app/templates/master/vendor/add.html:144
 #: app/templates/master/vendor/edit.html:147 app/templates/roles/add.html:46
 #: app/templates/roles/edit.html:83 app/templates/roles/import.html:45
-#: app/templates/scrap/add.html:120 app/templates/scrap/edit.html:119
+#: app/templates/scrap/add.html:183 app/templates/scrap/edit.html:119
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -3480,7 +3484,7 @@ msgstr "Example: Routine service & oil change"
 #: app/templates/master/category/add.html:180
 #: app/templates/master/department/add.html:70
 #: app/templates/master/location/add.html:84 app/templates/roles/edit.html:81
-#: app/templates/scrap/add.html:119 app/templates/scrap/edit.html:118
+#: app/templates/scrap/add.html:182 app/templates/scrap/edit.html:118
 msgid "Save"
 msgstr "Save"
 
@@ -4590,6 +4594,26 @@ msgstr "Example: 125.5"
 #: app/templates/scrap/add.html:114
 msgid "Optional notes..."
 msgstr "Optional notes..."
+
+#: app/templates/scrap/add.html:123
+msgid "Documentation Photos"
+msgstr "Documentation Photos"
+
+#: app/templates/scrap/add.html:128
+msgid "All three photos below are required before this record can be saved."
+msgstr "All three photos below are required before this record can be saved."
+
+#: app/templates/scrap/add.html:134
+msgid "Before Photo(s)"
+msgstr "Before Photo(s)"
+
+#: app/templates/scrap/add.html:151
+msgid "Weighing Process Photo(s)"
+msgstr "Weighing Process Photo(s)"
+
+#: app/templates/scrap/add.html:168
+msgid "After Photo(s)"
+msgstr "After Photo(s)"
 
 #: app/templates/scrap/edit.html:3 app/templates/scrap/edit.html:21
 msgid "Edit Scrap Record"

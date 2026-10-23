@@ -8,7 +8,14 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_babel import gettext as _
 
 from .. import db
-from ..models import ScrapRecord, ScrapPhoto, SCRAP_TYPE_CHOICES, SCRAP_UNIT_CHOICES
+from ..models import (
+    ScrapRecord,
+    ScrapPhoto,
+    SCRAP_TYPE_CHOICES,
+    SCRAP_UNIT_CHOICES,
+    SCRAP_PHOTO_CATEGORY_CHOICES,
+    SCRAP_PHOTO_CATEGORY_LAINNYA,
+)
 from ..auth import requires_permission
 
 from . import main
@@ -286,19 +293,60 @@ def delete_scrap(record_id):
     )
 
 # ============================================================
-# DOKUMENTASI FOTO (before/after/proses timbang, dst)
+# DOKUMENTASI FOTO (before/after/proses timbang, dst) - tampilannya
+# dikelompokkan jadi "folder" per tanggal/periode (bukan per
+# kategori), supaya mudah ditelusuri berdasarkan kapan foto itu
+# diambil.
 # ============================================================
+
+
+def _photo_effective_date(photo):
+    """
+    Tanggal "folder" untuk satu foto - pakai photo_date kalau diisi,
+    kalau tidak ikut tanggal ScrapRecord yang terkait (kalau ada),
+    kalau keduanya kosong masuk folder "Tanpa Tanggal" (None).
+    """
+
+    if photo.photo_date:
+        return photo.photo_date
+
+    if photo.scrap_record:
+        return photo.scrap_record.recorded_date
+
+    return None
+
+
+def _group_photos_by_date(photos):
+
+    groups = {}
+
+    for photo in photos:
+
+        key = _photo_effective_date(photo)
+        groups.setdefault(key, []).append(photo)
+
+    # Folder dengan tanggal diurutkan terbaru dulu; "Tanpa Tanggal"
+    # (key None) selalu ditaruh paling akhir.
+    dated = sorted(
+        (item for item in groups.items() if item[0] is not None),
+        key=lambda item: item[0],
+        reverse=True,
+    )
+
+    undated = [
+        item for item in groups.items() if item[0] is None
+    ]
+
+    return dated + undated
 
 
 @main.route("/scrap/photos")
 @requires_permission("scrap", "read")
 def scrap_photos():
 
-    photos = (
-        ScrapPhoto.query
-        .order_by(ScrapPhoto.created_at.desc())
-        .all()
-    )
+    selected_date_raw = request.args.get("date")
+
+    all_photos = ScrapPhoto.query.all()
 
     records = (
         ScrapRecord.query
@@ -306,10 +354,53 @@ def scrap_photos():
         .all()
     )
 
+    if selected_date_raw is not None:
+
+        selected_date = (
+            parse_date(selected_date_raw)
+            if selected_date_raw != "none"
+            else None
+        )
+
+        photos = sorted(
+            [
+                p for p in all_photos
+                if _photo_effective_date(p) == selected_date
+            ],
+            key=lambda p: p.created_at,
+            reverse=True,
+        )
+
+        return render_template(
+            "scrap/photos.html",
+            view="folder",
+            selected_date=selected_date,
+            selected_date_raw=selected_date_raw,
+            photos=photos,
+            records=records,
+            category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
+        )
+
+    folders = []
+
+    for photo_date, photos_in_date in _group_photos_by_date(all_photos):
+
+        folders.append({
+            "date": photo_date,
+            "date_raw": (
+                photo_date.strftime("%Y-%m-%d")
+                if photo_date else "none"
+            ),
+            "count": len(photos_in_date),
+            "cover": photos_in_date[0] if photos_in_date else None,
+        })
+
     return render_template(
         "scrap/photos.html",
-        photos=photos,
+        view="folders",
+        folders=folders,
         records=records,
+        category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
     )
 
 
@@ -335,6 +426,12 @@ def scrap_photos_upload():
         return redirect(
             url_for("main.scrap_photos")
         )
+
+    category = request.form.get("category")
+    valid_categories = {key for key, _label in SCRAP_PHOTO_CATEGORY_CHOICES}
+
+    if category not in valid_categories:
+        category = SCRAP_PHOTO_CATEGORY_LAINNYA
 
     label = (
         request.form.get("label", "") or ""
@@ -366,6 +463,7 @@ def scrap_photos_upload():
                 ScrapPhoto(
                     scrap_record_id=scrap_record_id,
                     filename=filename,
+                    category=category,
                     label=label,
                     photo_date=photo_date,
                 )
@@ -395,6 +493,11 @@ def scrap_photos_upload():
         "success",
     )
 
+    if photo_date:
+        return redirect(
+            url_for("main.scrap_photos", date=photo_date.strftime("%Y-%m-%d"))
+        )
+
     return redirect(
         url_for("main.scrap_photos")
     )
@@ -411,6 +514,8 @@ def scrap_photos_delete(photo_id):
 
     delete_scrap_photo(photo.filename)
 
+    effective_date = _photo_effective_date(photo)
+
     db.session.delete(photo)
     db.session.commit()
 
@@ -422,5 +527,11 @@ def scrap_photos_delete(photo_id):
     )
 
     return redirect(
-        url_for("main.scrap_photos")
+        url_for(
+            "main.scrap_photos",
+            date=(
+                effective_date.strftime("%Y-%m-%d")
+                if effective_date else "none"
+            ),
+        )
     )

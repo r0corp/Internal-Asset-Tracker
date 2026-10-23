@@ -1413,6 +1413,21 @@ SCRAP_TYPE_CHOICES = [
 
 SCRAP_UNIT_CHOICES = ["kg", "ton"]
 
+# "Folder" dokumentasi foto scrap - lihat ScrapPhoto.category di
+# bawah. Daftar tetap (bukan teks bebas) supaya foto benar-benar
+# terkelompok rapi, bukan satu folder per label unik.
+SCRAP_PHOTO_CATEGORY_BEFORE = "before"
+SCRAP_PHOTO_CATEGORY_AFTER = "after"
+SCRAP_PHOTO_CATEGORY_TIMBANG = "timbang"
+SCRAP_PHOTO_CATEGORY_LAINNYA = "lainnya"
+
+SCRAP_PHOTO_CATEGORY_CHOICES = [
+    (SCRAP_PHOTO_CATEGORY_BEFORE, "Before"),
+    (SCRAP_PHOTO_CATEGORY_AFTER, "After"),
+    (SCRAP_PHOTO_CATEGORY_TIMBANG, "Weighing Process"),
+    (SCRAP_PHOTO_CATEGORY_LAINNYA, "Other"),
+]
+
 
 class ScrapRecord(db.Model):
 
@@ -1803,6 +1818,13 @@ class ScrapPhoto(db.Model):
         nullable=False,
     )
 
+    # "Folder" tampilan galeri - lihat SCRAP_PHOTO_CATEGORY_CHOICES.
+    category = db.Column(
+        db.String(20),
+        nullable=False,
+        default=SCRAP_PHOTO_CATEGORY_LAINNYA,
+    )
+
     label = db.Column(
         db.String(100),
         nullable=True,
@@ -1819,6 +1841,14 @@ class ScrapPhoto(db.Model):
     )
 
     scrap_record = db.relationship("ScrapRecord", backref="photos")
+
+    def category_label(self):
+
+        for key, label in SCRAP_PHOTO_CATEGORY_CHOICES:
+            if key == self.category:
+                return label
+
+        return self.category
 
     def __repr__(self):
         return f"<ScrapPhoto {self.filename} ({self.label})>"

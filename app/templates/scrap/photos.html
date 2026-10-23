@@ -5,6 +5,21 @@
 {% block content %}
 
 <style>
+.scrap-folder-card {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.scrap-folder-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.scrap-folder-icon {
+    font-size: 48px;
+    color: #ffc107;
+}
+
 .scrap-photo-thumb {
     width: 100%;
     aspect-ratio: 4 / 3;
@@ -100,17 +115,32 @@
 
                 <div class="row g-3">
 
-                    <div class="col-md-4">
-                        <label class="form-label">{{ _('Label') }}</label>
-                        <input type="text" name="label" class="form-control" placeholder="{{ _('Example: Before, After, Weighing Process') }}">
+                    <div class="col-md-3">
+                        <label class="form-label">{{ _('Date') }} <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            name="photo_date"
+                            class="form-control"
+                            value="{{ selected_date_raw if (view == 'folder' and selected_date_raw != 'none') else '' }}"
+                            required
+                        >
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">{{ _('Date') }}</label>
-                        <input type="date" name="photo_date" class="form-control">
+                        <label class="form-label">{{ _('Category') }}</label>
+                        <select name="category" class="form-select">
+                            {% for key, cat_label in category_choices %}
+                            <option value="{{ key }}">{{ _(cat_label) }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-3">
+                        <label class="form-label">{{ _('Label') }}</label>
+                        <input type="text" name="label" class="form-control" placeholder="{{ _('Example: 15.50 kg') }}">
+                    </div>
+
+                    <div class="col-md-3">
                         <label class="form-label">{{ _('Linked Scrap Record (optional)') }}</label>
                         <select name="scrap_record_id" class="form-select">
                             <option value="">{{ _('Not linked / general documentation') }}</option>
@@ -143,6 +173,63 @@
     </div>
 
 
+    {% if view == 'folders' %}
+
+    <div class="row g-3">
+
+        {% for folder in folders %}
+
+        <div class="col-6 col-md-4 col-lg-3">
+
+            <a href="{{ url_for('main.scrap_photos', date=folder.date_raw) }}" class="text-decoration-none text-reset">
+                <div class="card shadow-sm text-center scrap-folder-card">
+                    <div class="card-body">
+                        <i class="bi bi-folder-fill scrap-folder-icon"></i>
+                        <div class="fw-semibold mt-2">
+                            {% if folder.date %}
+                            {{ folder.date.strftime('%d-%m-%Y') }}
+                            {% else %}
+                            {{ _('No Date') }}
+                            {% endif %}
+                        </div>
+                        <div class="text-muted small">
+                            {{ folder.count }} {{ _('photo(s)') }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+            <div class="text-center text-muted py-5">
+                {{ _('No documentation photos yet.') }}
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="mb-3">
+        <a href="{{ url_for('main.scrap_photos') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            {{ _('Back to Folders') }}
+        </a>
+        <span class="fw-semibold ms-2">
+            <i class="bi bi-folder-fill text-warning"></i>
+            {% if selected_date %}
+            {{ selected_date.strftime('%d-%m-%Y') }}
+            {% else %}
+            {{ _('No Date') }}
+            {% endif %}
+        </span>
+    </div>
+
     <div class="row g-3">
 
         {% for photo in photos %}
@@ -160,7 +247,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#scrapPhotoModal"
                         data-photo-url="{{ url_for('static', filename='uploads/scrap/' ~ photo.filename) }}"
-                        data-photo-label="{{ photo.label or '' }}"
+                        data-photo-label="{{ photo.category_label() }}{{ ' - ' ~ photo.label if photo.label }}"
                     >
 
                     <button
@@ -173,9 +260,9 @@
                     </button>
 
                     <div class="small mt-1">
-                        <div class="fw-semibold">{{ photo.label or "-" }}</div>
-                        {% if photo.photo_date %}
-                        <div class="text-muted">{{ photo.photo_date.strftime('%d-%m-%Y') }}</div>
+                        <span class="badge bg-secondary">{{ photo.category_label() }}</span>
+                        {% if photo.label %}
+                        <div class="fw-semibold mt-1">{{ photo.label }}</div>
                         {% endif %}
                         {% if photo.scrap_record %}
                         <div class="text-muted">
@@ -211,6 +298,8 @@
         {% endfor %}
 
     </div>
+
+    {% endif %}
 
 </div>
 

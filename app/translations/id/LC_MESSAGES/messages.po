@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 18:07+0700\n"
+"POT-Creation-Date: 2026-10-23 18:15+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Master Data"
 #: app/templates/atk_pickup/new.html:166
 #: app/templates/atk_pickup/report.html:107 app/templates/dashboard.html:757
 #: app/templates/dashboard.html:1076 app/templates/index.html:773
-#: app/templates/index.html:1020
+#: app/templates/index.html:1020 app/templates/scrap/photos.html:130
 msgid "Category"
 msgstr "Kategori"
 
@@ -302,7 +302,7 @@ msgstr "Asset was successfully updated."
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:331
+#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:422
 msgid "No photo file was sent."
 msgstr "Tidak ada file foto yang dikirim."
 
@@ -690,40 +690,40 @@ msgstr ""
 "Import successful. %(role_count)s new role(s) created, permissions for "
 "%(permission_count)s object row(s) updated."
 
-#: app/blueprints/scrap.py:127 app/blueprints/scrap.py:203
+#: app/blueprints/scrap.py:134 app/blueprints/scrap.py:210
 #: app/blueprints/vehicle_service.py:63
 msgid "Date is required."
 msgstr "Tanggal wajib diisi."
 
-#: app/blueprints/scrap.py:136 app/blueprints/scrap.py:215
+#: app/blueprints/scrap.py:143 app/blueprints/scrap.py:222
 msgid "Invalid quantity."
 msgstr "Jumlah tidak valid."
 
-#: app/blueprints/scrap.py:166
+#: app/blueprints/scrap.py:173
 msgid "Scrap record added successfully."
 msgstr "Data scrap berhasil ditambahkan."
 
-#: app/blueprints/scrap.py:245
+#: app/blueprints/scrap.py:252
 msgid "Scrap record updated successfully."
 msgstr "Data scrap berhasil diperbarui."
 
-#: app/blueprints/scrap.py:280
+#: app/blueprints/scrap.py:287
 msgid "Scrap record deleted successfully."
 msgstr "Data scrap berhasil dihapus."
 
-#: app/blueprints/scrap.py:389
+#: app/blueprints/scrap.py:487
 msgid "Scrap documentation photo"
 msgstr "Foto dokumentasi scrap"
 
-#: app/blueprints/scrap.py:390
+#: app/blueprints/scrap.py:488 app/templates/scrap/photos.html:196
 msgid "photo(s)"
 msgstr "foto"
 
-#: app/blueprints/scrap.py:394
+#: app/blueprints/scrap.py:492
 msgid "Photo(s) uploaded successfully."
 msgstr "Foto berhasil diunggah."
 
-#: app/blueprints/scrap.py:420
+#: app/blueprints/scrap.py:525
 msgid "Photo deleted successfully."
 msgstr "Photo deleted successfully."
 
@@ -1312,7 +1312,7 @@ msgstr "No. Mutasi"
 #: app/templates/asset/vehicle_service.html:164
 #: app/templates/atk_pickup/report.html:56 app/templates/dashboard.html:1523
 #: app/templates/scrap/add.html:64 app/templates/scrap/edit.html:64
-#: app/templates/scrap/list.html:172 app/templates/scrap/photos.html:109
+#: app/templates/scrap/list.html:172 app/templates/scrap/photos.html:119
 msgid "Date"
 msgstr "Tanggal"
 
@@ -1781,7 +1781,7 @@ msgid "Click a photo to enlarge. Hover for cover/delete options."
 msgstr "Klik foto untuk memperbesar. Arahkan kursor untuk opsi sampul/hapus."
 
 #: app/templates/asset/_photo_gallery.html:530
-#: app/templates/scrap/photos.html:192
+#: app/templates/scrap/photos.html:279
 msgid "Delete this photo?"
 msgstr "Hapus foto ini?"
 
@@ -2893,7 +2893,7 @@ msgstr "Tanda tangan di sini menggunakan mouse, touchpad atau layar sentuh"
 #: app/templates/master/menu/list.html:214
 #: app/templates/master/user/list.html:168
 #: app/templates/master/vendor/list.html:152 app/templates/scrap/list.html:222
-#: app/templates/scrap/photos.html:169
+#: app/templates/scrap/photos.html:256
 msgid "Delete"
 msgstr "Hapus"
 
@@ -4168,7 +4168,7 @@ msgstr "Tambah Menu"
 
 #: app/templates/master/menu/add.html:42
 #: app/templates/master/menu/edit.html:42
-#: app/templates/master/menu/list.html:92 app/templates/scrap/photos.html:104
+#: app/templates/master/menu/list.html:92 app/templates/scrap/photos.html:139
 msgid "Label"
 msgstr "Label"
 
@@ -4619,45 +4619,53 @@ msgstr "Hapus data scrap ini?"
 msgid "No scrap records yet."
 msgstr "Belum ada data scrap."
 
-#: app/templates/scrap/photos.html:3 app/templates/scrap/photos.html:55
+#: app/templates/scrap/photos.html:3 app/templates/scrap/photos.html:70
 msgid "Scrap Documentation"
 msgstr "Dokumentasi Scrap"
 
-#: app/templates/scrap/photos.html:57
+#: app/templates/scrap/photos.html:72
 msgid "Before/after photos and weighing process evidence."
 msgstr "Foto before/after dan bukti proses penimbangan."
 
-#: app/templates/scrap/photos.html:66
+#: app/templates/scrap/photos.html:81
 msgid "Back to Scrap List"
 msgstr "Kembali ke Daftar Scrap"
 
-#: app/templates/scrap/photos.html:91
+#: app/templates/scrap/photos.html:106
 msgid "Upload Photos"
 msgstr "Unggah Foto"
 
-#: app/templates/scrap/photos.html:105
-msgid "Example: Before, After, Weighing Process"
-msgstr "Contoh: Before, After, Proses Timbang"
+#: app/templates/scrap/photos.html:140
+msgid "Example: 15.50 kg"
+msgstr "Contoh: 15.50 kg"
 
-#: app/templates/scrap/photos.html:114
+#: app/templates/scrap/photos.html:144
 msgid "Linked Scrap Record (optional)"
 msgstr "Terkait Catatan Scrap (opsional)"
 
-#: app/templates/scrap/photos.html:116
+#: app/templates/scrap/photos.html:146
 msgid "Not linked / general documentation"
 msgstr "Tidak terkait / dokumentasi umum"
 
-#: app/templates/scrap/photos.html:126
+#: app/templates/scrap/photos.html:156
 msgid "Photos"
 msgstr "Photos"
 
-#: app/templates/scrap/photos.html:135
+#: app/templates/scrap/photos.html:165
 msgid "Upload"
 msgstr "Unggah"
 
-#: app/templates/scrap/photos.html:207
+#: app/templates/scrap/photos.html:192 app/templates/scrap/photos.html:228
+msgid "No Date"
+msgstr "Tanpa Tanggal"
+
+#: app/templates/scrap/photos.html:208 app/templates/scrap/photos.html:294
 msgid "No documentation photos yet."
 msgstr "Belum ada foto dokumentasi."
+
+#: app/templates/scrap/photos.html:221
+msgid "Back to Folders"
+msgstr "Kembali ke Folder"
 
 #: app/templates/settings/general.html:17
 msgid "Application name, logo, footer, and login page"

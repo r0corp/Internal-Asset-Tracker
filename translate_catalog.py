@@ -220,6 +220,7 @@ ID_TRANSLATIONS = {
     "Example: Routine service & oil change": "Contoh: Service rutin & ganti oli",
     "Delete this service record?": "Hapus catatan servis ini?",
     "No service records yet.": "Belum ada catatan servis.",
+    "Take photo": "Ambil foto",
     "Sidebar Brand Display": "Tampilan Identitas Sidebar",
     "Choose how the app identity appears next to the sidebar menu.": "Pilih bagaimana identitas aplikasi ditampilkan di sebelah menu sidebar.",
     "Logo only": "Hanya Logo",

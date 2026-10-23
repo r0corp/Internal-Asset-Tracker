@@ -94,6 +94,28 @@
     background: #dc3545;
   }
 
+  .asset-photo-camera-btn {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: #fff;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .asset-photo-camera-btn:hover {
+    background: #0a58ca;
+  }
+
   .asset-photo-box img {
     width: 100%;
 
@@ -350,6 +372,23 @@
     <i class="bi bi-trash"></i>
   </button>
   {% endif %}
+
+  <button
+    type="button"
+    class="asset-photo-camera-btn"
+    id="assetPhotoCameraBtn"
+    title="{{ _('Take photo') }}"
+  >
+    <i class="bi bi-camera-fill"></i>
+  </button>
+
+  <input
+    type="file"
+    id="assetPhotoCameraInput"
+    accept="image/*"
+    capture="environment"
+    class="d-none"
+  />
 </div>
 
 <div class="asset-photo-gallery{{ ' asset-photo-gallery-compact' if single_photo_mode }}" id="assetPhotoGallery" data-asset-id="{{ asset.id }}">
@@ -515,10 +554,10 @@
       // ========================================================
 
       const deleteBtn = document.getElementById("assetPhotoHeroDelete");
+      const cameraBtn = document.getElementById("assetPhotoCameraBtn");
+      const cameraInput = document.getElementById("assetPhotoCameraInput");
 
-      uploadInput.addEventListener("change", function () {
-
-        const file = this.files && this.files[0];
+      function uploadSingleFile(file, sourceInput) {
 
         if (!file) {
           return;
@@ -557,13 +596,29 @@
             alert(LABEL_UPLOAD_FAILED);
           })
           .finally(function () {
-            uploadInput.value = "";
+            sourceInput.value = "";
           });
+      }
+
+      uploadInput.addEventListener("change", function () {
+        uploadSingleFile(this.files && this.files[0], uploadInput);
       });
+
+      if (cameraBtn && cameraInput) {
+
+        cameraBtn.addEventListener("click", function (event) {
+          event.stopPropagation();
+          cameraInput.click();
+        });
+
+        cameraInput.addEventListener("change", function () {
+          uploadSingleFile(this.files && this.files[0], cameraInput);
+        });
+      }
 
       heroBox.addEventListener("click", function (event) {
 
-        if (event.target.closest("#assetPhotoHeroDelete")) {
+        if (event.target.closest("#assetPhotoHeroDelete") || event.target.closest("#assetPhotoCameraBtn")) {
           return;
         }
 
@@ -641,9 +696,7 @@
         return div;
       }
 
-      uploadInput.addEventListener("change", function () {
-
-        const files = Array.from(this.files || []);
+      function uploadMultipleFiles(files, sourceInput) {
 
         if (!files.length) {
           return;
@@ -691,9 +744,28 @@
             alert(LABEL_UPLOAD_FAILED);
           })
           .finally(function () {
-            uploadInput.value = "";
+            sourceInput.value = "";
           });
+      }
+
+      uploadInput.addEventListener("change", function () {
+        uploadMultipleFiles(Array.from(this.files || []), uploadInput);
       });
+
+      const cameraBtn = document.getElementById("assetPhotoCameraBtn");
+      const cameraInput = document.getElementById("assetPhotoCameraInput");
+
+      if (cameraBtn && cameraInput) {
+
+        cameraBtn.addEventListener("click", function (event) {
+          event.stopPropagation();
+          cameraInput.click();
+        });
+
+        cameraInput.addEventListener("change", function () {
+          uploadMultipleFiles(Array.from(this.files || []), cameraInput);
+        });
+      }
 
       thumbStrip.addEventListener("click", function (event) {
 

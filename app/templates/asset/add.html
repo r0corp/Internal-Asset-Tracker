@@ -181,6 +181,28 @@
         background: #dc3545;
     }
 
+    .asset-photo-camera-btn {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background: #0d6efd;
+        color: #fff;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .asset-photo-camera-btn:hover {
+        background: #0a58ca;
+    }
+
     .asset-photo-box img {
         width: 100%;
 
@@ -1401,6 +1423,14 @@
                             title="{{ _('Delete photo') }}">
                             <i class="bi bi-trash"></i>
                         </button>
+
+                        <button type="button" class="asset-photo-camera-btn" id="addPhotoCameraBtn"
+                            title="{{ _('Take photo') }}">
+                            <i class="bi bi-camera-fill"></i>
+                        </button>
+
+                        <input type="file" id="addPhotoCameraInput" accept="image/*" capture="environment"
+                            class="d-none">
                     </div>
 
                     <div class="asset-photo-gallery">
@@ -2078,9 +2108,9 @@
 
         updatePhotoWidgetMode();
 
-        photoInput.addEventListener("change", function () {
+        function handleIncomingFiles(fileList) {
 
-            const newFiles = Array.from(this.files || []);
+            const newFiles = Array.from(fileList || []);
 
             for (const file of newFiles) {
 
@@ -2103,7 +2133,27 @@
 
             syncInputFiles();
             renderGallery();
+        }
+
+        photoInput.addEventListener("change", function () {
+            handleIncomingFiles(this.files);
         });
+
+        const cameraBtn = document.getElementById("addPhotoCameraBtn");
+        const cameraInput = document.getElementById("addPhotoCameraInput");
+
+        if (cameraBtn && cameraInput) {
+
+            cameraBtn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                cameraInput.click();
+            });
+
+            cameraInput.addEventListener("change", function () {
+                handleIncomingFiles(this.files);
+                cameraInput.value = "";
+            });
+        }
 
     });
 </script>

@@ -210,17 +210,6 @@ def create_app():
 
                     nav_menu.append({
                         "item": SimpleNamespace(
-                            is_divider=True,
-                            is_header=False,
-                            label=None,
-                            icon=None,
-                            url=None,
-                        ),
-                        "children": [],
-                    })
-
-                    nav_menu.append({
-                        "item": SimpleNamespace(
                             is_divider=False,
                             is_header=False,
                             label=label,

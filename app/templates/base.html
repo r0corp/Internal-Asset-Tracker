@@ -887,6 +887,73 @@
         }
 
         /* ------------------------------------------------------
+           BAHASA & TEMA (segmented control) di dalam menu profil -
+           sebelumnya ini dua ikon dropdown terpisah di navbar,
+           dipindah ke sini (contoh dari aplikasi Legal Contract)
+           supaya navbar tidak penuh ikon.
+        ------------------------------------------------------ */
+
+        .user-menu-section {
+            padding: 0.6rem 0.85rem;
+            border-top: 1px solid var(--bs-border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .user-menu-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .user-menu-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.82rem;
+            color: var(--bs-secondary-color);
+        }
+
+        .user-menu-seg {
+            display: inline-flex;
+            padding: 2px;
+            border-radius: 8px;
+            background: var(--bs-tertiary-bg);
+            gap: 2px;
+        }
+
+        .user-menu-seg a,
+        .user-menu-seg button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.1rem;
+            padding: 0.22rem 0.5rem;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--bs-secondary-color);
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+
+        .user-menu-seg a:hover,
+        .user-menu-seg button:hover {
+            color: var(--bs-body-color);
+        }
+
+        .user-menu-seg a.active,
+        .user-menu-seg button.active {
+            background: var(--bs-body-bg);
+            color: #0d6efd;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ------------------------------------------------------
            DAFTAR USER ONLINE (khusus administrator)
         ------------------------------------------------------ */
 
@@ -1034,69 +1101,6 @@
 
                 <ul class="navbar-nav ms-auto">
 
-                    <!-- DARK / LIGHT MODE -->
-
-                    <li class="nav-item dropdown">
-
-                        <a class="nav-link" href="#" id="theme-switcher" aria-label="{{ _('Toggle color scheme') }}" data-bs-toggle="dropdown">
-                            <i class="bi bi-sun-fill d-none" data-lte-theme-icon="light"></i>
-                            <i class="bi bi-moon-stars-fill d-none" data-lte-theme-icon="dark"></i>
-                            <i class="bi bi-circle-half d-none" data-lte-theme-icon="auto"></i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="theme-switcher">
-
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
-                                    <i class="bi bi-sun-fill me-2"></i>
-                                    {{ _('Light') }}
-                                    <i class="bi bi-check-lg ms-auto d-none"></i>
-                                </button>
-                            </li>
-
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                    <i class="bi bi-moon-stars-fill me-2"></i>
-                                    {{ _('Dark') }}
-                                    <i class="bi bi-check-lg ms-auto d-none"></i>
-                                </button>
-                            </li>
-
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto">
-                                    <i class="bi bi-circle-half me-2"></i>
-                                    {{ _('Auto') }}
-                                    <i class="bi bi-check-lg ms-auto d-none"></i>
-                                </button>
-                            </li>
-
-                        </ul>
-
-                    </li>
-
-                    <!-- LANGUAGE SWITCHER -->
-
-                    <li class="nav-item dropdown">
-
-                        <a href="#" class="nav-link d-flex align-items-center" data-bs-toggle="dropdown" aria-label="{{ _('Change language') }}">
-                            <span class="fi fi-{{ available_languages[current_language][1] }} rounded-1"></span>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end">
-
-                            {% for code, (name, flag) in available_languages.items() %}
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center {% if code == current_language %}active{% endif %}" href="{{ url_for('main.set_language', lang_code=code) }}">
-                                    <span class="fi fi-{{ flag }} me-2 rounded-1"></span>
-                                    {{ name }}
-                                </a>
-                            </li>
-                            {% endfor %}
-
-                        </ul>
-
-                    </li>
-
                     <!-- USER MENU -->
 
                     <li class="nav-item dropdown user-menu">
@@ -1138,6 +1142,44 @@
                                     </span>
 
                                 </div>
+                            </li>
+
+                            <li class="user-menu-section">
+
+                                <div class="user-menu-row">
+                                    <span class="user-menu-label">
+                                        <i class="bi bi-translate"></i>
+                                        {{ _('Language') }}
+                                    </span>
+
+                                    <div class="user-menu-seg">
+                                        {% for code, (name, flag) in available_languages.items() %}
+                                        <a href="{{ url_for('main.set_language', lang_code=code) }}" class="{{ 'active' if code == current_language }}" title="{{ name }}">
+                                            <span class="fi fi-{{ flag }} rounded-1"></span>
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="user-menu-row">
+                                    <span class="user-menu-label">
+                                        <i class="bi bi-circle-half"></i>
+                                        {{ _('Theme') }}
+                                    </span>
+
+                                    <div class="user-menu-seg">
+                                        <button type="button" data-bs-theme-value="light" title="{{ _('Light') }}" aria-label="{{ _('Light') }}">
+                                            <i class="bi bi-sun-fill"></i>
+                                        </button>
+                                        <button type="button" data-bs-theme-value="dark" title="{{ _('Dark') }}" aria-label="{{ _('Dark') }}">
+                                            <i class="bi bi-moon-stars-fill"></i>
+                                        </button>
+                                        <button type="button" data-bs-theme-value="auto" title="{{ _('Auto') }}" aria-label="{{ _('Auto') }}">
+                                            <i class="bi bi-circle-half"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
                             </li>
 
                             {% if current_user.role == 'administrator' %}

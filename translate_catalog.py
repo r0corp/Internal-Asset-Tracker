@@ -189,6 +189,8 @@ ID_TRANSLATIONS = {
     "Light": "Terang",
     "Dark": "Gelap",
     "Auto": "Otomatis",
+    "Language": "Bahasa",
+    "Theme": "Tema",
     "Sidebar Brand Display": "Tampilan Identitas Sidebar",
     "Choose how the app identity appears next to the sidebar menu.": "Pilih bagaimana identitas aplikasi ditampilkan di sebelah menu sidebar.",
     "Logo only": "Hanya Logo",

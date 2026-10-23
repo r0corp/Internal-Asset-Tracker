@@ -9,6 +9,19 @@
 
 <style>
     /* ============================================================
+   EDIT ASSET - FIELD ATK/PANTRY (lihat is_simple_stock)
+   ============================================================
+   Kolom kiri/kanan dilebarkan jaraknya (--bs-gutter-x) supaya input
+   box tidak berdempetan, dan tiap baris diberi jarak vertikal
+   (margin-bottom) supaya baris-baris field tidak menempel satu sama
+   lain. */
+
+    .simple-stock-row {
+        --bs-gutter-x: 2rem;
+        margin-bottom: 1.25rem;
+    }
+
+    /* ============================================================
    EDIT ASSET
    ============================================================ */
 
@@ -412,7 +425,7 @@
                     {% endif %}
 
 
-                    <div class="row g-3" {{ 'style="--bs-gutter-x: 2rem;"' if is_simple_stock }}>
+                    <div class="row g-3{{ ' simple-stock-row' if is_simple_stock }}">
 
 
                         <!-- ASSET TAG -->
@@ -862,7 +875,7 @@
                         <div class="tab-pane fade {{ 'show active' if current_template == 'atk' }}"
                             id="type-atk" data-template-pane="atk">
 
-                            <div class="row g-3" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3 simple-stock-row">
 
                                 <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Category') }}</label>
@@ -883,7 +896,7 @@
 
                             </div>
 
-                            <div class="row g-3 mt-0" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3 simple-stock-row">
 
                                 <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
@@ -907,7 +920,7 @@
                         <div class="tab-pane fade {{ 'show active' if current_template == 'pantry' }}"
                             id="type-pantry" data-template-pane="pantry">
 
-                            <div class="row g-3" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3 simple-stock-row">
 
                                 <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Category') }}</label>
@@ -928,7 +941,7 @@
 
                             </div>
 
-                            <div class="row g-3 mt-0" style="--bs-gutter-x: 2rem;">
+                            <div class="row g-3 simple-stock-row">
 
                                 <div class="col-md-6 form-field-row">
                                     <label class="form-label form-field-label">{{ _('Quantity / Stock') }}</label>
@@ -1082,7 +1095,7 @@
 
 
 
-                    <div class="row g-3" {{ 'style="--bs-gutter-x: 2rem;"' if is_simple_stock }}>
+                    <div class="row g-3{{ ' simple-stock-row' if is_simple_stock }}">
 
 
                         <!-- LOCATION -->

@@ -177,24 +177,33 @@ def create_app():
             if not item.is_visible_to(role):
                 continue
 
-            if allowed_tipe_keys is not None and item.url == "/":
+            if item.url == "/":
 
-                # Tidak dikelompokkan jadi dropdown "Asset" lagi - tiap
-                # kategori yang diizinkan dapat header (judul) + garis
-                # pemisah sendiri, lalu menu link kategori itu (dan
-                # untuk ATK/Pantry, link Stok Opname menyusul di
-                # bawahnya kalau role ini punya izin stock_opname).
+                # Menu "Asset" SELALU dipecah per kategori (bukan cuma
+                # untuk role yang dibatasi kategorinya) - tiap kategori
+                # dapat header (judul) sendiri, lalu menu link kategori
+                # itu (dan untuk ATK/Pantry/Showcase, link Stok Opname
+                # menyusul di bawahnya kalau role ini punya izin
+                # stock_opname). Role tanpa pembatasan (allowed_tipe_keys
+                # None) melihat SEMUA kategori, bukan cuma sebagian.
                 stock_opname_perm = (
                     role_obj.permission_for("stock_opname")
                     if role_obj else None
                 )
-                can_see_stock_opname = bool(
-                    stock_opname_perm and stock_opname_perm.can_read
+                can_see_stock_opname = (
+                    role == models.ROLE_ADMINISTRATOR
+                    or bool(stock_opname_perm and stock_opname_perm.can_read)
+                )
+
+                visible_tipe_keys = (
+                    allowed_tipe_keys
+                    if allowed_tipe_keys is not None
+                    else [key for key, _label, _icon in models.ASSET_TYPE_TAB_CHOICES]
                 )
 
                 for key, label, icon in models.ASSET_TYPE_TAB_CHOICES:
 
-                    if key not in allowed_tipe_keys:
+                    if key not in visible_tipe_keys:
                         continue
 
                     nav_menu.append({

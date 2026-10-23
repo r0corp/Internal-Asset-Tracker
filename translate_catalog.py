@@ -1089,6 +1089,12 @@ ID_TRANSLATIONS = {
     'After photo is required.': 'Foto after wajib diisi.',
     'No photos yet.': 'Belum ada foto.',
     'Photos': 'Foto',
+
+    # --- Scrap: camera capture (APK-ready) photo picker ---
+    'Take Photo': 'Ambil Foto',
+    'Choose from Gallery': 'Pilih dari Galeri',
+    'Add 1 to 5 photos depending on the condition.': 'Tambahkan 1 sampai 5 foto tergantung kondisinya.',
+    'Maximum 5 photos per category.': 'Maksimal 5 foto per kategori.',
 }
 
 # Label menu dinamis (tersimpan di database sebagai MenuItem.label,

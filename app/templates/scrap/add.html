@@ -4,6 +4,38 @@
 
 {% block content %}
 
+{% macro photo_picker(category, label, required) %}
+<div class="mb-2">
+
+    <label class="form-label">
+        {{ label }}
+        {% if required %}<span class="text-danger">*</span>{% else %}<span class="text-muted">({{ _('optional') }})</span>{% endif %}
+    </label>
+
+    <p class="text-muted small mb-2">{{ _('Add 1 to 5 photos depending on the condition.') }}</p>
+
+    <div class="scrap-photo-thumbs d-flex flex-wrap" data-category="{{ category }}"></div>
+
+    <div class="d-flex gap-2 flex-wrap mt-1">
+        <button type="button" class="btn btn-outline-primary btn-sm scrap-camera-btn" data-category="{{ category }}">
+            <i class="bi bi-camera"></i>
+            {{ _('Take Photo') }}
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm scrap-gallery-btn" data-category="{{ category }}">
+            <i class="bi bi-images"></i>
+            {{ _('Choose from Gallery') }}
+        </button>
+    </div>
+
+    <div class="text-warning small mt-1" data-category-warning="{{ category }}" style="display:none;"></div>
+
+    <input type="file" accept="image/*" capture="environment" class="d-none scrap-camera-input" data-category="{{ category }}">
+    <input type="file" accept="image/*" multiple class="d-none scrap-gallery-input" data-category="{{ category }}">
+    <input type="file" name="photos_{{ category }}" class="d-none scrap-real-input" data-category="{{ category }}" multiple>
+
+</div>
+{% endmacro %}
+
 <style>
 .scrap-timeline-card {
     position: sticky;
@@ -92,11 +124,6 @@
     min-width: 36px;
     justify-content: center;
 }
-
-.scrap-file-preview {
-    display: block;
-    margin-top: 0.35rem;
-}
 </style>
 
 <div class="container-fluid mt-4">
@@ -160,18 +187,7 @@
                                 {{ _('Upload a photo of the initial condition before the scrap weighing process starts.') }}
                             </p>
 
-                            <div class="mb-2">
-                                <label class="form-label">{{ _('Before Photo(s)') }} <span class="text-danger">*</span></label>
-                                <input
-                                    type="file"
-                                    id="photosBeforeInput"
-                                    name="photos_before"
-                                    class="form-control"
-                                    multiple
-                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-                                >
-                                <span class="scrap-file-preview text-muted small" id="photosBeforePreview"></span>
-                            </div>
+                            {{ photo_picker('before', _('Before Photo(s)'), true) }}
 
                             <div class="text-danger small scrap-step-error" data-step-error="1" style="display:none;"></div>
 
@@ -264,17 +280,7 @@
                                 <span id="timbanganUnitLabel">kg</span>
                             </div>
 
-                            <div class="mb-2">
-                                <label class="form-label">{{ _('Weighing Process Photo(s)') }} <span class="text-muted">({{ _('optional') }})</span></label>
-                                <input
-                                    type="file"
-                                    name="photos_timbang"
-                                    class="form-control"
-                                    multiple
-                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-                                >
-                                <span class="scrap-file-preview text-muted small" id="photosTimbangPreview"></span>
-                            </div>
+                            {{ photo_picker('timbang', _('Weighing Process Photo(s)'), false) }}
 
                             <div class="text-danger small scrap-step-error" data-step-error="3" style="display:none;"></div>
 
@@ -309,18 +315,7 @@
                                 ></textarea>
                             </div>
 
-                            <div class="mb-2">
-                                <label class="form-label">{{ _('After Photo(s)') }} <span class="text-danger">*</span></label>
-                                <input
-                                    type="file"
-                                    id="photosAfterInput"
-                                    name="photos_after"
-                                    class="form-control"
-                                    multiple
-                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-                                >
-                                <span class="scrap-file-preview text-muted small" id="photosAfterPreview"></span>
-                            </div>
+                            {{ photo_picker('after', _('After Photo(s)'), true) }}
 
                             <div class="text-danger small scrap-step-error" data-step-error="4" style="display:none;"></div>
 
@@ -495,20 +490,107 @@
         document.getElementById("timbanganUnitLabel").textContent = this.value;
     });
 
-    function bindFilePreview(inputId, previewId) {
+    var MAX_PHOTOS_PER_CATEGORY = 5;
 
-        var input = document.getElementById(inputId);
-        var preview = document.getElementById(previewId);
+    var scrapPhotoState = {};
 
-        input.addEventListener("change", function () {
-            preview.textContent = this.files.length
-                ? Array.from(this.files).map(function (f) { return f.name; }).join(", ")
-                : "";
+    document.querySelectorAll(".scrap-real-input").forEach(function (input) {
+        scrapPhotoState[input.dataset.category] = [];
+    });
+
+    function syncRealInput(category) {
+
+        var dt = new DataTransfer();
+
+        scrapPhotoState[category].forEach(function (file) {
+            dt.items.add(file);
         });
+
+        document.querySelector('.scrap-real-input[data-category="' + category + '"]').files = dt.files;
     }
 
-    bindFilePreview("photosBeforeInput", "photosBeforePreview");
-    bindFilePreview("photosAfterInput", "photosAfterPreview");
+    function showPhotoWarning(category, message) {
+        var el = document.querySelector('[data-category-warning="' + category + '"]');
+        el.textContent = message;
+        el.style.display = message ? "" : "none";
+    }
+
+    function renderPhotoThumbs(category) {
+
+        var container = document.querySelector('.scrap-photo-thumbs[data-category="' + category + '"]');
+        container.innerHTML = "";
+
+        scrapPhotoState[category].forEach(function (file, idx) {
+
+            var url = URL.createObjectURL(file);
+
+            var wrap = document.createElement("div");
+            wrap.className = "position-relative me-2 mb-2";
+            wrap.style.width = "70px";
+            wrap.innerHTML =
+                '<img src="' + url + '" style="width:70px;height:70px;object-fit:cover;border-radius:6px;">' +
+                '<button type="button" class="btn btn-sm btn-danger scrap-photo-remove" ' +
+                'style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;padding:0;border-radius:50%;line-height:1;" ' +
+                'data-category="' + category + '" data-index="' + idx + '">' +
+                '<i class="bi bi-x"></i></button>';
+
+            container.appendChild(wrap);
+        });
+
+        syncRealInput(category);
+    }
+
+    function addPhotosToCategory(category, fileList) {
+
+        var files = Array.from(fileList);
+        var remaining = MAX_PHOTOS_PER_CATEGORY - scrapPhotoState[category].length;
+
+        if (files.length > remaining) {
+            files = files.slice(0, Math.max(remaining, 0));
+            showPhotoWarning(category, "{{ _('Maximum 5 photos per category.') }}");
+        } else {
+            showPhotoWarning(category, "");
+        }
+
+        scrapPhotoState[category] = scrapPhotoState[category].concat(files);
+        renderPhotoThumbs(category);
+    }
+
+    document.querySelectorAll(".scrap-camera-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            document.querySelector('.scrap-camera-input[data-category="' + this.dataset.category + '"]').click();
+        });
+    });
+
+    document.querySelectorAll(".scrap-gallery-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            document.querySelector('.scrap-gallery-input[data-category="' + this.dataset.category + '"]').click();
+        });
+    });
+
+    document.querySelectorAll(".scrap-camera-input, .scrap-gallery-input").forEach(function (input) {
+        input.addEventListener("change", function () {
+            if (this.files.length) {
+                addPhotosToCategory(this.dataset.category, this.files);
+            }
+            this.value = "";
+        });
+    });
+
+    document.addEventListener("click", function (e) {
+
+        var btn = e.target.closest(".scrap-photo-remove");
+
+        if (!btn) {
+            return;
+        }
+
+        var category = btn.dataset.category;
+        var idx = parseInt(btn.dataset.index, 10);
+
+        scrapPhotoState[category].splice(idx, 1);
+        renderPhotoThumbs(category);
+    });
 
     function validateStep(step) {
 
@@ -516,9 +598,7 @@
 
         if (step === 1) {
 
-            var before = document.getElementById("photosBeforeInput");
-
-            if (!before.files || before.files.length === 0) {
+            if (scrapPhotoState.before.length === 0) {
                 showStepError(1, "{{ _('Before photo is required.') }}");
                 return false;
             }
@@ -541,9 +621,7 @@
 
         } else if (step === 4) {
 
-            var after = document.getElementById("photosAfterInput");
-
-            if (!after.files || after.files.length === 0) {
+            if (scrapPhotoState.after.length === 0) {
                 showStepError(4, "{{ _('After photo is required.') }}");
                 return false;
             }

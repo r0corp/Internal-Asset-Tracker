@@ -25,6 +25,9 @@ from . import main
 from .helpers import parse_date, log_action, save_scrap_photo, delete_scrap_photo
 
 
+MAX_PHOTOS_PER_CATEGORY = 5
+
+
 def _parse_scrap_type(value):
 
     valid_keys = {key for key, _label in SCRAP_TYPE_CHOICES}
@@ -197,6 +200,15 @@ def add_scrap():
 
             return render_template("scrap/add.html")
 
+        if any(len(files) > MAX_PHOTOS_PER_CATEGORY for _category, files, _required in photo_groups):
+
+            flash(
+                _("Maximum 5 photos per category."),
+                "danger",
+            )
+
+            return render_template("scrap/add.html")
+
         timbangan_detail = " + ".join(
             f"{value:.2f}" for value in timbangan_values
         )
@@ -338,6 +350,19 @@ def edit_scrap(record_id):
             (cat_key, _photo_files(f"photos_{cat_key}"))
             for cat_key, _cat_label in SCRAP_PHOTO_CATEGORY_CHOICES
         ]
+
+        if any(len(files) > MAX_PHOTOS_PER_CATEGORY for _category, files in new_photo_groups):
+
+            flash(
+                _("Maximum 5 photos per category."),
+                "danger",
+            )
+
+            return render_template(
+                "scrap/edit.html",
+                record=record,
+                category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
+            )
 
         try:
 

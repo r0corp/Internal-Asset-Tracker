@@ -1,0 +1,70 @@
+{# Ikon kalender di navbar; diklik -> kalender mini (data dari /calendar/events). #}
+<li class="nav-item dropdown navbar-clock">
+    <a class="nav-link" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+       aria-label="{{ _('Calendar') }}" title="{{ _('Calendar') }}">
+        <i class="bi bi-calendar3"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end p-0 overflow-hidden mini-cal">
+        <div class="mini-cal-head">
+            <button type="button" class="btn btn-sm btn-link p-0" id="calPrev" aria-label="{{ _('Previous month') }}"><i class="bi bi-chevron-left"></i></button>
+            <span id="calTitle"></span>
+            <button type="button" class="btn btn-sm btn-link p-0" id="calNext" aria-label="{{ _('Next month') }}"><i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="mini-cal-grid" id="calGrid"></div>
+        <div class="mini-cal-events" id="calEvents"></div>
+    </div>
+</li>
+<script>
+(function () {
+    const en = {{ (current_language == 'en')|tojson }};
+    const days = en ? ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] : ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    const months = en ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                      : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const eventsUrl = {{ url_for('main.calendar_events')|tojson }};
+    const empty = {{ _('No agenda.')|tojson }};
+    const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
+    // Kalender mini: dimuat saat dropdown dibuka.
+    let view = new Date(), byDay = {}, selected = iso(new Date());
+    const grid = document.getElementById('calGrid'), list = document.getElementById('calEvents');
+
+    function showDay(key) {
+        selected = key;
+        grid.querySelectorAll('.mini-cal-day').forEach(b => b.classList.toggle('is-selected', b.dataset.day === key));
+        const items = (byDay[key] || []).filter(e => e.title);
+        list.innerHTML = items.length ? items.map(e =>
+            `<a class="mini-cal-event" ${e.url ? `href="${e.url}"` : ''}><span class="dot" style="background:${e.color}"></span>` +
+            `<span>${e.title.replace(/</g, '&lt;')}${e.extendedProps && e.extendedProps.detail ? `<small>${e.extendedProps.detail.replace(/</g, '&lt;')}</small>` : ''}</span></a>`).join('')
+            : `<div class="text-secondary small px-3 py-2">${empty}</div>`;
+    }
+
+    async function render() {
+        const first = new Date(view.getFullYear(), view.getMonth(), 1);
+        const start = new Date(first); start.setDate(1 - ((first.getDay() + 6) % 7));
+        const end = new Date(start); end.setDate(start.getDate() + 42);
+        document.getElementById('calTitle').textContent = months[view.getMonth()] + ' ' + view.getFullYear();
+        byDay = {};
+        try {
+            const res = await fetch(eventsUrl + '?start=' + iso(start) + '&end=' + iso(end));
+            (await res.json()).forEach(e => (byDay[e.start.slice(0, 10)] ||= []).push(e));
+        } catch (e) {}
+        const today = iso(new Date());
+        let html = days.map(d => `<div class="mini-cal-dow">${d}</div>`).join('');
+        for (let i = 0; i < 42; i++) {
+            const d = new Date(start); d.setDate(start.getDate() + i);
+            const key = iso(d), evs = byDay[key] || [];
+            const dots = [...new Set(evs.filter(e => e.title).map(e => e.color))].slice(0, 3)
+                .map(c => `<i style="background:${c}"></i>`).join('');
+            html += `<button type="button" class="mini-cal-day${d.getMonth() !== view.getMonth() ? ' is-out' : ''}${key === today ? ' is-today' : ''}" data-day="${key}">${d.getDate()}<span class="dots">${dots}</span></button>`;
+        }
+        grid.innerHTML = html;
+        grid.querySelectorAll('.mini-cal-day').forEach(b => b.addEventListener('click', () => showDay(b.dataset.day)));
+        showDay(byDay[selected] !== undefined || selected.slice(0, 7) === iso(view).slice(0, 7) ? selected : iso(first));
+    }
+
+    const toggle = document.querySelector('.navbar-clock [data-bs-toggle="dropdown"]');
+    toggle.addEventListener('show.bs.dropdown', () => { view = new Date(); selected = iso(new Date()); render(); });
+    document.getElementById('calPrev').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+    document.getElementById('calNext').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
+})();
+</script>

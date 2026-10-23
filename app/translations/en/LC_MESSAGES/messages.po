@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 17:11+0700\n"
+"POT-Creation-Date: 2026-10-23 17:19+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -710,8 +710,8 @@ msgstr "Showcase"
 #: app/templates/master/category/add.html:164
 #: app/templates/master/category/edit.html:164
 #: app/templates/master/category/list.html:184
-msgid "Event Warehouse Stock"
-msgstr "Event Warehouse Stock"
+msgid "Event Stock"
+msgstr "Event Stock"
 
 #: app/blueprints/stock_opname.py:188
 msgid "Invalid period."
@@ -781,53 +781,117 @@ msgstr "Service record added successfully."
 msgid "Service record deleted successfully."
 msgstr "Service record deleted successfully."
 
-#: app/templates/base.html:1095
+#: app/templates/_navbar_clock.html:4
+msgid "Calendar"
+msgstr "Calendar"
+
+#: app/templates/_navbar_clock.html:9
+msgid "Previous month"
+msgstr "Previous month"
+
+#: app/templates/_navbar_clock.html:11
+msgid "Next month"
+msgstr "Next month"
+
+#: app/templates/_navbar_clock.html:24
+msgid "No agenda."
+msgstr "No agenda."
+
+#: app/templates/_sticky_notes.html:6 app/templates/base.html:1192
+msgid "My Notes"
+msgstr "My Notes"
+
+#: app/templates/_sticky_notes.html:7
+msgid "Close"
+msgstr "Close"
+
+#: app/templates/_sticky_notes.html:11
+msgid "New Note"
+msgstr "New Note"
+
+#: app/templates/_sticky_notes.html:12
+msgid "Search..."
+msgstr "Search..."
+
+#: app/templates/_sticky_notes.html:14
+msgid "Only you can see these notes. Saved automatically."
+msgstr "Only you can see these notes. Saved automatically."
+
+#: app/templates/_sticky_notes.html:16
+msgid "No notes yet."
+msgstr "No notes yet."
+
+#: app/templates/_sticky_notes.html:25
+msgid "Pin to top"
+msgstr "Pin to top"
+
+#: app/templates/_sticky_notes.html:25
+msgid "Delete note"
+msgstr "Delete note"
+
+#: app/templates/_sticky_notes.html:26
+msgid "Delete this note?"
+msgstr "Delete this note?"
+
+#: app/templates/_sticky_notes.html:26
+msgid "Write a note..."
+msgstr "Write a note..."
+
+#: app/templates/_sticky_notes.html:27
+msgid "saving..."
+msgstr "saving..."
+
+#: app/templates/_sticky_notes.html:27
+msgid "saved"
+msgstr "saved"
+
+#: app/templates/base.html:1177
 msgid "Toggle sidebar"
 msgstr "Toggle sidebar"
 
-#: app/templates/base.html:1128 app/templates/master/user/list.html:97
+#: app/templates/base.html:1221 app/templates/master/user/list.html:97
 #: app/templates/master/user/list.html:139
 #: app/templates/master/user/list.html:213
 msgid "Online"
 msgstr "Online"
 
-#: app/templates/base.html:1152
+#: app/templates/base.html:1245
 msgid "Language"
 msgstr "Language"
 
-#: app/templates/base.html:1167
+#: app/templates/base.html:1260
 msgid "Theme"
 msgstr "Theme"
 
-#: app/templates/base.html:1171
+#: app/templates/base.html:1264
 msgid "Light"
 msgstr "Light"
 
-#: app/templates/base.html:1174
+#: app/templates/base.html:1267
 msgid "Dark"
 msgstr "Dark"
 
-#: app/templates/base.html:1177
+#: app/templates/base.html:1270
 msgid "Auto"
 msgstr "Auto"
 
-#: app/templates/base.html:1193
+#: app/templates/base.html:1286
 msgid "Other users online"
 msgstr "Other users online"
 
-#: app/templates/base.html:1222 app/templates/base.html:1547
+#: app/templates/base.html:1315 app/templates/base.html:1642
 msgid "No other users online right now."
 msgstr "No other users online right now."
 
-#: app/templates/base.html:1237
+#: app/templates/base.html:1330
 msgid "Profile"
 msgstr "Profile"
 
-#: app/templates/base.html:1242
+#: app/templates/base.html:1335
 msgid "Logout"
 msgstr "Logout"
 
-#: app/templates/base.html:1301
+#: app/templates/base.html:1394
 msgid "Main menu"
 msgstr "Main menu"
 

@@ -1057,6 +1057,88 @@
             --bs-btn-hover-bg: #2563eb;
             --bs-btn-hover-border-color: #2563eb;
         }
+
+        /* ------------------------------------------------------
+           KALENDER MINI DI NAVBAR (_navbar_clock.html) - dicontoh
+           dari aplikasi Legal Contract, warna disesuaikan ke biru
+           (identitas Asset Tracker).
+        ------------------------------------------------------ */
+
+        .mini-cal { width: 300px; }
+
+        @media (max-width: 575.98px) {
+            .mini-cal.show { position: fixed !important; inset: 76px 10px auto 10px !important; width: auto; transform: none !important; }
+        }
+
+        .mini-cal-head { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem 0.2rem; font-weight: 600; font-size: 0.9rem; }
+        .mini-cal-head .btn-link { color: var(--bs-secondary-color); }
+        .mini-cal-head .btn-link:hover { color: #0d6efd; }
+        .mini-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding: 0.5rem; }
+        .mini-cal-dow { text-align: center; font-size: 0.7rem; font-weight: 700; color: var(--bs-secondary-color); padding-bottom: 0.2rem; }
+        .mini-cal-day { position: relative; border: 0; background: transparent; border-radius: 8px; height: 34px; font-size: 0.82rem; color: var(--bs-body-color); padding: 0; line-height: 1.1; }
+        .mini-cal-day:hover { background: var(--bs-tertiary-bg); }
+        .mini-cal-day.is-out { opacity: 0.4; }
+        .mini-cal-day.is-today { box-shadow: inset 0 0 0 1.5px #0d6efd; }
+        .mini-cal-day.is-selected { background: rgba(13, 110, 253, 0.12); color: #0d6efd; font-weight: 600; }
+        .mini-cal-day .dots { position: absolute; left: 0; right: 0; bottom: 3px; display: flex; justify-content: center; gap: 2px; }
+        .mini-cal-day .dots i { width: 5px; height: 5px; border-radius: 50%; }
+        .mini-cal-events { max-height: 180px; overflow-y: auto; border-top: 1px solid var(--bs-border-color); }
+        .mini-cal-event { display: flex; gap: 0.5rem; padding: 0.4rem 0.8rem; font-size: 0.8rem; color: var(--bs-body-color); text-decoration: none; border-bottom: 1px solid var(--bs-border-color-translucent); }
+        a.mini-cal-event[href]:hover { background: var(--bs-tertiary-bg); }
+        .mini-cal-event .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; margin-top: 0.35rem; }
+        .mini-cal-event small { display: block; color: var(--bs-secondary-color); }
+
+        /* ------------------------------------------------------
+           STICKY NOTES (_sticky_notes.html) - panel melayang di
+           kanan, seukuran & gaya sidebar menu.
+        ------------------------------------------------------ */
+
+        .offcanvas.sticky-panel {
+            --bs-offcanvas-width: 250px;
+            top: 14px;
+            bottom: 14px;
+            right: 14px;
+            height: auto;
+            border-radius: 14px;
+            border: 1px solid #dee2e6;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease;
+        }
+
+        [data-bs-theme="dark"] .offcanvas.sticky-panel {
+            background: #1b1e27;
+            border-color: #2c2f38;
+        }
+
+        .sticky-panel .offcanvas-header { padding: 0.9rem 1rem 0.6rem; }
+        .sticky-panel .offcanvas-title { font-size: 1rem; font-weight: 600; }
+        .sticky-panel .offcanvas-body { padding: 0 0.75rem 0.75rem; }
+
+        @media (max-width: 575.98px) {
+            .offcanvas.sticky-panel { top: 10px; bottom: 10px; right: 10px; border-radius: 12px; --bs-offcanvas-width: calc(100vw - 20px); }
+        }
+
+        .sticky-list { display: flex; flex-direction: column; gap: 0.6rem; }
+        .sticky-note { border-radius: 10px; padding: 0.45rem 0.6rem 0.35rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); color: #2b2b2b; }
+        .sticky-note.is-pinned { box-shadow: 0 0 0 2px #0d6efd, 0 1px 3px rgba(0, 0, 0, 0.12); }
+        .sticky-yellow { background: #fff6b3; }
+        .sticky-green { background: #d1f5df; }
+        .sticky-blue { background: #d6e9ff; }
+        .sticky-pink { background: #ffd9e6; }
+        .sticky-purple { background: #e8dcff; }
+        .sticky-note-bar { display: flex; align-items: center; gap: 0.4rem; }
+        .sticky-note-bar .btn-link { color: #555; }
+        .sticky-colors { display: flex; gap: 0.25rem; }
+        .sticky-color { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.25); padding: 0; }
+        .sticky-status, .sticky-time { color: #6b6b6b; }
+        .sticky-time { text-align: right; font-size: 0.7rem; }
+        .sticky-text { width: 100%; border: 0; background: transparent; resize: none; outline: none; color: inherit; font-size: 0.9rem; line-height: 1.45; min-height: 4.5rem; overflow: hidden; }
+
+        @media (min-width: 992px) {
+            body.notes-open .app-main.app-main { margin-right: 264px; }
+            body.notes-open .app-header.navbar, body.notes-open .app-footer { margin-right: 278px; }
+        }
     </style>
 
 
@@ -1100,6 +1182,17 @@
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
+
+                    {% include "_navbar_clock.html" %}
+
+                    <!-- STICKY NOTES -->
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#stickyNotes"
+                           aria-controls="stickyNotes" title="{{ _('My Notes') }}" aria-label="{{ _('My Notes') }}">
+                            <i class="bi bi-sticky"></i>
+                        </a>
+                    </li>
 
                     <!-- USER MENU -->
 
@@ -1489,6 +1582,8 @@
         </footer>
 
     </div>
+
+    {% include "_sticky_notes.html" %}
 
     {% else %}
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 17:11+0700\n"
+"POT-Creation-Date: 2026-10-23 17:19+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -710,8 +710,8 @@ msgstr "Showcase"
 #: app/templates/master/category/add.html:164
 #: app/templates/master/category/edit.html:164
 #: app/templates/master/category/list.html:184
-msgid "Event Warehouse Stock"
-msgstr "Stok Gudang Event"
+msgid "Event Stock"
+msgstr "Stok Event"
 
 #: app/blueprints/stock_opname.py:188
 msgid "Invalid period."
@@ -781,53 +781,117 @@ msgstr "Catatan servis berhasil ditambahkan."
 msgid "Service record deleted successfully."
 msgstr "Catatan servis berhasil dihapus."
 
-#: app/templates/base.html:1095
+#: app/templates/_navbar_clock.html:4
+msgid "Calendar"
+msgstr "Kalender"
+
+#: app/templates/_navbar_clock.html:9
+msgid "Previous month"
+msgstr "Previous month"
+
+#: app/templates/_navbar_clock.html:11
+msgid "Next month"
+msgstr "Next month"
+
+#: app/templates/_navbar_clock.html:24
+msgid "No agenda."
+msgstr "Tidak ada agenda."
+
+#: app/templates/_sticky_notes.html:6 app/templates/base.html:1192
+msgid "My Notes"
+msgstr "Catatan Saya"
+
+#: app/templates/_sticky_notes.html:7
+msgid "Close"
+msgstr "Close"
+
+#: app/templates/_sticky_notes.html:11
+msgid "New Note"
+msgstr "Catatan Baru"
+
+#: app/templates/_sticky_notes.html:12
+msgid "Search..."
+msgstr "Cari..."
+
+#: app/templates/_sticky_notes.html:14
+msgid "Only you can see these notes. Saved automatically."
+msgstr "Hanya Anda yang bisa melihat catatan ini. Tersimpan otomatis."
+
+#: app/templates/_sticky_notes.html:16
+msgid "No notes yet."
+msgstr "Belum ada catatan."
+
+#: app/templates/_sticky_notes.html:25
+msgid "Pin to top"
+msgstr "Sematkan di atas"
+
+#: app/templates/_sticky_notes.html:25
+msgid "Delete note"
+msgstr "Hapus catatan"
+
+#: app/templates/_sticky_notes.html:26
+msgid "Delete this note?"
+msgstr "Hapus catatan ini?"
+
+#: app/templates/_sticky_notes.html:26
+msgid "Write a note..."
+msgstr "Tulis catatan..."
+
+#: app/templates/_sticky_notes.html:27
+msgid "saving..."
+msgstr "menyimpan..."
+
+#: app/templates/_sticky_notes.html:27
+msgid "saved"
+msgstr "tersimpan"
+
+#: app/templates/base.html:1177
 msgid "Toggle sidebar"
 msgstr "Buka/tutup sidebar"
 
-#: app/templates/base.html:1128 app/templates/master/user/list.html:97
+#: app/templates/base.html:1221 app/templates/master/user/list.html:97
 #: app/templates/master/user/list.html:139
 #: app/templates/master/user/list.html:213
 msgid "Online"
 msgstr "Online"
 
-#: app/templates/base.html:1152
+#: app/templates/base.html:1245
 msgid "Language"
 msgstr "Bahasa"
 
-#: app/templates/base.html:1167
+#: app/templates/base.html:1260
 msgid "Theme"
 msgstr "Tema"
 
-#: app/templates/base.html:1171
+#: app/templates/base.html:1264
 msgid "Light"
 msgstr "Terang"
 
-#: app/templates/base.html:1174
+#: app/templates/base.html:1267
 msgid "Dark"
 msgstr "Gelap"
 
-#: app/templates/base.html:1177
+#: app/templates/base.html:1270
 msgid "Auto"
 msgstr "Otomatis"
 
-#: app/templates/base.html:1193
+#: app/templates/base.html:1286
 msgid "Other users online"
 msgstr "Other users online"
 
-#: app/templates/base.html:1222 app/templates/base.html:1547
+#: app/templates/base.html:1315 app/templates/base.html:1642
 msgid "No other users online right now."
 msgstr "No other users online right now."
 
-#: app/templates/base.html:1237
+#: app/templates/base.html:1330
 msgid "Profile"
 msgstr "Profil"
 
-#: app/templates/base.html:1242
+#: app/templates/base.html:1335
 msgid "Logout"
 msgstr "Keluar"
 
-#: app/templates/base.html:1301
+#: app/templates/base.html:1394
 msgid "Main menu"
 msgstr "Menu utama"
 

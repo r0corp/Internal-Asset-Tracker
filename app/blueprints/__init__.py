@@ -235,3 +235,5 @@ from . import cache  # noqa: E402,F401
 from . import scrap  # noqa: E402,F401
 from . import stock_opname  # noqa: E402,F401
 from . import vehicle_service  # noqa: E402,F401
+from . import notes  # noqa: E402,F401
+from . import calendar  # noqa: E402,F401

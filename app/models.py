@@ -1157,7 +1157,7 @@ CATEGORY_RESTRICTION_CHOICES = [
     ("pantry", "Pantry"),
     ("tools_pantry", "Pantry Tools"),
     ("showcase", "Showcase (for customers)"),
-    ("gudang_event", "Event Warehouse Stock"),
+    ("gudang_event", "Event Stock"),
 ]
 
 # Sama dengan field_template di atas, tapi label pendek + icon -
@@ -1179,7 +1179,7 @@ ASSET_TYPE_TAB_CHOICES = [
     ("pantry", "Pantry", "bi-cup-hot"),
     ("tools_pantry", "Pantry Tools", "bi-bucket"),
     ("showcase", "Showcase", "bi-shop-window"),
-    ("gudang_event", "Event Warehouse Stock", "bi-boxes"),
+    ("gudang_event", "Event Stock", "bi-boxes"),
 ]
 
 PERMISSION_OBJECT_KEYS = [key for key, _label in PERMISSION_OBJECTS]
@@ -1613,3 +1613,59 @@ class VehicleServiceRecord(db.Model):
 
     def __repr__(self):
         return f"<VehicleServiceRecord asset={self.asset_id} date={self.service_date}>"
+
+
+class StickyNote(db.Model):
+    """Catatan pribadi (sticky notes) per user, dibuka dari ikon di navbar."""
+
+    __tablename__ = "sticky_notes"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False,
+        index=True,
+    )
+
+    content = db.Column(
+        db.Text,
+        nullable=False,
+        default="",
+    )
+
+    color = db.Column(
+        db.String(10),
+        nullable=False,
+        default="yellow",
+    )
+
+    pinned = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+        onupdate=datetime.utcnow,
+    )
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "color": self.color,
+            "pinned": self.pinned,
+            "updated_at": self.updated_at.strftime("%d-%m-%Y %H:%M"),
+        }

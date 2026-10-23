@@ -1,0 +1,112 @@
+{# Sticky notes: panel samping dari ikon di navbar (app/blueprints/notes.py). #}
+{# Tanpa backdrop: di desktop konten bergeser ke kiri (body.notes-open), seperti sidebar menu. #}
+<div class="offcanvas offcanvas-end sticky-panel" tabindex="-1" id="stickyNotes" aria-labelledby="stickyNotesLabel"
+     data-bs-backdrop="false" data-bs-scroll="true">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="stickyNotesLabel"><i class="bi bi-sticky me-2"></i>{{ _('My Notes') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ _('Close') }}"></button>
+    </div>
+    <div class="offcanvas-body pt-0">
+        <div class="sticky-toolbar">
+            <button type="button" class="btn btn-primary btn-sm w-100 mb-2" id="noteAdd"><i class="bi bi-plus-lg me-1"></i>{{ _('New Note') }}</button>
+            <input type="search" class="form-control form-control-sm mb-2" id="noteSearch" placeholder="{{ _('Search...') }}">
+        </div>
+        <div class="small text-secondary mb-2">{{ _('Only you can see these notes. Saved automatically.') }}</div>
+        <div id="noteList" class="sticky-list"></div>
+        <div id="noteEmpty" class="text-center text-secondary small py-4 d-none">{{ _('No notes yet.') }}</div>
+    </div>
+</div>
+<script>
+(function () {
+    const url = {{ url_for('main.notes_index')|tojson }};
+    const csrf = {{ csrf_token()|tojson }};
+    const colors = ['yellow', 'green', 'blue', 'pink', 'purple'];
+    const T = {
+        pin: {{ _('Pin to top')|tojson }}, del: {{ _('Delete note')|tojson }},
+        confirm: {{ _('Delete this note?')|tojson }}, placeholder: {{ _('Write a note...')|tojson }},
+        saving: {{ _('saving...')|tojson }}, saved: {{ _('saved')|tojson }},
+    };
+    const list = document.getElementById('noteList');
+    const empty = document.getElementById('noteEmpty');
+    const search = document.getElementById('noteSearch');
+    let loaded = false;
+
+    const api = (path, data) => fetch(url + path, {
+        method: data === undefined ? 'GET' : 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf, 'X-Requested-With': 'fetch' },
+        body: data === undefined ? undefined : JSON.stringify(data),
+    }).then(r => r.json());
+
+    function render(note) {
+        const el = document.createElement('div');
+        el.className = 'sticky-note sticky-' + note.color + (note.pinned ? ' is-pinned' : '');
+        el.dataset.id = note.id;
+        el.innerHTML = `
+            <div class="sticky-note-bar">
+                <div class="sticky-colors">${colors.map(c => `<button type="button" class="sticky-color sticky-${c}" data-color="${c}" aria-label="${c}"></button>`).join('')}</div>
+                <span class="sticky-status small ms-auto"></span>
+                <button type="button" class="btn btn-sm btn-link p-0 sticky-pin" title="${T.pin}"><i class="bi ${note.pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle'}"></i></button>
+                <button type="button" class="btn btn-sm btn-link p-0 sticky-del" title="${T.del}"><i class="bi bi-trash"></i></button>
+            </div>
+            <textarea class="sticky-text" rows="4" maxlength="5000" placeholder="${T.placeholder}"></textarea>
+            <div class="sticky-time small">${note.updated_at}</div>`;
+        const text = el.querySelector('textarea');
+        text.value = note.content;
+        const status = el.querySelector('.sticky-status');
+        let timer;
+        const autosize = () => { text.style.height = 'auto'; text.style.height = text.scrollHeight + 'px'; };
+        text.addEventListener('input', () => {
+            autosize();
+            status.textContent = T.saving;
+            clearTimeout(timer);
+            timer = setTimeout(() => api('/' + note.id, { content: text.value }).then(n => {
+                status.textContent = T.saved;
+                el.querySelector('.sticky-time').textContent = n.updated_at;
+            }), 600);
+        });
+        el.querySelectorAll('.sticky-color').forEach(b => b.addEventListener('click', () => {
+            api('/' + note.id, { color: b.dataset.color }).then(n => {
+                el.className = 'sticky-note sticky-' + n.color + (n.pinned ? ' is-pinned' : '');
+            });
+        }));
+        el.querySelector('.sticky-pin').addEventListener('click', () => {
+            api('/' + note.id, { pinned: !el.classList.contains('is-pinned') }).then(load);
+        });
+        el.querySelector('.sticky-del').addEventListener('click', () => {
+            if (confirm(T.confirm)) api('/' + note.id + '/delete', {}).then(load);
+        });
+        setTimeout(autosize);
+        return el;
+    }
+
+    function filter() {
+        const q = search.value.trim().toLowerCase();
+        list.querySelectorAll('.sticky-note').forEach(el => {
+            el.hidden = q && !el.querySelector('textarea').value.toLowerCase().includes(q);
+        });
+    }
+
+    function load() {
+        return api('').then(notes => {
+            list.innerHTML = '';
+            notes.forEach(n => list.appendChild(render(n)));
+            empty.classList.toggle('d-none', notes.length > 0);
+            filter();
+            loaded = true;
+        });
+    }
+
+    const panel = document.getElementById('stickyNotes');
+    panel.addEventListener('show.bs.offcanvas', () => { document.body.classList.add('notes-open'); if (!loaded) load(); });
+    panel.addEventListener('hide.bs.offcanvas', () => document.body.classList.remove('notes-open'));
+    document.getElementById('noteAdd').addEventListener('click', () => {
+        api('', {}).then(n => {
+            const el = render(n);
+            list.prepend(el);
+            empty.classList.add('d-none');
+            el.querySelector('textarea').focus();
+        });
+    });
+    search.addEventListener('input', filter);
+})();
+</script>

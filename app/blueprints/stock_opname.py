@@ -39,7 +39,7 @@ STOCK_OPNAME_TEMPLATES = {
     "atk": (FIELD_TEMPLATE_ATK, _("Office Stationery (ATK)")),
     "pantry": (FIELD_TEMPLATE_PANTRY, _("Pantry")),
     "showcase": (FIELD_TEMPLATE_SHOWCASE, _("Showcase")),
-    "gudang_event": (FIELD_TEMPLATE_GUDANG_EVENT, _("Event Warehouse Stock")),
+    "gudang_event": (FIELD_TEMPLATE_GUDANG_EVENT, _("Event Stock")),
 }
 
 # Kategori yang Stock Opname-nya juga menampilkan kolom "Qty Dibeli"

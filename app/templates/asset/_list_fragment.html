@@ -166,7 +166,7 @@
 
 
 
-                    {% if selected_tipe != 'atk' %}
+                    {% if selected_tipe not in ('atk', 'pantry') %}
 
                     <!-- LOCATION -->
 
@@ -355,7 +355,7 @@
                         {% endif %}
 
 
-                        {% if selected_tipe != 'atk' %}
+                        {% if selected_tipe not in ('atk', 'pantry') %}
 
                         <th>
                             {{ _('Location') }}
@@ -581,7 +581,7 @@
 
 
 
-                        {% if selected_tipe != 'atk' %}
+                        {% if selected_tipe not in ('atk', 'pantry') %}
 
                         <!-- LOCATION -->
 

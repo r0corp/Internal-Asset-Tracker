@@ -399,7 +399,9 @@ Tracker {% endblock %} {% block content %}
         </div>
 
         <div>
-          <h3 class="page-header-title">{{ _('Asset List') }}</h3>
+          {% set selected_tipe_label = (asset_type_tab_choices | selectattr('0', 'equalto', selected_tipe) | map(attribute='1') | first) if selected_tipe else None %}
+
+          <h3 class="page-header-title">{{ _(selected_tipe_label) if selected_tipe_label else _('Asset List') }}</h3>
 
           <p class="page-header-subtitle mb-0">
             {{ _('Manage and monitor all company assets') }}

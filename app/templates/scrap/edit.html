@@ -41,7 +41,7 @@
 
         <div class="card-body">
 
-            <form method="POST" style="--form-field-label-width: 160px;">
+            <form method="POST" enctype="multipart/form-data" style="--form-field-label-width: 160px;">
 
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
@@ -114,6 +114,72 @@
                     >{{ record.notes or '' }}</textarea>
 
                 </div>
+
+                <hr class="my-4">
+
+                <h6 class="mb-3">
+                    <i class="bi bi-camera"></i>
+                    {{ _('Documentation Photos') }}
+                </h6>
+
+                {% for cat_key, cat_label in category_choices %}
+                {% set cat_photos = record.photos | selectattr('category', 'equalto', cat_key) | list %}
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">{{ _(cat_label) }}</label>
+
+                    {% if cat_photos %}
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+
+                        {% for photo in cat_photos %}
+                        <div class="position-relative" style="width: 90px;">
+
+                            <img
+                                src="{{ url_for('static', filename='uploads/scrap/' ~ photo.filename) }}"
+                                class="w-100"
+                                style="aspect-ratio: 1; object-fit: cover; border-radius: 6px;"
+                            >
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-danger position-absolute"
+                                style="top: -6px; right: -6px; width: 22px; height: 22px; padding: 0; border-radius: 50%; line-height: 1;"
+                                title="{{ _('Delete') }}"
+                                onclick="document.getElementById('deleteEditPhoto{{ photo.id }}').submit();"
+                            >
+                                <i class="bi bi-x"></i>
+                            </button>
+
+                            <form
+                                method="POST"
+                                action="{{ url_for('main.scrap_photos_delete', photo_id=photo.id) }}"
+                                id="deleteEditPhoto{{ photo.id }}"
+                                style="display:none;"
+                                onsubmit="return confirm('{{ _('Delete this photo?') }}');"
+                            >
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            </form>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    {% else %}
+                    <div class="text-muted small mb-2">{{ _('No photos yet.') }}</div>
+                    {% endif %}
+
+                    <input
+                        type="file"
+                        name="photos_{{ cat_key }}"
+                        class="form-control"
+                        multiple
+                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    >
+
+                </div>
+
+                {% endfor %}
 
                 <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
                 <a href="{{ url_for('main.scrap_list') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>

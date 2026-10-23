@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 18:28+0700\n"
+"POT-Creation-Date: 2026-10-23 18:47+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -302,7 +302,7 @@ msgstr "Asset was successfully updated."
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:474
+#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:550
 msgid "No photo file was sent."
 msgstr "Tidak ada file foto yang dikirim."
 
@@ -690,44 +690,53 @@ msgstr ""
 "Import successful. %(role_count)s new role(s) created, permissions for "
 "%(permission_count)s object row(s) updated."
 
-#: app/blueprints/scrap.py:145 app/blueprints/scrap.py:262
-#: app/blueprints/vehicle_service.py:63
+#: app/blueprints/scrap.py:168 app/blueprints/scrap.py:302
+#: app/blueprints/vehicle_service.py:63 app/templates/scrap/add.html:531
 msgid "Date is required."
 msgstr "Tanggal wajib diisi."
 
-#: app/blueprints/scrap.py:154 app/blueprints/scrap.py:274
-msgid "Invalid quantity."
-msgstr "Jumlah tidak valid."
+#: app/blueprints/scrap.py:177 app/templates/scrap/add.html:538
+msgid "At least one weighing entry is required."
+msgstr "Minimal harus ada satu entri timbangan."
 
-#: app/blueprints/scrap.py:169
-msgid "Before, Weighing Process, and After photos are all required."
-msgstr "Foto Before, Proses Timbang, dan After wajib semua diisi."
+#: app/blueprints/scrap.py:194
+msgid "Before and After photos are required."
+msgstr "Foto Before dan After wajib diisi."
 
-#: app/blueprints/scrap.py:225
+#: app/blueprints/scrap.py:205
+#, python-format
+msgid "Weighing breakdown: %(detail)s = %(total)s %(unit)s"
+msgstr "Rincian timbangan: %(detail)s = %(total)s %(unit)s"
+
+#: app/blueprints/scrap.py:265
 msgid "Scrap record added successfully."
 msgstr "Data scrap berhasil ditambahkan."
 
-#: app/blueprints/scrap.py:304
+#: app/blueprints/scrap.py:315
+msgid "Invalid quantity."
+msgstr "Jumlah tidak valid."
+
+#: app/blueprints/scrap.py:379
 msgid "Scrap record updated successfully."
 msgstr "Data scrap berhasil diperbarui."
 
-#: app/blueprints/scrap.py:339
+#: app/blueprints/scrap.py:415
 msgid "Scrap record deleted successfully."
 msgstr "Data scrap berhasil dihapus."
 
-#: app/blueprints/scrap.py:539
+#: app/blueprints/scrap.py:615
 msgid "Scrap documentation photo"
 msgstr "Foto dokumentasi scrap"
 
-#: app/blueprints/scrap.py:540 app/templates/scrap/photos.html:196
+#: app/blueprints/scrap.py:616 app/templates/scrap/photos.html:196
 msgid "photo(s)"
 msgstr "foto"
 
-#: app/blueprints/scrap.py:544
+#: app/blueprints/scrap.py:620
 msgid "Photo(s) uploaded successfully."
 msgstr "Foto berhasil diunggah."
 
-#: app/blueprints/scrap.py:577
+#: app/blueprints/scrap.py:653
 msgid "Photo deleted successfully."
 msgstr "Photo deleted successfully."
 
@@ -1315,7 +1324,7 @@ msgstr "No. Mutasi"
 #: app/templates/asset/vehicle_service.html:94
 #: app/templates/asset/vehicle_service.html:164
 #: app/templates/atk_pickup/report.html:56 app/templates/dashboard.html:1523
-#: app/templates/scrap/add.html:64 app/templates/scrap/edit.html:64
+#: app/templates/scrap/add.html:204 app/templates/scrap/edit.html:64
 #: app/templates/scrap/list.html:172 app/templates/scrap/photos.html:119
 msgid "Date"
 msgstr "Tanggal"
@@ -1616,7 +1625,7 @@ msgstr "Spesifikasi/Kapasitas"
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
 #: app/templates/atk_pickup/new.html:168
-#: app/templates/atk_pickup/report.html:109
+#: app/templates/atk_pickup/report.html:109 app/templates/scrap/add.html:237
 #: app/templates/stock_opname/history.html:144
 #: app/templates/stock_opname/input.html:130
 msgid "Unit"
@@ -1738,7 +1747,8 @@ msgstr "Sebelumnya"
 
 #: app/templates/asset/_list_fragment.html:883
 #: app/templates/asset/movements_global.html:750
-#: app/templates/audit/list.html:114
+#: app/templates/audit/list.html:114 app/templates/scrap/add.html:180
+#: app/templates/scrap/add.html:221 app/templates/scrap/add.html:287
 msgid "Next"
 msgstr "Berikutnya"
 
@@ -1785,7 +1795,7 @@ msgid "Click a photo to enlarge. Hover for cover/delete options."
 msgstr "Klik foto untuk memperbesar. Arahkan kursor untuk opsi sampul/hapus."
 
 #: app/templates/asset/_photo_gallery.html:530
-#: app/templates/scrap/photos.html:279
+#: app/templates/scrap/edit.html:159 app/templates/scrap/photos.html:279
 msgid "Delete this photo?"
 msgstr "Hapus foto ini?"
 
@@ -1810,8 +1820,9 @@ msgstr "Tambahkan asset baru ke dalam Asset Tracker"
 #: app/templates/master/department/edit.html:22
 #: app/templates/master/location/add.html:31
 #: app/templates/master/location/edit.html:31
-#: app/templates/roles/permissions.html:101 app/templates/scrap/add.html:31
-#: app/templates/scrap/edit.html:31
+#: app/templates/roles/permissions.html:101 app/templates/scrap/add.html:126
+#: app/templates/scrap/add.html:218 app/templates/scrap/add.html:284
+#: app/templates/scrap/add.html:330 app/templates/scrap/edit.html:31
 msgid "Back"
 msgstr "Kembali"
 
@@ -2137,7 +2148,7 @@ msgstr "Masukkan keterangan atau deskripsi asset..."
 #: app/templates/master/vendor/add.html:144
 #: app/templates/master/vendor/edit.html:147 app/templates/roles/add.html:46
 #: app/templates/roles/edit.html:83 app/templates/roles/import.html:45
-#: app/templates/scrap/add.html:183 app/templates/scrap/edit.html:119
+#: app/templates/scrap/edit.html:185
 msgid "Cancel"
 msgstr "Batal"
 
@@ -2239,7 +2250,7 @@ msgstr "Biaya"
 #: app/templates/asset/movement_detail.html:984
 #: app/templates/asset/vehicle_service.html:110
 #: app/templates/asset/vehicle_service.html:167
-#: app/templates/scrap/add.html:107 app/templates/scrap/edit.html:107
+#: app/templates/scrap/add.html:303 app/templates/scrap/edit.html:107
 #: app/templates/scrap/list.html:175
 msgid "Notes"
 msgstr "Catatan"
@@ -2896,8 +2907,8 @@ msgstr "Tanda tangan di sini menggunakan mouse, touchpad atau layar sentuh"
 #: app/templates/master/menu/list.html:156
 #: app/templates/master/menu/list.html:214
 #: app/templates/master/user/list.html:168
-#: app/templates/master/vendor/list.html:152 app/templates/scrap/list.html:222
-#: app/templates/scrap/photos.html:256
+#: app/templates/master/vendor/list.html:152 app/templates/scrap/edit.html:148
+#: app/templates/scrap/list.html:222 app/templates/scrap/photos.html:256
 msgid "Delete"
 msgstr "Hapus"
 
@@ -3486,7 +3497,7 @@ msgstr "Contoh: Service rutin & ganti oli"
 #: app/templates/master/category/add.html:180
 #: app/templates/master/department/add.html:70
 #: app/templates/master/location/add.html:84 app/templates/roles/edit.html:81
-#: app/templates/scrap/add.html:182 app/templates/scrap/edit.html:118
+#: app/templates/scrap/edit.html:184
 msgid "Save"
 msgstr "Simpan"
 
@@ -4565,59 +4576,161 @@ msgstr "kosongkan"
 msgid "Save Permissions"
 msgstr "Simpan Hak Akses"
 
-#: app/templates/scrap/add.html:3 app/templates/scrap/add.html:21
+#: app/templates/scrap/add.html:3 app/templates/scrap/add.html:116
 #: app/templates/scrap/list.html:48
 msgid "Add Scrap Record"
 msgstr "Tambah Data Scrap"
 
-#: app/templates/scrap/add.html:51 app/templates/scrap/edit.html:51
-msgid "Scrap Type"
-msgstr "Jenis Scrap"
+#: app/templates/scrap/add.html:158
+msgid "Step 1: Before Photo"
+msgstr "Tahap 1: Foto Before"
 
-#: app/templates/scrap/add.html:55 app/templates/scrap/edit.html:55
-msgid "Besi Biasa"
-msgstr "Besi Biasa"
+#: app/templates/scrap/add.html:160
+msgid ""
+"Upload a photo of the initial condition before the scrap weighing process "
+"starts."
+msgstr "Unggah foto kondisi awal sebelum proses penimbangan scrap dimulai."
 
-#: app/templates/scrap/add.html:56 app/templates/scrap/edit.html:56
-msgid "Besi Baja Ringan / LGS"
-msgstr "Besi Baja Ringan / LGS"
-
-#: app/templates/scrap/add.html:80 app/templates/scrap/edit.html:80
-#: app/templates/scrap/list.html:174
-msgid "Quantity"
-msgstr "Jumlah"
-
-#: app/templates/scrap/add.html:91
-msgid "Example: 125.5"
-msgstr "Contoh: 125.5"
-
-#: app/templates/scrap/add.html:114
-msgid "Optional notes..."
-msgstr "Catatan opsional..."
-
-#: app/templates/scrap/add.html:123
-msgid "Documentation Photos"
-msgstr "Foto Dokumentasi"
-
-#: app/templates/scrap/add.html:128
-msgid "All three photos below are required before this record can be saved."
-msgstr "Ketiga foto di bawah ini wajib diisi sebelum data bisa disimpan."
-
-#: app/templates/scrap/add.html:134
+#: app/templates/scrap/add.html:164
 msgid "Before Photo(s)"
 msgstr "Foto Before"
 
-#: app/templates/scrap/add.html:151
+#: app/templates/scrap/add.html:190
+msgid "Step 2: Scrap Type & Date"
+msgstr "Tahap 2: Jenis Scrap & Tanggal"
+
+#: app/templates/scrap/add.html:192
+msgid "Select the scrap type and fill in the date of this process."
+msgstr "Pilih jenis scrap dan isi tanggal proses ini."
+
+#: app/templates/scrap/add.html:196 app/templates/scrap/edit.html:51
+msgid "Scrap Type"
+msgstr "Jenis Scrap"
+
+#: app/templates/scrap/add.html:198 app/templates/scrap/edit.html:55
+msgid "Besi Biasa"
+msgstr "Besi Biasa"
+
+#: app/templates/scrap/add.html:199 app/templates/scrap/edit.html:56
+msgid "Besi Baja Ringan / LGS"
+msgstr "Besi Baja Ringan / LGS"
+
+#: app/templates/scrap/add.html:231
+msgid "Step 3: Weighing Process"
+msgstr "Tahap 3: Proses Timbang"
+
+#: app/templates/scrap/add.html:233
+msgid ""
+"Scrap cannot be weighed all at once, so input each weighing result one by "
+"one below."
+msgstr ""
+"Scrap tidak bisa ditimbang sekaligus, jadi input tiap hasil timbangan satu "
+"per satu di bawah ini."
+
+#: app/templates/scrap/add.html:244
+msgid "Weighing Entries"
+msgstr "Entri Timbangan"
+
+#: app/templates/scrap/add.html:249 app/templates/scrap/add.html:467
+msgid "Example: 17.10"
+msgstr "Contoh: 17.10"
+
+#: app/templates/scrap/add.html:258
+msgid "Add Weighing Entry"
+msgstr "Tambah Timbangan"
+
+#: app/templates/scrap/add.html:262
+msgid "Total"
+msgstr "Total"
+
+#: app/templates/scrap/add.html:268
 msgid "Weighing Process Photo(s)"
 msgstr "Foto Proses Timbang"
 
-#: app/templates/scrap/add.html:168
+#: app/templates/scrap/add.html:268 app/templates/scrap/add.html:303
+msgid "optional"
+msgstr "opsional"
+
+#: app/templates/scrap/add.html:297
+msgid "Step 4: Notes & After Photo"
+msgstr "Tahap 4: Catatan & Foto After"
+
+#: app/templates/scrap/add.html:299
+msgid "Add optional notes, upload the after photo, and finish the process."
+msgstr ""
+"Tambahkan catatan opsional, unggah foto after, dan selesaikan prosesnya."
+
+#: app/templates/scrap/add.html:308
+msgid "Optional notes..."
+msgstr "Catatan opsional..."
+
+#: app/templates/scrap/add.html:313
 msgid "After Photo(s)"
 msgstr "Foto After"
+
+#: app/templates/scrap/add.html:334
+msgid "Finish"
+msgstr "Selesai"
+
+#: app/templates/scrap/add.html:354
+msgid "Process Timeline"
+msgstr "Timeline Proses"
+
+#: app/templates/scrap/add.html:361
+msgid "Before Photo"
+msgstr "Foto Before"
+
+#: app/templates/scrap/add.html:362
+msgid "Upload initial condition photo"
+msgstr "Unggah foto kondisi awal"
+
+#: app/templates/scrap/add.html:369
+msgid "Scrap Type & Date"
+msgstr "Jenis Scrap & Tanggal"
+
+#: app/templates/scrap/add.html:370
+msgid "Fill in scrap type and date"
+msgstr "Isi jenis scrap dan tanggal"
+
+#: app/templates/scrap/add.html:377
+msgid "Weighing Process"
+msgstr "Proses Timbang"
+
+#: app/templates/scrap/add.html:378
+msgid "Input weighing entries one by one"
+msgstr "Input hasil timbangan satu per satu"
+
+#: app/templates/scrap/add.html:385
+msgid "Notes & After Photo"
+msgstr "Catatan & Foto After"
+
+#: app/templates/scrap/add.html:386
+msgid "Add notes and finish the process"
+msgstr "Tambahkan catatan dan selesaikan proses"
+
+#: app/templates/scrap/add.html:522
+msgid "Before photo is required."
+msgstr "Foto before wajib diisi."
+
+#: app/templates/scrap/add.html:547
+msgid "After photo is required."
+msgstr "Foto after wajib diisi."
 
 #: app/templates/scrap/edit.html:3 app/templates/scrap/edit.html:21
 msgid "Edit Scrap Record"
 msgstr "Edit Data Scrap"
+
+#: app/templates/scrap/edit.html:80 app/templates/scrap/list.html:174
+msgid "Quantity"
+msgstr "Jumlah"
+
+#: app/templates/scrap/edit.html:122
+msgid "Documentation Photos"
+msgstr "Foto Dokumentasi"
+
+#: app/templates/scrap/edit.html:169
+msgid "No photos yet."
+msgstr "Belum ada foto."
 
 #: app/templates/scrap/list.html:3 app/templates/scrap/list.html:22
 msgid "Scrap"
@@ -4673,7 +4786,7 @@ msgstr "Tidak terkait / dokumentasi umum"
 
 #: app/templates/scrap/photos.html:156
 msgid "Photos"
-msgstr "Photos"
+msgstr "Foto"
 
 #: app/templates/scrap/photos.html:165
 msgid "Upload"

@@ -122,6 +122,33 @@ def _photo_files(field_name):
     ]
 
 
+def _parse_timbangan_values():
+    """
+    Mengambil daftar angka timbangan bertahap (Timbangan 1, 2, 3,
+    dst - input name="timbangan[]") dari Tahap 3 wizard Tambah Data
+    Scrap. Entri kosong/tidak valid/<= 0 diabaikan.
+    """
+
+    values = []
+
+    for raw in request.form.getlist("timbangan[]"):
+
+        raw = (raw or "").strip()
+
+        if not raw:
+            continue
+
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            continue
+
+        if value > 0:
+            values.append(value)
+
+    return values
+
+
 @main.route(
     "/scrap/add",
     methods=["GET", "POST"],
@@ -131,13 +158,9 @@ def add_scrap():
 
     if request.method == "POST":
 
-        quantity_raw = request.form.get("quantity", "").strip()
         recorded_date = parse_date(request.form.get("recorded_date"))
-
-        try:
-            quantity = float(quantity_raw)
-        except (TypeError, ValueError):
-            quantity = None
+        unit = _parse_unit(request.form.get("unit"))
+        timbangan_values = _parse_timbangan_values()
 
         if not recorded_date:
 
@@ -148,41 +171,58 @@ def add_scrap():
 
             return render_template("scrap/add.html")
 
-        if quantity is None or quantity <= 0:
+        if not timbangan_values:
 
             flash(
-                _("Invalid quantity."),
+                _("At least one weighing entry is required."),
                 "danger",
             )
 
             return render_template("scrap/add.html")
+
+        quantity = round(sum(timbangan_values), 2)
 
         photo_groups = (
-            (SCRAP_PHOTO_CATEGORY_BEFORE, _photo_files("photos_before")),
-            (SCRAP_PHOTO_CATEGORY_TIMBANG, _photo_files("photos_timbang")),
-            (SCRAP_PHOTO_CATEGORY_AFTER, _photo_files("photos_after")),
+            (SCRAP_PHOTO_CATEGORY_BEFORE, _photo_files("photos_before"), True),
+            (SCRAP_PHOTO_CATEGORY_TIMBANG, _photo_files("photos_timbang"), False),
+            (SCRAP_PHOTO_CATEGORY_AFTER, _photo_files("photos_after"), True),
         )
 
-        if any(not files for _category, files in photo_groups):
+        if any(required and not files for _category, files, required in photo_groups):
 
             flash(
-                _("Before, Weighing Process, and After photos are all required."),
+                _("Before and After photos are required."),
                 "danger",
             )
 
             return render_template("scrap/add.html")
+
+        timbangan_detail = " + ".join(
+            f"{value:.2f}" for value in timbangan_values
+        )
+
+        auto_note = _(
+            "Weighing breakdown: %(detail)s = %(total)s %(unit)s"
+        ) % {
+            "detail": timbangan_detail,
+            "total": f"{quantity:.2f}",
+            "unit": unit,
+        }
+
+        manual_notes = (
+            request.form.get("notes", "") or ""
+        ).strip()
 
         record = ScrapRecord(
             scrap_type=_parse_scrap_type(
                 request.form.get("scrap_type")
             ),
             quantity=quantity,
-            unit=_parse_unit(
-                request.form.get("unit")
-            ),
+            unit=unit,
             recorded_date=recorded_date,
             notes=(
-                request.form.get("notes", "").strip() or None
+                f"{manual_notes}\n\n{auto_note}"
+                if manual_notes else auto_note
             ),
         )
 
@@ -191,7 +231,7 @@ def add_scrap():
 
         try:
 
-            for category, files in photo_groups:
+            for category, files, _required in photo_groups:
                 for photo_file in files:
 
                     filename = save_scrap_photo(photo_file)
@@ -266,6 +306,7 @@ def edit_scrap(record_id):
             return render_template(
                 "scrap/edit.html",
                 record=record,
+                category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
             )
 
         if quantity is None or quantity <= 0:
@@ -278,6 +319,7 @@ def edit_scrap(record_id):
             return render_template(
                 "scrap/edit.html",
                 record=record,
+                category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
             )
 
         record.scrap_type = _parse_scrap_type(
@@ -291,6 +333,39 @@ def edit_scrap(record_id):
         record.notes = (
             request.form.get("notes", "").strip() or None
         )
+
+        new_photo_groups = [
+            (cat_key, _photo_files(f"photos_{cat_key}"))
+            for cat_key, _cat_label in SCRAP_PHOTO_CATEGORY_CHOICES
+        ]
+
+        try:
+
+            for category, files in new_photo_groups:
+                for photo_file in files:
+
+                    filename = save_scrap_photo(photo_file)
+
+                    db.session.add(
+                        ScrapPhoto(
+                            scrap_record_id=record.id,
+                            filename=filename,
+                            category=category,
+                            photo_date=record.recorded_date,
+                        )
+                    )
+
+        except ValueError as exc:
+
+            db.session.rollback()
+
+            flash(str(exc), "danger")
+
+            return render_template(
+                "scrap/edit.html",
+                record=record,
+                category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
+            )
 
         db.session.commit()
 
@@ -312,6 +387,7 @@ def edit_scrap(record_id):
     return render_template(
         "scrap/edit.html",
         record=record,
+        category_choices=SCRAP_PHOTO_CATEGORY_CHOICES,
     )
 
 # ============================================================

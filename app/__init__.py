@@ -219,7 +219,7 @@ def create_app():
                         "children": [],
                     })
 
-                    if key in ("atk", "pantry") and can_see_stock_opname:
+                    if key in ("atk", "pantry", "showcase") and can_see_stock_opname:
                         nav_menu.append({
                             "item": SimpleNamespace(
                                 is_divider=False,

@@ -24,6 +24,7 @@ from ..models import (
     StockOpnameRecord,
     FIELD_TEMPLATE_ATK,
     FIELD_TEMPLATE_PANTRY,
+    FIELD_TEMPLATE_SHOWCASE,
 )
 from ..auth import requires_permission
 
@@ -31,11 +32,22 @@ from . import main
 from .helpers import apply_asset_category_restriction, log_action
 
 # Kategori yang sudah punya halaman Stok Opname sendiri. Tambah di
-# sini kalau nanti kategori stok lain (Tools Pantry/Showcase/Gudang
-# Event) juga perlu - jangan dibuat 1 halaman gabungan untuk semua.
+# sini kalau nanti kategori stok lain (Tools Pantry/Gudang Event)
+# juga perlu - jangan dibuat 1 halaman gabungan untuk semua.
 STOCK_OPNAME_TEMPLATES = {
     "atk": (FIELD_TEMPLATE_ATK, _("Office Stationery (ATK)")),
     "pantry": (FIELD_TEMPLATE_PANTRY, _("Pantry")),
+    "showcase": (FIELD_TEMPLATE_SHOWCASE, _("Showcase")),
+}
+
+# Kategori yang pengajuan belanja bulanannya dibatasi anggaran tetap
+# (Rp) - Winny mengisi "Qty Dibeli" per item, sistem menghitung Total
+# Harga (qty x Asset.purchase_price) dan memperingatkan kalau Grand
+# Total melebihi angka ini, supaya item bisa diganti/disesuaikan
+# sebelum diajukan. Kategori yang tidak ada di sini tidak menampilkan
+# kolom pengajuan belanja ini sama sekali (tetap stok opname biasa).
+STOCK_OPNAME_BUDGET = {
+    "showcase": 500000,
 }
 
 
@@ -143,6 +155,7 @@ def _stok_awal_for(asset_id, period, fallback_quantity):
 def stock_opname_input(tipe):
 
     field_template, tipe_label = _resolve_tipe(tipe)
+    budget = STOCK_OPNAME_BUDGET.get(tipe)
 
     categories = Category.query.filter_by(
         field_template=field_template
@@ -217,8 +230,25 @@ def stock_opname_input(tipe):
 
                 continue
 
+            qty_beli = 0
+
+            if budget:
+
+                raw_qty_beli = request.form.get(
+                    f"qty_beli_{asset.id}",
+                    ""
+                ).strip()
+
+                try:
+                    qty_beli = int(raw_qty_beli) if raw_qty_beli else 0
+                except ValueError:
+                    qty_beli = 0
+
+                if qty_beli < 0:
+                    qty_beli = 0
+
             rows.append(
-                (asset, stok_awal, stok_keluar, stok_awal - stok_keluar)
+                (asset, stok_awal, stok_keluar, stok_awal - stok_keluar, qty_beli)
             )
 
         if errors:
@@ -237,7 +267,7 @@ def stock_opname_input(tipe):
                 url_for("main.stock_opname_input", tipe=tipe)
             )
 
-        for asset, stok_awal, stok_keluar, stok_akhir in rows:
+        for asset, stok_awal, stok_keluar, stok_akhir, qty_beli in rows:
 
             record = StockOpnameRecord.query.filter_by(
                 asset_id=asset.id,
@@ -256,6 +286,7 @@ def stock_opname_input(tipe):
             record.stok_awal = stok_awal
             record.stok_keluar = stok_keluar
             record.stok_akhir = stok_akhir
+            record.qty_beli = qty_beli
             record.recorded_by = current_user.username
 
             asset.stock_quantity = stok_akhir
@@ -303,7 +334,12 @@ def stock_opname_input(tipe):
         )
 
         rows.append(
-            (asset, stok_awal, existing.stok_keluar if existing else 0)
+            (
+                asset,
+                stok_awal,
+                existing.stok_keluar if existing else 0,
+                (existing.qty_beli if existing and existing.qty_beli else 0),
+            )
         )
 
     return render_template(
@@ -312,6 +348,7 @@ def stock_opname_input(tipe):
         default_period=default_period.strftime("%Y-%m"),
         tipe=tipe,
         tipe_label=tipe_label,
+        budget=budget,
     )
 
 # ============================================================
@@ -324,6 +361,7 @@ def stock_opname_input(tipe):
 def stock_opname_history(tipe):
 
     field_template, tipe_label = _resolve_tipe(tipe)
+    budget = STOCK_OPNAME_BUDGET.get(tipe)
 
     categories = Category.query.filter_by(
         field_template=field_template
@@ -384,4 +422,5 @@ def stock_opname_history(tipe):
         records=records,
         tipe=tipe,
         tipe_label=tipe_label,
+        budget=budget,
     )

@@ -1500,6 +1500,15 @@ class StockOpnameRecord(db.Model):
         nullable=False,
     )
 
+    # Rencana jumlah yang mau dibeli bulan ini - cuma dipakai untuk
+    # kategori yang punya "pengajuan belanja bulanan" dengan batas
+    # anggaran (saat ini: Showcase, lihat STOCK_OPNAME_BUDGET di
+    # blueprints/stock_opname.py). Null/0 untuk kategori lain.
+    qty_beli = db.Column(
+        db.Integer,
+        nullable=True,
+    )
+
     recorded_by = db.Column(
         db.String(50),
         nullable=True,

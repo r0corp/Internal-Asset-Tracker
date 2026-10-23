@@ -117,7 +117,7 @@
 
                 <div>
                     <div class="card-header-accent-title">
-                        {{ _('Office Stationery (ATK)') }}
+                        {{ tipe_label }}
                         {% if selected_period %} - {{ selected_period.strftime('%Y-%m') }}{% endif %}
                     </div>
 
@@ -145,13 +145,23 @@
                             <th>{{ _('Initial Stock') }}</th>
                             <th>{{ _('Stock Out') }}</th>
                             <th>{{ _('Final Stock') }}</th>
+                            {% if budget %}
+                            <th>{{ _('Unit Price') }}</th>
+                            <th>{{ _('Qty to Buy') }}</th>
+                            <th>{{ _('Total Price') }}</th>
+                            {% endif %}
                         </tr>
 
                     </thead>
 
                     <tbody>
 
+                        {% set grand_total = namespace(value=0) %}
+
                         {% for record in records %}
+
+                        {% set row_total = (record.asset.purchase_price or 0) * (record.qty_beli or 0) %}
+                        {% set grand_total.value = grand_total.value + row_total %}
 
                         <tr>
 
@@ -167,12 +177,22 @@
 
                             <td class="fw-semibold">{{ record.stok_akhir }}</td>
 
+                            {% if budget %}
+
+                            <td class="text-nowrap">Rp {{ "{:,.0f}".format(record.asset.purchase_price or 0).replace(",", ".") }}</td>
+
+                            <td>{{ record.qty_beli or 0 }}</td>
+
+                            <td class="fw-semibold text-nowrap">Rp {{ "{:,.0f}".format(row_total).replace(",", ".") }}</td>
+
+                            {% endif %}
+
                         </tr>
 
                         {% else %}
 
                         <tr>
-                            <td colspan="6" class="text-center text-muted">
+                            <td colspan="{{ 9 if budget else 6 }}" class="text-center text-muted">
                                 {{ _('No stock opname records for this period yet.') }}
                             </td>
                         </tr>
@@ -180,6 +200,24 @@
                         {% endfor %}
 
                     </tbody>
+
+                    {% if budget and records %}
+
+                    <tfoot>
+                        <tr class="table-light">
+                            <td colspan="8" class="text-end fw-semibold">
+                                {{ _('Grand Total') }}
+                                <span class="text-muted fw-normal">
+                                    ({{ _('Budget') }}: Rp {{ "{:,.0f}".format(budget).replace(",", ".") }})
+                                </span>
+                            </td>
+                            <td class="fw-bold text-nowrap {{ 'text-danger' if grand_total.value > budget else 'text-success' }}">
+                                Rp {{ "{:,.0f}".format(grand_total.value).replace(",", ".") }}
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                    {% endif %}
 
                 </table>
 

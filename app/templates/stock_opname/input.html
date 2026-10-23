@@ -131,13 +131,18 @@
                                 <th>{{ _('Initial Stock') }}</th>
                                 <th style="min-width: 110px;">{{ _('Stock Out') }}</th>
                                 <th>{{ _('Final Stock') }}</th>
+                                {% if budget %}
+                                <th>{{ _('Unit Price') }}</th>
+                                <th style="min-width: 110px;">{{ _('Qty to Buy') }}</th>
+                                <th>{{ _('Total Price') }}</th>
+                                {% endif %}
                             </tr>
 
                         </thead>
 
                         <tbody>
 
-                            {% for asset, stok_awal, stok_keluar_prefill in rows %}
+                            {% for asset, stok_awal, stok_keluar_prefill, qty_beli_prefill in rows %}
 
                             <tr>
 
@@ -171,19 +176,65 @@
                                     {{ stok_awal - stok_keluar_prefill }}
                                 </td>
 
+                                {% if budget %}
+
+                                <td
+                                    class="stock-opname-price text-nowrap"
+                                    data-price="{{ asset.purchase_price or 0 }}"
+                                >
+                                    Rp {{ "{:,.0f}".format(asset.purchase_price or 0).replace(",", ".") }}
+                                </td>
+
+                                <td>
+
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        class="form-control form-control-sm stock-opname-qty-beli"
+                                        name="qty_beli_{{ asset.id }}"
+                                        value="{{ qty_beli_prefill }}"
+                                    >
+
+                                </td>
+
+                                <td class="stock-opname-total fw-semibold text-nowrap">
+                                    Rp 0
+                                </td>
+
+                                {% endif %}
+
                             </tr>
 
                             {% else %}
 
                             <tr>
-                                <td colspan="6" class="text-center text-muted">
-                                    {{ _('No ATK items available.') }}
+                                <td colspan="{{ 9 if budget else 6 }}" class="text-center text-muted">
+                                    {{ _('No items available.') }}
                                 </td>
                             </tr>
 
                             {% endfor %}
 
                         </tbody>
+
+                        {% if budget and rows %}
+
+                        <tfoot>
+                            <tr class="table-light">
+                                <td colspan="8" class="text-end fw-semibold">
+                                    {{ _('Grand Total') }}
+                                    <span class="text-muted fw-normal">
+                                        ({{ _('Budget') }}: Rp {{ "{:,.0f}".format(budget).replace(",", ".") }})
+                                    </span>
+                                </td>
+                                <td id="stockOpnameGrandTotal" class="fw-bold text-nowrap">
+                                    Rp 0
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                        {% endif %}
 
                     </table>
 
@@ -221,6 +272,58 @@ document.querySelectorAll('.stock-opname-keluar').forEach(function (input) {
 
     input.addEventListener('input', recalc);
 });
+
+{% if budget %}
+
+(function () {
+
+    "use strict";
+
+    var BUDGET = {{ budget }};
+
+    var formatRupiah = function (value) {
+        return "Rp " + Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
+    var grandTotalEl = document.getElementById("stockOpnameGrandTotal");
+
+    function recalcGrandTotal() {
+
+        var total = 0;
+
+        document.querySelectorAll(".stock-opname-qty-beli").forEach(function (input) {
+
+            var row = input.closest("tr");
+            var priceCell = row.querySelector(".stock-opname-price");
+            var totalCell = row.querySelector(".stock-opname-total");
+
+            var price = parseFloat(priceCell.getAttribute("data-price")) || 0;
+            var qty = parseInt(input.value, 10) || 0;
+            var rowTotal = price * qty;
+
+            totalCell.textContent = formatRupiah(rowTotal);
+
+            total += rowTotal;
+        });
+
+        if (grandTotalEl) {
+
+            grandTotalEl.textContent = formatRupiah(total);
+
+            grandTotalEl.classList.toggle("text-danger", total > BUDGET);
+            grandTotalEl.classList.toggle("text-success", total <= BUDGET);
+        }
+    }
+
+    document.querySelectorAll(".stock-opname-qty-beli").forEach(function (input) {
+        input.addEventListener("input", recalcGrandTotal);
+    });
+
+    recalcGrandTotal();
+
+})();
+
+{% endif %}
 </script>
 
 {% endblock %}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 17:50+0700\n"
+"POT-Creation-Date: 2026-10-23 18:07+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -302,7 +302,7 @@ msgstr "Asset was successfully updated."
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2284
+#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:331
 msgid "No photo file was sent."
 msgstr "No photo file was sent."
 
@@ -397,7 +397,8 @@ msgstr "Logo format must be PNG, JPG, JPEG, or WEBP."
 msgid "Company data updated successfully."
 msgstr "Company data updated successfully."
 
-#: app/blueprints/helpers.py:359 app/templates/asset/add.html:2118
+#: app/blueprints/helpers.py:359 app/blueprints/helpers.py:450
+#: app/templates/asset/add.html:2118
 msgid "Photo format must be JPG, JPEG, PNG, or WEBP."
 msgstr "Photo format must be JPG, JPEG, PNG, or WEBP."
 
@@ -709,6 +710,22 @@ msgstr "Scrap record updated successfully."
 #: app/blueprints/scrap.py:280
 msgid "Scrap record deleted successfully."
 msgstr "Scrap record deleted successfully."
+
+#: app/blueprints/scrap.py:389
+msgid "Scrap documentation photo"
+msgstr "Scrap documentation photo"
+
+#: app/blueprints/scrap.py:390
+msgid "photo(s)"
+msgstr "photo(s)"
+
+#: app/blueprints/scrap.py:394
+msgid "Photo(s) uploaded successfully."
+msgstr "Photo(s) uploaded successfully."
+
+#: app/blueprints/scrap.py:420
+msgid "Photo deleted successfully."
+msgstr "Photo deleted successfully."
 
 #: app/blueprints/stock_opname.py:39
 #: app/templates/master/category/add.html:148
@@ -1103,7 +1120,7 @@ msgstr "View All"
 #: app/templates/master/department/list.html:88
 #: app/templates/master/location/list.html:93
 #: app/templates/master/user/list.html:92
-#: app/templates/master/vendor/list.html:92 app/templates/scrap/list.html:163
+#: app/templates/master/vendor/list.html:92 app/templates/scrap/list.html:171
 #: app/templates/stock_opname/history.html:142
 #: app/templates/stock_opname/input.html:128
 msgid "No."
@@ -1295,16 +1312,16 @@ msgstr "Movement No."
 #: app/templates/asset/vehicle_service.html:164
 #: app/templates/atk_pickup/report.html:56 app/templates/dashboard.html:1523
 #: app/templates/scrap/add.html:64 app/templates/scrap/edit.html:64
-#: app/templates/scrap/list.html:164
+#: app/templates/scrap/list.html:172 app/templates/scrap/photos.html:109
 msgid "Date"
 msgstr "Date"
 
 #: app/templates/asset/movements_global.html:101
-#: app/templates/dashboard.html:1527 app/templates/scrap/list.html:106
+#: app/templates/dashboard.html:1527 app/templates/scrap/list.html:114
 msgid "From"
 msgstr "From"
 
-#: app/templates/dashboard.html:1529 app/templates/scrap/list.html:111
+#: app/templates/dashboard.html:1529 app/templates/scrap/list.html:119
 msgid "To"
 msgstr "To"
 
@@ -1364,7 +1381,7 @@ msgstr "10 most recently added assets"
 #: app/templates/master/menu/list.html:98
 #: app/templates/master/user/list.html:98
 #: app/templates/master/vendor/list.html:97 app/templates/roles/list.html:73
-#: app/templates/scrap/list.html:168
+#: app/templates/scrap/list.html:176
 msgid "Actions"
 msgstr "Actions"
 
@@ -1501,7 +1518,7 @@ msgstr "Reset Filter"
 #: app/templates/asset/_list_fragment.html:52
 #: app/templates/asset/movement_correct.html:873
 #: app/templates/asset/movement_report.html:606
-#: app/templates/scrap/list.html:120
+#: app/templates/scrap/list.html:128
 msgid "Reset"
 msgstr "Reset"
 
@@ -1656,7 +1673,7 @@ msgstr "Detail"
 #: app/templates/master/menu/list.html:140
 #: app/templates/master/menu/list.html:198
 #: app/templates/master/user/list.html:150
-#: app/templates/master/vendor/list.html:136 app/templates/scrap/list.html:201
+#: app/templates/master/vendor/list.html:136 app/templates/scrap/list.html:209
 msgid "Edit"
 msgstr "Edit"
 
@@ -1763,6 +1780,7 @@ msgid "Click a photo to enlarge. Hover for cover/delete options."
 msgstr "Click a photo to enlarge. Hover for cover/delete options."
 
 #: app/templates/asset/_photo_gallery.html:530
+#: app/templates/scrap/photos.html:192
 msgid "Delete this photo?"
 msgstr "Delete this photo?"
 
@@ -2217,7 +2235,7 @@ msgstr "Cost"
 #: app/templates/asset/vehicle_service.html:110
 #: app/templates/asset/vehicle_service.html:167
 #: app/templates/scrap/add.html:107 app/templates/scrap/edit.html:107
-#: app/templates/scrap/list.html:167
+#: app/templates/scrap/list.html:175
 msgid "Notes"
 msgstr "Notes"
 
@@ -2874,7 +2892,8 @@ msgstr "Sign here using a mouse, touchpad, or touchscreen"
 #: app/templates/master/menu/list.html:156
 #: app/templates/master/menu/list.html:214
 #: app/templates/master/user/list.html:168
-#: app/templates/master/vendor/list.html:152 app/templates/scrap/list.html:214
+#: app/templates/master/vendor/list.html:152 app/templates/scrap/list.html:222
+#: app/templates/scrap/photos.html:169
 msgid "Delete"
 msgstr "Delete"
 
@@ -3415,7 +3434,7 @@ msgid "Until"
 msgstr "Until"
 
 #: app/templates/asset/movements_global.html:303
-#: app/templates/scrap/list.html:116
+#: app/templates/scrap/list.html:124
 msgid "Filter"
 msgstr "Filter"
 
@@ -3466,7 +3485,7 @@ msgid "Save"
 msgstr "Save"
 
 #: app/templates/asset/vehicle_service.html:146
-#: app/templates/audit/list.html:35 app/templates/scrap/list.html:146
+#: app/templates/audit/list.html:35 app/templates/scrap/list.html:154
 msgid "entries found"
 msgstr "entries found"
 
@@ -3771,7 +3790,7 @@ msgstr ""
 
 #: app/templates/backup/list.html:121
 #: app/templates/backup/restore_upload.html:41
-#: app/templates/roles/list.html:72 app/templates/scrap/list.html:165
+#: app/templates/roles/list.html:72 app/templates/scrap/list.html:173
 msgid "Type"
 msgstr "Type"
 
@@ -4147,7 +4166,7 @@ msgstr "Add Menu Item"
 
 #: app/templates/master/menu/add.html:42
 #: app/templates/master/menu/edit.html:42
-#: app/templates/master/menu/list.html:92
+#: app/templates/master/menu/list.html:92 app/templates/scrap/photos.html:104
 msgid "Label"
 msgstr "Label"
 
@@ -4543,7 +4562,7 @@ msgid "Save Permissions"
 msgstr "Save Permissions"
 
 #: app/templates/scrap/add.html:3 app/templates/scrap/add.html:21
-#: app/templates/scrap/list.html:40
+#: app/templates/scrap/list.html:48
 msgid "Add Scrap Record"
 msgstr "Add Scrap Record"
 
@@ -4560,7 +4579,7 @@ msgid "Besi Baja Ringan / LGS"
 msgstr "Besi Baja Ringan / LGS"
 
 #: app/templates/scrap/add.html:80 app/templates/scrap/edit.html:80
-#: app/templates/scrap/list.html:166
+#: app/templates/scrap/list.html:174
 msgid "Quantity"
 msgstr "Quantity"
 
@@ -4584,17 +4603,61 @@ msgstr "Scrap"
 msgid "Record periodic scrap steel data (regular / light-gauge steel - LGS)"
 msgstr "Record periodic scrap steel data (regular / light-gauge steel - LGS)"
 
-#: app/templates/scrap/list.html:142
+#: app/templates/scrap/list.html:40
+msgid "Documentation"
+msgstr "Documentation"
+
+#: app/templates/scrap/list.html:150
 msgid "Scrap Records"
 msgstr "Scrap Records"
 
-#: app/templates/scrap/list.html:208
+#: app/templates/scrap/list.html:216
 msgid "Delete this scrap record?"
 msgstr "Delete this scrap record?"
 
-#: app/templates/scrap/list.html:227
+#: app/templates/scrap/list.html:235
 msgid "No scrap records yet."
 msgstr "No scrap records yet."
+
+#: app/templates/scrap/photos.html:3 app/templates/scrap/photos.html:55
+msgid "Scrap Documentation"
+msgstr "Scrap Documentation"
+
+#: app/templates/scrap/photos.html:57
+msgid "Before/after photos and weighing process evidence."
+msgstr "Before/after photos and weighing process evidence."
+
+#: app/templates/scrap/photos.html:66
+msgid "Back to Scrap List"
+msgstr "Back to Scrap List"
+
+#: app/templates/scrap/photos.html:91
+msgid "Upload Photos"
+msgstr "Upload Photos"
+
+#: app/templates/scrap/photos.html:105
+msgid "Example: Before, After, Weighing Process"
+msgstr "Example: Before, After, Weighing Process"
+
+#: app/templates/scrap/photos.html:114
+msgid "Linked Scrap Record (optional)"
+msgstr "Linked Scrap Record (optional)"
+
+#: app/templates/scrap/photos.html:116
+msgid "Not linked / general documentation"
+msgstr "Not linked / general documentation"
+
+#: app/templates/scrap/photos.html:126
+msgid "Photos"
+msgstr "Photos"
+
+#: app/templates/scrap/photos.html:135
+msgid "Upload"
+msgstr "Upload"
+
+#: app/templates/scrap/photos.html:207
+msgid "No documentation photos yet."
+msgstr "No documentation photos yet."
 
 #: app/templates/settings/general.html:17
 msgid "Application name, logo, footer, and login page"

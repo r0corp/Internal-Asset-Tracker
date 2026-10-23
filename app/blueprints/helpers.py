@@ -393,6 +393,91 @@ def save_asset_photo(photo_file, asset_tag):
     return filename
 
 
+def get_scrap_photo_folder():
+    """
+    Mengambil folder penyimpanan foto dokumentasi scrap.
+    """
+
+    folder = os.path.join(
+        current_app.static_folder,
+        "uploads",
+        "scrap",
+    )
+
+    os.makedirs(
+        folder,
+        exist_ok=True,
+    )
+
+    return folder
+
+
+def delete_scrap_photo(photo_filename):
+    """
+    Menghapus file foto dokumentasi scrap jika ada.
+    """
+
+    if not photo_filename:
+        return
+
+    photo_folder = get_scrap_photo_folder()
+
+    photo_path = os.path.join(
+        photo_folder,
+        photo_filename,
+    )
+
+    if os.path.exists(photo_path):
+        try:
+            os.remove(photo_path)
+        except OSError:
+            pass
+
+
+def save_scrap_photo(photo_file):
+    """
+    Menyimpan foto dokumentasi scrap dan mengembalikan nama file yang
+    tersimpan - format sama (ekstensi diizinkan, nama unik) dengan
+    save_asset_photo().
+    """
+
+    if not photo_file or not photo_file.filename:
+        return None
+
+    if not allowed_asset_photo(photo_file.filename):
+
+        raise ValueError(
+            _("Photo format must be JPG, JPEG, PNG, or WEBP.")
+        )
+
+    original_filename = secure_filename(
+        photo_file.filename
+    )
+
+    extension = (
+        original_filename
+        .rsplit(".", 1)[1]
+        .lower()
+    )
+
+    unique_suffix = uuid.uuid4().hex[:10]
+
+    filename = f"scrap_{unique_suffix}.{extension}"
+
+    photo_folder = get_scrap_photo_folder()
+
+    photo_path = os.path.join(
+        photo_folder,
+        filename,
+    )
+
+    photo_file.save(
+        photo_path
+    )
+
+    return filename
+
+
 def generate_asset_qr(asset):
     """
     Membuat QR Code untuk asset.

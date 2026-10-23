@@ -1773,3 +1773,52 @@ class AtkPickupItem(db.Model):
 
     def __repr__(self):
         return f"<AtkPickupItem {self.asset_name} x{self.quantity}>"
+
+
+class ScrapPhoto(db.Model):
+    """
+    Foto dokumentasi scrap (before/after/proses timbang, dst) - boleh
+    dikaitkan ke satu ScrapRecord tertentu (scrap_record_id diisi)
+    atau dibiarkan umum/tidak terkait tanggal tertentu (NULL), karena
+    foto dokumentasi sering tidak persis 1:1 dengan satu entri
+    timbangan.
+    """
+
+    __tablename__ = "scrap_photos"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    scrap_record_id = db.Column(
+        db.Integer,
+        db.ForeignKey("scrap_records.id"),
+        nullable=True,
+        index=True,
+    )
+
+    filename = db.Column(
+        db.String(255),
+        nullable=False,
+    )
+
+    label = db.Column(
+        db.String(100),
+        nullable=True,
+    )
+
+    photo_date = db.Column(
+        db.Date,
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    scrap_record = db.relationship("ScrapRecord", backref="photos")
+
+    def __repr__(self):
+        return f"<ScrapPhoto {self.filename} ({self.label})>"

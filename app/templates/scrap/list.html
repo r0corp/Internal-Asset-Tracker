@@ -33,6 +33,14 @@
             <div class="page-header-actions">
 
                 <a
+                    href="{{ url_for('main.scrap_photos') }}"
+                    class="btn btn-outline-secondary"
+                >
+                    <i class="bi bi-images"></i>
+                    {{ _('Documentation') }}
+                </a>
+
+                <a
                     href="{{ url_for('main.add_scrap') }}"
                     class="btn btn-primary"
                 >

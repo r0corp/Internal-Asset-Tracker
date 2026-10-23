@@ -689,6 +689,31 @@ def dashboard():
     )
 
     # ========================================================
+    # PAJAK STNK & KIR KENDARAAN AKAN HABIS (<= 30 HARI, TERMASUK
+    # YANG SUDAH LEWAT) - sama polanya dengan Asuransi di atas.
+    # ========================================================
+
+    expiring_tax_assets = (
+        apply_asset_category_restriction(Asset.query)
+        .filter(
+            Asset.masa_pajak.isnot(None),
+            Asset.masa_pajak <= insurance_cutoff,
+        )
+        .order_by(Asset.masa_pajak.asc())
+        .all()
+    )
+
+    expiring_kir_assets = (
+        apply_asset_category_restriction(Asset.query)
+        .filter(
+            Asset.masa_kir.isnot(None),
+            Asset.masa_kir <= insurance_cutoff,
+        )
+        .order_by(Asset.masa_kir.asc())
+        .all()
+    )
+
+    # ========================================================
     # STOK ATK PERLU DIBELI (stock_quantity <= batas minimum
     # kategorinya) - hasil stok opname bulanan, dasar pengajuan
     # pembelian ulang (purchase requisition).
@@ -737,6 +762,8 @@ def dashboard():
         today=date.today(),
 
         expiring_insurance_assets=expiring_insurance_assets,
+        expiring_tax_assets=expiring_tax_assets,
+        expiring_kir_assets=expiring_kir_assets,
 
         low_stock_atk_assets=low_stock_atk_assets,
 

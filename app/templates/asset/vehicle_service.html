@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Service History') }} - {{ asset.asset_name }} - {{ app_setting.app_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="page-header-card">
+
+        <div class="page-header-row">
+
+            <div class="page-header-left">
+
+                <div class="page-header-icon">
+                    <i class="bi bi-wrench-adjustable"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="page-header-title">
+                        {{ _('Service History') }} - {{ asset.asset_name }}
+                    </h2>
+
+                    <p class="page-header-subtitle mb-0">
+                        {{ asset.asset_tag }}{{ ' - ' ~ asset.plat_nomor if asset.plat_nomor }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="page-header-actions">
+
+                <a
+                    href="{{ url_for('main.asset_detail', asset_id=asset.id) }}"
+                    class="btn btn-outline-secondary"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    {{ _('Back to Asset Detail') }}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-header-accent">
+
+            <div class="card-header-accent-left">
+
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+
+                <div class="card-header-accent-title">
+                    {{ _('Add Service Record') }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">{{ _('Date') }}</label>
+                        <input type="date" name="service_date" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">{{ _('Cost') }}</label>
+                        <input type="number" name="cost" class="form-control" min="0" step="1" placeholder="Rp">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">{{ _('Service/Maintenance') }}</label>
+                        <input type="text" name="description" class="form-control" required
+                            placeholder="{{ _('Example: Routine service & oil change') }}">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">{{ _('Notes') }}</label>
+                        <textarea name="notes" class="form-control" rows="2"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i>
+                        {{ _('Save') }}
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm overflow-hidden">
+
+        <div class="card-header-accent">
+
+            <div class="card-header-accent-left">
+
+                <div class="card-header-accent-icon">
+                    <i class="bi bi-list-ul"></i>
+                </div>
+
+                <div>
+                    <div class="card-header-accent-title">
+                        {{ _('Service History') }}
+                    </div>
+
+                    <div class="card-header-accent-subtitle">
+                        {{ records|length }} {{ _('entries found') }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+                            <th>{{ _('No.') }}</th>
+                            <th>{{ _('Date') }}</th>
+                            <th>{{ _('Service/Maintenance') }}</th>
+                            <th>{{ _('Cost') }}</th>
+                            <th>{{ _('Notes') }}</th>
+                            <th>{{ _('Actions') }}</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ record.service_date.strftime('%d-%m-%Y') }}</td>
+
+                            <td style="white-space: pre-line;">{{ record.description }}</td>
+
+                            <td>{{ "Rp {:,.0f}".format(record.cost).replace(",", ".") if record.cost else "-" }}</td>
+
+                            <td>{{ record.notes or "-" }}</td>
+
+                            <td>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('main.delete_vehicle_service', asset_id=asset.id, record_id=record.id) }}"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('{{ _('Delete this service record?') }}');"
+                                >
+
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        {{ _('Delete') }}
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                {{ _('No service records yet.') }}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

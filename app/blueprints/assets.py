@@ -33,6 +33,7 @@ from ..models import (
     Department,
     Vendor,
     AssetMovement,
+    VehicleServiceRecord,
     Company,
     FIELD_TEMPLATE_PC_LAPTOP,
     FIELD_TEMPLATE_PONSEL,
@@ -1510,6 +1511,22 @@ def add_asset():
                 )
             ),
 
+            masa_kir=parse_date(
+                request.form.get(
+                    "masa_kir"
+                )
+            ),
+
+            warna=request.form.get(
+                "warna"
+            ),
+
+            tahun_buat=(
+                int(request.form.get("tahun_buat"))
+                if (request.form.get("tahun_buat") or "").strip().isdigit()
+                else None
+            ),
+
             specification=request.form.get(
                 "specification"
             ),
@@ -1708,6 +1725,17 @@ def asset_detail(asset_id):
         name=asset.category
     ).first()
 
+    vehicle_service_records = []
+
+    if asset_category and asset_category.field_template == "kendaraan":
+
+        vehicle_service_records = (
+            VehicleServiceRecord.query
+            .filter_by(asset_id=asset.id)
+            .order_by(VehicleServiceRecord.service_date.desc())
+            .all()
+        )
+
     return render_template(
         "asset/detail.html",
         asset=asset,
@@ -1716,6 +1744,7 @@ def asset_detail(asset_id):
         asset_field_template=(
             asset_category.field_template if asset_category else None
         ),
+        vehicle_service_records=vehicle_service_records,
     )
 
 # ============================================================
@@ -1912,6 +1941,30 @@ def edit_asset(asset_id):
         request.form.get(
             "masa_asuransi"
         )
+    )
+
+    asset.masa_kir = parse_date(
+        request.form.get(
+            "masa_kir"
+        )
+    )
+
+    asset.warna = (
+        request.form.get(
+            "warna",
+            ""
+        ).strip()
+    )
+
+    raw_tahun_buat = request.form.get(
+        "tahun_buat",
+        ""
+    ).strip()
+
+    asset.tahun_buat = (
+        int(raw_tahun_buat)
+        if raw_tahun_buat.isdigit()
+        else None
     )
 
     # --------------------------------------------------------

@@ -411,6 +411,22 @@ class Asset(db.Model):
         db.Date
     )
 
+    warna = db.Column(
+        db.String(30)
+    )
+
+    tahun_buat = db.Column(
+        db.Integer
+    )
+
+    # Tanggal jatuh tempo uji KIR (uji kelayakan kendaraan bermotor) -
+    # khusus kendaraan niaga/angkutan barang, tapi field ini dibuat
+    # generik untuk semua kategori kendaraan (Mobil/Motor/Truck) biar
+    # fleksibel - dikosongkan saja kalau memang tidak berlaku.
+    masa_kir = db.Column(
+        db.Date
+    )
+
     # Khusus kategori dengan field_template "lengkap" (elektronik).
     office_email = db.Column(
         db.String(150)
@@ -1537,3 +1553,63 @@ class StockOpnameRecord(db.Model):
 
     def __repr__(self):
         return f"<StockOpnameRecord asset={self.asset_id} period={self.period}>"
+
+
+class VehicleServiceRecord(db.Model):
+    """
+    Satu baris = satu catatan servis/perawatan untuk 1 kendaraan pada
+    satu tanggal - khusus Asset dengan field_template "kendaraan".
+    Dipakai bebas (tidak dikelompokkan per bulan seperti sheet
+    Excel asalnya) supaya bisa berapa pun catatan per kendaraan per
+    bulan tanpa kolom tetap.
+    """
+
+    __tablename__ = "vehicle_service_records"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    asset_id = db.Column(
+        db.Integer,
+        db.ForeignKey("assets.id"),
+        nullable=False,
+        index=True,
+    )
+
+    service_date = db.Column(
+        db.Date,
+        nullable=False,
+        index=True,
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    cost = db.Column(
+        db.Float,
+        nullable=True,
+    )
+
+    notes = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    recorded_by = db.Column(
+        db.String(50),
+        nullable=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now(),
+    )
+
+    asset = db.relationship("Asset")
+
+    def __repr__(self):
+        return f"<VehicleServiceRecord asset={self.asset_id} date={self.service_date}>"

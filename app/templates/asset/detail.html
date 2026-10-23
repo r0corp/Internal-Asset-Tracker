@@ -691,6 +691,57 @@
             </div>
             {% endif %}
 
+            <!-- MASA KIR -->
+
+            {% if asset.masa_kir %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('KIR Due Date') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.masa_kir.strftime("%d-%m-%Y") }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- WARNA -->
+
+            {% if asset.warna %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-palette"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('Color') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.warna }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- TAHUN BUAT -->
+
+            {% if asset.tahun_buat %}
+            <div class="info-tile">
+              <div class="info-tile-icon bg-secondary bg-opacity-10 text-secondary">
+                <i class="bi bi-calendar3"></i>
+              </div>
+
+              <div class="info-tile-body">
+                <div class="info-tile-label">{{ _('Year Made') }}</div>
+                <div class="info-tile-value">
+                  {{ asset.tahun_buat }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
             <!-- SPECIFICATION -->
 
             {% if asset.specification %}
@@ -1077,6 +1128,87 @@
     </div>
   </div>
   {% endif %}
+
+  <!-- ============================================================
+     RIWAYAT SERVIS/PERAWATAN KENDARAAN
+     ============================================================ -->
+
+  {% if asset_field_template == 'kendaraan' %}
+  <div class="card movement-card mt-4 overflow-hidden">
+    <div class="card-header-accent">
+      <div class="card-header-accent-left">
+        <div class="card-header-accent-icon">
+          <i class="bi bi-wrench-adjustable"></i>
+        </div>
+        <div>
+          <div class="card-header-accent-title">
+            {{ _('Service History') }}
+          </div>
+          <div class="card-header-accent-subtitle"> {{ _('Vehicle service/maintenance records') }} </div>
+        </div>
+      </div>
+
+      <div class="card-header-accent-actions">
+        <a
+          href="{{ url_for('main.vehicle_service_list', asset_id=asset.id) }}"
+          class="btn btn-primary btn-sm"
+        >
+          <i class="bi bi-plus-circle"></i>
+          {{ _('Add Service Record') }}
+        </a>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      {% if vehicle_service_records %}
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 movement-table">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 50px">#</th>
+              <th>{{ _('Date') }}</th>
+              <th>{{ _('Service/Maintenance') }}</th>
+              <th>{{ _('Cost') }}</th>
+              <th>{{ _('Notes') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in vehicle_service_records %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ record.service_date.strftime('%d-%m-%Y') }}</td>
+              <td style="white-space: pre-line;">{{ record.description }}</td>
+              <td>{{ "Rp {:,.0f}".format(record.cost).replace(",", ".") if record.cost else "-" }}</td>
+              <td>{{ record.notes or "-" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% else %}
+
+      <div class="empty-movement">
+        <i class="bi bi-wrench-adjustable"></i>
+        <h6>{{ _('No service records yet') }}</h6>
+        <p class="text-muted mb-3">
+          {{ _('This vehicle does not have any service/maintenance records yet.') }}
+        </p>
+        <a
+          href="{{ url_for('main.vehicle_service_list', asset_id=asset.id) }}"
+          class="btn btn-primary"
+        >
+          <i class="bi bi-plus-circle"></i>
+          {{ _('Add First Service Record') }}
+        </a>
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
 </div>
 
 {% endblock %}

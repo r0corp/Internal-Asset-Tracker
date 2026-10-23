@@ -801,6 +801,24 @@
                                         value="{% if current_template == 'kendaraan' and asset.masa_asuransi %}{{ asset.masa_asuransi.strftime('%Y-%m-%d') }}{% endif %}">
                                 </div>
 
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('KIR Due Date') }}</label>
+                                    <input type="date" class="form-control" name="masa_kir"
+                                        value="{% if current_template == 'kendaraan' and asset.masa_kir %}{{ asset.masa_kir.strftime('%Y-%m-%d') }}{% endif %}">
+                                </div>
+
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('Color') }}</label>
+                                    <input type="text" class="form-control" name="warna"
+                                        value="{{ asset.warna or '' if current_template == 'kendaraan' else '' }}" maxlength="30">
+                                </div>
+
+                                <div class="col-md-4 form-field-row">
+                                    <label class="form-label form-field-label">{{ _('Year Made') }}</label>
+                                    <input type="number" class="form-control" name="tahun_buat" min="1950" max="2100"
+                                        value="{{ asset.tahun_buat or '' if current_template == 'kendaraan' else '' }}">
+                                </div>
+
                             </div>
 
                         </div>

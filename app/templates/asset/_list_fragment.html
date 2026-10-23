@@ -535,7 +535,7 @@
                         {% if show_stock_cols %}
                         <td>
 
-                            {{ asset.stock_quantity if asset.stock_quantity is not none else "-" }}
+                            {{ asset.stock_quantity | fmt_qty if asset.stock_quantity is not none else "-" }}
 
                         </td>
 

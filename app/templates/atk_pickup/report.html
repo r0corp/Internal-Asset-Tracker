@@ -118,7 +118,7 @@
                             <td>{{ row.asset_name }}</td>
                             <td>{{ row.unit or "-" }}</td>
                             <td class="fw-semibold">{{ row.qty }}</td>
-                            <td>{{ row.remaining if row.remaining is not none else "-" }}</td>
+                            <td>{{ row.remaining | fmt_qty if row.remaining is not none else "-" }}</td>
                         </tr>
                         {% else %}
                         <tr>

@@ -1458,7 +1458,7 @@ app_setting.app_name }} {% endblock %} {% block content %}
 
               <td>
                 <span class="badge {{ 'bg-danger' if asset.stock_quantity == 0 else 'bg-warning text-dark' }}">
-                  {{ asset.stock_quantity }} {{ asset.unit or '' }}
+                  {{ asset.stock_quantity | fmt_qty }} {{ asset.unit or '' }}
                 </span>
               </td>
 

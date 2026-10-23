@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 18:58+0700\n"
+"POT-Creation-Date: 2026-10-23 19:28+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,16 +75,16 @@ msgstr "Master Data"
 #: app/templates/asset/add.html:980 app/templates/asset/add.html:1013
 #: app/templates/asset/add.html:1046 app/templates/asset/add.html:1123
 #: app/templates/asset/add.html:1150 app/templates/asset/add.html:1182
-#: app/templates/asset/add.html:1220 app/templates/asset/add.html:1257
-#: app/templates/asset/add.html:1294 app/templates/asset/add.html:1339
+#: app/templates/asset/add.html:1229 app/templates/asset/add.html:1275
+#: app/templates/asset/add.html:1321 app/templates/asset/add.html:1375
 #: app/templates/asset/detail.html:512 app/templates/asset/edit.html:480
 #: app/templates/asset/edit.html:539 app/templates/asset/edit.html:598
 #: app/templates/asset/edit.html:639 app/templates/asset/edit.html:680
 #: app/templates/asset/edit.html:715 app/templates/asset/edit.html:750
 #: app/templates/asset/edit.html:835 app/templates/asset/edit.html:864
-#: app/templates/asset/edit.html:899 app/templates/asset/edit.html:944
-#: app/templates/asset/edit.html:989 app/templates/asset/edit.html:1030
-#: app/templates/asset/edit.html:1080 app/templates/asset/history.html:500
+#: app/templates/asset/edit.html:899 app/templates/asset/edit.html:954
+#: app/templates/asset/edit.html:1009 app/templates/asset/edit.html:1060
+#: app/templates/asset/edit.html:1120 app/templates/asset/history.html:500
 #: app/templates/asset/labels_print.html:134
 #: app/templates/asset/movement_correct.html:314
 #: app/templates/atk_pickup/new.html:166
@@ -96,8 +96,8 @@ msgstr "Kategori"
 
 #: app/menu_labels.py:20 app/templates/asset/_list_fragment.html:156
 #: app/templates/asset/_list_fragment.html:340
-#: app/templates/asset/add.html:1481 app/templates/asset/detail.html:804
-#: app/templates/asset/detail.html:1009 app/templates/asset/edit.html:1125
+#: app/templates/asset/add.html:1526 app/templates/asset/detail.html:810
+#: app/templates/asset/detail.html:1015 app/templates/asset/edit.html:1175
 #: app/templates/asset/history.html:543
 #: app/templates/asset/labels_select.html:364
 #: app/templates/asset/movement_add.html:627
@@ -117,8 +117,8 @@ msgstr "Lokasi"
 
 #: app/menu_labels.py:21 app/templates/asset/_list_fragment.html:192
 #: app/templates/asset/_list_fragment.html:345
-#: app/templates/asset/add.html:1518 app/templates/asset/detail.html:817
-#: app/templates/asset/detail.html:1011 app/templates/asset/edit.html:1164
+#: app/templates/asset/add.html:1563 app/templates/asset/detail.html:823
+#: app/templates/asset/detail.html:1017 app/templates/asset/edit.html:1214
 #: app/templates/asset/history.html:551 app/templates/asset/history.html:623
 #: app/templates/asset/history.html:641
 #: app/templates/asset/labels_select.html:369
@@ -138,8 +138,8 @@ msgstr "Lokasi"
 msgid "Department"
 msgstr "Departemen"
 
-#: app/menu_labels.py:22 app/templates/asset/add.html:1674
-#: app/templates/asset/detail.html:879 app/templates/asset/edit.html:1331
+#: app/menu_labels.py:22 app/templates/asset/add.html:1719
+#: app/templates/asset/detail.html:885 app/templates/asset/edit.html:1381
 #: app/templates/index.html:806 app/templates/master/vendor/list.html:93
 msgid "Vendor"
 msgstr "Vendor"
@@ -240,7 +240,7 @@ msgstr "Select at least one asset to print."
 msgid "Selected assets are invalid."
 msgstr "Selected assets are invalid."
 
-#: app/blueprints/assets.py:1101 app/blueprints/assets.py:2577
+#: app/blueprints/assets.py:1101 app/blueprints/assets.py:2628
 msgid "Selected assets were not found."
 msgstr "Selected assets were not found."
 
@@ -260,82 +260,84 @@ msgstr "Asset name is required."
 msgid "Asset Tag is already in use."
 msgstr "Asset Tag is already in use."
 
-#: app/blueprints/assets.py:1414
+#: app/blueprints/assets.py:1434
 #, python-format
 msgid "Invalid asset photo: %(error)s"
 msgstr "Invalid asset photo: %(error)s"
 
-#: app/blueprints/assets.py:1439 app/blueprints/assets.py:2341
+#: app/blueprints/assets.py:1459 app/blueprints/assets.py:2392
 #: app/templates/asset/_photo_gallery.html:531
 msgid "Asset photo failed to upload."
 msgstr "Asset photo failed to upload."
 
-#: app/blueprints/assets.py:1622
+#: app/blueprints/assets.py:1644
 msgid "Asset failed to save."
 msgstr "Asset failed to save."
 
-#: app/blueprints/assets.py:1657
+#: app/blueprints/assets.py:1679
 msgid "Asset was successfully added."
 msgstr "Asset was successfully added."
 
-#: app/blueprints/assets.py:2010
+#: app/blueprints/assets.py:2032
 msgid "Invalid stock quantity."
 msgstr "Jumlah stok tidak valid."
 
-#: app/blueprints/assets.py:2043
+#: app/blueprints/assets.py:2094
 msgid "Invalid selling price."
 msgstr "Harga jual tidak valid."
 
-#: app/blueprints/assets.py:2146
+#: app/blueprints/assets.py:2197
 msgid "Invalid purchase date format."
 msgstr "Invalid purchase date format."
 
-#: app/blueprints/assets.py:2186
+#: app/blueprints/assets.py:2237
 msgid "Invalid purchase price."
 msgstr "Invalid purchase price."
 
-#: app/blueprints/assets.py:2216
+#: app/blueprints/assets.py:2267
 msgid "Asset was successfully updated."
 msgstr "Asset was successfully updated."
 
-#: app/blueprints/assets.py:2237
+#: app/blueprints/assets.py:2288
 msgid "Failed to update asset."
 msgstr "Failed to update asset."
 
-#: app/blueprints/assets.py:2284 app/blueprints/scrap.py:575
+#: app/blueprints/assets.py:2335 app/blueprints/scrap.py:575
 msgid "No photo file was sent."
 msgstr "Tidak ada file foto yang dikirim."
 
-#: app/blueprints/assets.py:2348
+#: app/blueprints/assets.py:2399
 msgid "Added asset photo(s)."
 msgstr "Menambahkan foto asset."
 
-#: app/blueprints/assets.py:2377 app/blueprints/assets.py:2404
+#: app/blueprints/assets.py:2428 app/blueprints/assets.py:2455
 msgid "Photo not found."
 msgstr "Foto tidak ditemukan."
 
-#: app/blueprints/assets.py:2499
+#: app/blueprints/assets.py:2550
 msgid "Select at least one asset to export to Excel."
 msgstr "Select at least one asset to export to Excel."
 
-#: app/blueprints/assets.py:2543
+#: app/blueprints/assets.py:2594
 msgid "Invalid asset ID."
 msgstr "Invalid asset ID."
 
-#: app/blueprints/atk_pickup.py:141
+#: app/blueprints/atk_pickup.py:168
 msgid "Employee name is required."
 msgstr "Nama pegawai wajib diisi."
 
-#: app/blueprints/atk_pickup.py:179
+#: app/blueprints/atk_pickup.py:206
 #, python-format
-msgid "%(name)s: requested (%(qty)s) exceeds available stock (%(stock)s)."
-msgstr "%(name)s: diminta (%(qty)s) melebihi stok tersedia (%(stock)s)."
+msgid ""
+"%(name)s: requested (%(qty)s Pcs) exceeds available stock (%(stock)s Pcs)."
+msgstr ""
+"%(name)s: diminta (%(qty)s Pcs) melebihi stok tersedia (%(stock)s Pcs)."
 
-#: app/blueprints/atk_pickup.py:208
+#: app/blueprints/atk_pickup.py:237
 msgid "Select at least one item with a quantity."
 msgstr "Pilih minimal satu barang dengan jumlahnya."
 
-#: app/blueprints/atk_pickup.py:251
+#: app/blueprints/atk_pickup.py:285
 #, python-format
 msgid "Pickup for %(name)s saved successfully."
 msgstr "Pengambilan untuk %(name)s berhasil disimpan."
@@ -398,7 +400,7 @@ msgid "Company data updated successfully."
 msgstr "Company data updated successfully."
 
 #: app/blueprints/helpers.py:359 app/blueprints/helpers.py:450
-#: app/templates/asset/add.html:2118
+#: app/templates/asset/add.html:2163
 msgid "Photo format must be JPG, JPEG, PNG, or WEBP."
 msgstr "Format foto harus JPG, JPEG, PNG, atau WEBP."
 
@@ -1020,8 +1022,8 @@ msgstr "Asset Berdasarkan Status"
 
 #: app/templates/asset/_list_fragment.html:69
 #: app/templates/asset/_list_fragment.html:357
-#: app/templates/asset/add.html:1552 app/templates/asset/detail.html:893
-#: app/templates/asset/edit.html:1220 app/templates/asset/history.html:524
+#: app/templates/asset/add.html:1597 app/templates/asset/detail.html:899
+#: app/templates/asset/edit.html:1270 app/templates/asset/history.html:524
 #: app/templates/asset/labels_select.html:374
 #: app/templates/asset/movement_add.html:452
 #: app/templates/asset/movements.html:112
@@ -1121,7 +1123,7 @@ msgstr "Koreksi pada bulan berjalan"
 msgid "Recent Assets"
 msgstr "Asset Terbaru"
 
-#: app/templates/asset/detail.html:991 app/templates/dashboard.html:1056
+#: app/templates/asset/detail.html:997 app/templates/dashboard.html:1056
 #: app/templates/index.html:981
 msgid "View All"
 msgstr "Lihat Semua"
@@ -1174,8 +1176,8 @@ msgstr "Nama Asset"
 
 #: app/templates/asset/_list_fragment.html:82
 #: app/templates/asset/_list_fragment.html:608
-#: app/templates/asset/add.html:1561 app/templates/asset/detail.html:897
-#: app/templates/asset/edit.html:1233
+#: app/templates/asset/add.html:1606 app/templates/asset/detail.html:903
+#: app/templates/asset/edit.html:1283
 #: app/templates/asset/labels_select.html:492
 #: app/templates/asset/movements.html:117 app/templates/dashboard.html:1114
 #: app/templates/index.html:1128 app/templates/master/menu/list.html:128
@@ -1186,8 +1188,8 @@ msgstr "Aktif"
 
 #: app/templates/asset/_list_fragment.html:87
 #: app/templates/asset/_list_fragment.html:623
-#: app/templates/asset/add.html:1568 app/templates/asset/detail.html:902
-#: app/templates/asset/edit.html:1238
+#: app/templates/asset/add.html:1613 app/templates/asset/detail.html:908
+#: app/templates/asset/edit.html:1288
 #: app/templates/asset/labels_select.html:500
 #: app/templates/asset/movements.html:121 app/templates/dashboard.html:1119
 #: app/templates/index.html:569 app/templates/index.html:1139
@@ -1196,8 +1198,8 @@ msgstr "Perbaikan"
 
 #: app/templates/asset/_list_fragment.html:97
 #: app/templates/asset/_list_fragment.html:651
-#: app/templates/asset/add.html:1582 app/templates/asset/detail.html:913
-#: app/templates/asset/edit.html:1248
+#: app/templates/asset/add.html:1627 app/templates/asset/detail.html:919
+#: app/templates/asset/edit.html:1298
 #: app/templates/asset/labels_select.html:508
 #: app/templates/dashboard.html:1124 app/templates/index.html:704
 #: app/templates/index.html:1159
@@ -1206,8 +1208,8 @@ msgstr "Hilang"
 
 #: app/templates/asset/_list_fragment.html:102
 #: app/templates/asset/_list_fragment.html:665
-#: app/templates/asset/add.html:1589 app/templates/asset/detail.html:917
-#: app/templates/asset/edit.html:1253
+#: app/templates/asset/add.html:1634 app/templates/asset/detail.html:923
+#: app/templates/asset/edit.html:1303
 #: app/templates/asset/labels_select.html:516
 #: app/templates/dashboard.html:1128 app/templates/index.html:730
 #: app/templates/index.html:1169
@@ -1286,12 +1288,12 @@ msgid "ATK Stock Needs Purchasing"
 msgstr "Stok ATK Perlu Dibeli"
 
 #: app/templates/asset/_list_fragment.html:321
-#: app/templates/asset/add.html:1198 app/templates/asset/add.html:1235
-#: app/templates/asset/add.html:1272 app/templates/asset/add.html:1309
-#: app/templates/asset/add.html:1354 app/templates/asset/detail.html:771
-#: app/templates/asset/edit.html:920 app/templates/asset/edit.html:965
-#: app/templates/asset/edit.html:1006 app/templates/asset/edit.html:1047
-#: app/templates/asset/edit.html:1097 app/templates/dashboard.html:1435
+#: app/templates/asset/add.html:1198 app/templates/asset/add.html:1244
+#: app/templates/asset/add.html:1290 app/templates/asset/add.html:1336
+#: app/templates/asset/add.html:1390 app/templates/asset/detail.html:771
+#: app/templates/asset/edit.html:920 app/templates/asset/edit.html:975
+#: app/templates/asset/edit.html:1026 app/templates/asset/edit.html:1077
+#: app/templates/asset/edit.html:1137 app/templates/dashboard.html:1435
 msgid "Quantity / Stock"
 msgstr "Jumlah/Stok"
 
@@ -1311,7 +1313,7 @@ msgstr "Mutasi Asset Terbaru"
 msgid "View Report"
 msgstr "Lihat Laporan"
 
-#: app/templates/asset/detail.html:1007
+#: app/templates/asset/detail.html:1013
 #: app/templates/asset/movement_correct.html:337
 #: app/templates/asset/movement_corrections.html:130
 #: app/templates/asset/movement_report.html:654
@@ -1319,7 +1321,7 @@ msgstr "Lihat Laporan"
 msgid "Movement No."
 msgstr "No. Mutasi"
 
-#: app/templates/asset/detail.html:1005 app/templates/asset/detail.html:1170
+#: app/templates/asset/detail.html:1011 app/templates/asset/detail.html:1176
 #: app/templates/asset/movement_corrections.html:219
 #: app/templates/asset/movement_corrections.html:258
 #: app/templates/asset/movement_detail.html:869
@@ -1357,8 +1359,8 @@ msgstr "Asset Active"
 
 #: app/templates/asset/_list_fragment.html:92
 #: app/templates/asset/_list_fragment.html:637
-#: app/templates/asset/add.html:1575 app/templates/asset/detail.html:908
-#: app/templates/asset/edit.html:1243 app/templates/asset/movements.html:125
+#: app/templates/asset/add.html:1620 app/templates/asset/detail.html:914
+#: app/templates/asset/edit.html:1293 app/templates/asset/movements.html:125
 #: app/templates/index.html:678 app/templates/index.html:1149
 #: app/templates/master/menu/list.html:130
 #: app/templates/master/menu/list.html:188
@@ -1387,7 +1389,7 @@ msgid "10 most recently added assets"
 msgstr "10 asset terakhir ditambahkan"
 
 #: app/templates/asset/_list_fragment.html:362
-#: app/templates/asset/detail.html:1017
+#: app/templates/asset/detail.html:1023
 #: app/templates/asset/movement_report.html:668
 #: app/templates/asset/movements.html:242
 #: app/templates/asset/movements_global.html:506
@@ -1404,7 +1406,7 @@ msgid "Actions"
 msgstr "Aksi"
 
 #: app/templates/asset/_list_fragment.html:679
-#: app/templates/asset/detail.html:922 app/templates/index.html:1182
+#: app/templates/asset/detail.html:928 app/templates/index.html:1182
 #: app/templates/index.html:1268
 msgid "No Status"
 msgstr "Tidak Ada Status"
@@ -1507,7 +1509,7 @@ msgstr "Password Baru"
 msgid "Confirm New Password"
 msgstr "Konfirmasi Password Baru"
 
-#: app/templates/asset/edit.html:1452
+#: app/templates/asset/edit.html:1502
 #: app/templates/master/category/edit.html:180
 #: app/templates/master/department/edit.html:70
 #: app/templates/master/location/edit.html:84
@@ -1570,16 +1572,16 @@ msgstr "Foto"
 #: app/templates/asset/add.html:990 app/templates/asset/add.html:1023
 #: app/templates/asset/add.html:1056 app/templates/asset/add.html:1133
 #: app/templates/asset/add.html:1160 app/templates/asset/add.html:1192
-#: app/templates/asset/add.html:1230 app/templates/asset/add.html:1267
-#: app/templates/asset/add.html:1304 app/templates/asset/add.html:1349
+#: app/templates/asset/add.html:1239 app/templates/asset/add.html:1285
+#: app/templates/asset/add.html:1331 app/templates/asset/add.html:1385
 #: app/templates/asset/detail.html:525 app/templates/asset/edit.html:491
 #: app/templates/asset/edit.html:550 app/templates/asset/edit.html:609
 #: app/templates/asset/edit.html:650 app/templates/asset/edit.html:691
 #: app/templates/asset/edit.html:726 app/templates/asset/edit.html:761
 #: app/templates/asset/edit.html:846 app/templates/asset/edit.html:875
-#: app/templates/asset/edit.html:910 app/templates/asset/edit.html:955
-#: app/templates/asset/edit.html:1000 app/templates/asset/edit.html:1041
-#: app/templates/asset/edit.html:1091 app/templates/asset/history.html:506
+#: app/templates/asset/edit.html:910 app/templates/asset/edit.html:965
+#: app/templates/asset/edit.html:1020 app/templates/asset/edit.html:1071
+#: app/templates/asset/edit.html:1131 app/templates/asset/history.html:506
 #: app/templates/asset/labels_print.html:147
 #: app/templates/asset/movements.html:88
 msgid "Brand"
@@ -1622,11 +1624,11 @@ msgid "Specification / Capacity"
 msgstr "Spesifikasi/Kapasitas"
 
 #: app/templates/asset/_list_fragment.html:325
-#: app/templates/asset/add.html:1203 app/templates/asset/add.html:1240
-#: app/templates/asset/add.html:1277 app/templates/asset/add.html:1314
-#: app/templates/asset/add.html:1359 app/templates/asset/edit.html:926
-#: app/templates/asset/edit.html:971 app/templates/asset/edit.html:1012
-#: app/templates/asset/edit.html:1053 app/templates/asset/edit.html:1103
+#: app/templates/asset/add.html:1203 app/templates/asset/add.html:1249
+#: app/templates/asset/add.html:1295 app/templates/asset/add.html:1341
+#: app/templates/asset/add.html:1395 app/templates/asset/edit.html:926
+#: app/templates/asset/edit.html:981 app/templates/asset/edit.html:1032
+#: app/templates/asset/edit.html:1083 app/templates/asset/edit.html:1143
 #: app/templates/asset/movement_detail.html:892
 #: app/templates/asset/movement_detail.html:924
 #: app/templates/atk_pickup/new.html:168
@@ -1637,14 +1639,14 @@ msgid "Unit"
 msgstr "Satuan"
 
 #: app/templates/asset/_list_fragment.html:332
-#: app/templates/asset/add.html:1320 app/templates/asset/detail.html:788
-#: app/templates/asset/edit.html:1059
+#: app/templates/asset/add.html:1356 app/templates/asset/detail.html:794
+#: app/templates/asset/edit.html:1099
 msgid "Selling Price"
 msgstr "Harga Jual"
 
 #: app/templates/asset/_list_fragment.html:352
-#: app/templates/asset/add.html:1380 app/templates/asset/detail.html:830
-#: app/templates/asset/detail.html:1013 app/templates/asset/edit.html:1203
+#: app/templates/asset/add.html:1425 app/templates/asset/detail.html:836
+#: app/templates/asset/detail.html:1019 app/templates/asset/edit.html:1253
 #: app/templates/asset/history.html:559 app/templates/asset/history.html:628
 #: app/templates/asset/history.html:646
 #: app/templates/asset/movement_add.html:677
@@ -1664,7 +1666,7 @@ msgid "No photo yet"
 msgstr "Belum ada foto"
 
 #: app/templates/asset/_list_fragment.html:688
-#: app/templates/asset/detail.html:928
+#: app/templates/asset/detail.html:934
 msgid ""
 "Some asset information is still missing (e.g. serial number, brand/model, "
 "location, or department)."
@@ -1673,7 +1675,7 @@ msgstr ""
 "lokasi, atau departemen)."
 
 #: app/templates/asset/_list_fragment.html:690
-#: app/templates/asset/detail.html:930
+#: app/templates/asset/detail.html:936
 msgid "Incomplete Data"
 msgstr "Data Tidak Lengkap"
 
@@ -1758,40 +1760,40 @@ msgid "Next"
 msgstr "Berikutnya"
 
 #: app/templates/asset/_photo_gallery.html:339
-#: app/templates/asset/add.html:1408 app/templates/asset/add.html:1889
+#: app/templates/asset/add.html:1453 app/templates/asset/add.html:1934
 msgid "Asset Photo"
 msgstr "Foto Asset"
 
 #: app/templates/asset/_photo_gallery.html:361
-#: app/templates/asset/add.html:1419
+#: app/templates/asset/add.html:1464
 msgid "No asset photo yet"
 msgstr "Belum ada foto asset"
 
 #: app/templates/asset/_photo_gallery.html:369
 #: app/templates/asset/_photo_gallery.html:432
 #: app/templates/asset/_photo_gallery.html:529
-#: app/templates/asset/add.html:1423 app/templates/asset/add.html:1940
+#: app/templates/asset/add.html:1468 app/templates/asset/add.html:1985
 msgid "Delete photo"
 msgstr "Hapus foto"
 
 #: app/templates/asset/_photo_gallery.html:380
-#: app/templates/asset/add.html:1428
+#: app/templates/asset/add.html:1473
 msgid "Take photo"
 msgstr "Ambil foto"
 
 #: app/templates/asset/_photo_gallery.html:407
-#: app/templates/asset/add.html:1942
+#: app/templates/asset/add.html:1987
 msgid "Click to upload a photo. Once added, click it again to zoom in."
 msgstr "Klik untuk unggah foto. Setelah ada, klik lagi untuk memperbesar."
 
 #: app/templates/asset/_photo_gallery.html:428
 #: app/templates/asset/_photo_gallery.html:528
-#: app/templates/asset/add.html:1939
+#: app/templates/asset/add.html:1984
 msgid "Set as cover"
 msgstr "Jadikan sampul"
 
 #: app/templates/asset/_photo_gallery.html:439
-#: app/templates/asset/add.html:1438
+#: app/templates/asset/add.html:1483
 msgid "Add photo"
 msgstr "Add photo"
 
@@ -1933,8 +1935,8 @@ msgstr "Contoh: Laptop Dell Latitude"
 #: app/templates/asset/add.html:982 app/templates/asset/add.html:1015
 #: app/templates/asset/add.html:1048 app/templates/asset/add.html:1125
 #: app/templates/asset/add.html:1152 app/templates/asset/add.html:1184
-#: app/templates/asset/add.html:1222 app/templates/asset/add.html:1259
-#: app/templates/asset/add.html:1296 app/templates/asset/add.html:1341
+#: app/templates/asset/add.html:1231 app/templates/asset/add.html:1277
+#: app/templates/asset/add.html:1323 app/templates/asset/add.html:1377
 msgid "-- Select Category --"
 msgstr "-- Pilih Category --"
 
@@ -2059,18 +2061,46 @@ msgstr "Example: Bosch"
 msgid "Example: Pilot"
 msgstr "Example: Pilot"
 
-#: app/templates/asset/add.html:1205 app/templates/asset/add.html:1242
-#: app/templates/asset/add.html:1279 app/templates/asset/add.html:1316
-#: app/templates/asset/add.html:1361
+#: app/templates/asset/add.html:1205 app/templates/asset/add.html:1251
+#: app/templates/asset/add.html:1297 app/templates/asset/add.html:1343
+#: app/templates/asset/add.html:1397
 msgid "Example: PCS"
 msgstr "Example: PCS"
 
-#: app/templates/asset/add.html:1385
+#: app/templates/asset/add.html:1210 app/templates/asset/add.html:1256
+#: app/templates/asset/add.html:1302 app/templates/asset/add.html:1348
+#: app/templates/asset/add.html:1402 app/templates/asset/edit.html:933
+#: app/templates/asset/edit.html:988 app/templates/asset/edit.html:1039
+#: app/templates/asset/edit.html:1090 app/templates/asset/edit.html:1150
+msgid "Content per Unit"
+msgstr "Isi per Satuan"
+
+#: app/templates/asset/add.html:1211 app/templates/asset/add.html:1257
+#: app/templates/asset/add.html:1303 app/templates/asset/add.html:1349
+#: app/templates/asset/add.html:1403 app/templates/asset/edit.html:934
+#: app/templates/asset/edit.html:989 app/templates/asset/edit.html:1040
+#: app/templates/asset/edit.html:1091 app/templates/asset/edit.html:1151
+msgid ""
+"e.g. if Unit = Box and this is 12, then 1 Box = 12 Pcs. Leave blank if Unit "
+"is already Pcs."
+msgstr ""
+"Misal kalau Satuan = Box dan ini diisi 12, berarti 1 Box = 12 Pcs. Kosongkan"
+" kalau Satuan sudah Pcs."
+
+#: app/templates/asset/add.html:1214 app/templates/asset/add.html:1260
+#: app/templates/asset/add.html:1306 app/templates/asset/add.html:1352
+#: app/templates/asset/add.html:1406 app/templates/asset/edit.html:937
+#: app/templates/asset/edit.html:992 app/templates/asset/edit.html:1043
+#: app/templates/asset/edit.html:1094 app/templates/asset/edit.html:1154
+msgid "e.g. 12"
+msgstr "Misal: 12"
+
+#: app/templates/asset/add.html:1430
 #: app/templates/asset/movements_global.html:285
 msgid "PIC Name"
 msgstr "Nama PIC"
 
-#: app/templates/asset/add.html:1447 app/templates/asset/add.html:1941
+#: app/templates/asset/add.html:1492 app/templates/asset/add.html:1986
 msgid ""
 "Allowed formats: JPG, JPEG, PNG, WEBP. Click + to add more photos. Hover a "
 "photo for cover/remove options."
@@ -2078,43 +2108,43 @@ msgstr ""
 "Format yang diperbolehkan: JPG, JPEG, PNG, WEBP. Klik + untuk menambah foto."
 " Arahkan kursor ke foto untuk opsi sampul/hapus."
 
-#: app/templates/asset/add.html:1466
+#: app/templates/asset/add.html:1511
 msgid "Location & Organization"
 msgstr "Lokasi & Organisasi"
 
-#: app/templates/asset/add.html:1489 app/templates/asset/movement_add.html:755
+#: app/templates/asset/add.html:1534 app/templates/asset/movement_add.html:755
 #: app/templates/asset/movement_batch_add.html:269
 #: app/templates/asset/movement_correct.html:510
 msgid "-- Select Location --"
 msgstr "-- Pilih Location --"
 
-#: app/templates/asset/add.html:1526 app/templates/asset/movement_add.html:812
+#: app/templates/asset/add.html:1571 app/templates/asset/movement_add.html:812
 #: app/templates/asset/movement_batch_add.html:283
 #: app/templates/asset/movement_correct.html:542
 msgid "-- Select Department --"
 msgstr "-- Pilih Department --"
 
-#: app/templates/asset/add.html:1615 app/templates/asset/edit.html:1281
+#: app/templates/asset/add.html:1660 app/templates/asset/edit.html:1331
 msgid "Purchase Information"
 msgstr "Informasi Pembelian"
 
-#: app/templates/asset/add.html:1630 app/templates/asset/detail.html:844
-#: app/templates/asset/edit.html:1295
+#: app/templates/asset/add.html:1675 app/templates/asset/detail.html:850
+#: app/templates/asset/edit.html:1345
 msgid "Purchase Date"
 msgstr "Tanggal Pembelian"
 
-#: app/templates/asset/add.html:1647 app/templates/asset/detail.html:861
-#: app/templates/asset/edit.html:1313
+#: app/templates/asset/add.html:1692 app/templates/asset/detail.html:867
+#: app/templates/asset/edit.html:1363
 msgid "Purchase Price"
 msgstr "Harga Pembelian"
 
-#: app/templates/asset/add.html:1682
+#: app/templates/asset/add.html:1727
 msgid "-- Select Vendor --"
 msgstr "-- Pilih Vendor --"
 
-#: app/templates/asset/add.html:1718 app/templates/asset/add.html:1727
-#: app/templates/asset/detail.html:943 app/templates/asset/edit.html:1384
-#: app/templates/asset/edit.html:1414 app/templates/audit/list.html:54
+#: app/templates/asset/add.html:1763 app/templates/asset/add.html:1772
+#: app/templates/asset/detail.html:949 app/templates/asset/edit.html:1434
+#: app/templates/asset/edit.html:1464 app/templates/audit/list.html:54
 #: app/templates/master/category/add.html:90
 #: app/templates/master/category/edit.html:91
 #: app/templates/master/category/list.html:114
@@ -2130,11 +2160,11 @@ msgstr "-- Pilih Vendor --"
 msgid "Description"
 msgstr "Keterangan"
 
-#: app/templates/asset/add.html:1733
+#: app/templates/asset/add.html:1778
 msgid "Enter notes or a description for this asset..."
 msgstr "Masukkan keterangan atau deskripsi asset..."
 
-#: app/templates/asset/add.html:1752 app/templates/asset/edit.html:1443
+#: app/templates/asset/add.html:1797 app/templates/asset/edit.html:1493
 #: app/templates/asset/movement_add.html:1210
 #: app/templates/asset/movement_batch_add.html:419
 #: app/templates/asset/movement_correct.html:862
@@ -2157,11 +2187,11 @@ msgstr "Masukkan keterangan atau deskripsi asset..."
 msgid "Cancel"
 msgstr "Batal"
 
-#: app/templates/asset/add.html:1761
+#: app/templates/asset/add.html:1806
 msgid "Save Asset"
 msgstr "Simpan Asset"
 
-#: app/templates/asset/add.html:2124
+#: app/templates/asset/add.html:2169
 msgid "Maximum photo size is 5 MB."
 msgstr "Ukuran foto maksimal 5 MB."
 
@@ -2178,75 +2208,84 @@ msgstr "QR Code Asset"
 msgid "QR Code"
 msgstr "QR Code"
 
-#: app/templates/asset/detail.html:971 app/templates/asset/movements.html:2
+#: app/templates/asset/detail.html:777 app/templates/atk_pickup/new.html:186
+msgid "Pcs"
+msgstr "Pcs"
+
+#: app/templates/asset/detail.html:778
+#, python-format
+msgid "1 %(unit)s = %(count)s Pcs"
+msgstr "1 %(unit)s = %(count)s Pcs"
+
+#: app/templates/asset/detail.html:977 app/templates/asset/movements.html:2
 #: app/templates/asset/movements.html:23
 msgid "Asset Movement History"
 msgstr "Riwayat Movement Asset"
 
-#: app/templates/asset/detail.html:973
+#: app/templates/asset/detail.html:979
 msgid "Asset movement history"
 msgstr "Histori perpindahan asset"
 
-#: app/templates/asset/detail.html:983 app/templates/asset/history.html:772
+#: app/templates/asset/detail.html:989 app/templates/asset/history.html:772
 #: app/templates/asset/movements.html:45
 #: app/templates/asset/movements.html:423
 msgid "Add Movement"
 msgstr "Tambah Mutasi"
 
-#: app/templates/asset/detail.html:1015 app/templates/asset/history.html:656
+#: app/templates/asset/detail.html:1021 app/templates/asset/history.html:656
 #: app/templates/asset/movement_corrections.html:225
 #: app/templates/asset/movement_corrections.html:264
 msgid "Reason"
 msgstr "Alasan"
 
-#: app/templates/asset/detail.html:1090
+#: app/templates/asset/detail.html:1096
 #: app/templates/asset/movement_corrections.html:76
 msgid "Movement Detail"
 msgstr "Detail Movement"
 
-#: app/templates/asset/detail.html:1109 app/templates/asset/history.html:728
+#: app/templates/asset/detail.html:1115 app/templates/asset/history.html:728
 #: app/templates/asset/movements.html:409
 msgid "No movement history yet"
 msgstr "Belum ada riwayat movement"
 
-#: app/templates/asset/detail.html:1112 app/templates/asset/history.html:731
+#: app/templates/asset/detail.html:1118 app/templates/asset/history.html:731
 #: app/templates/asset/movements.html:412
 msgid "This asset does not have any movement history yet."
 msgstr "Asset ini belum memiliki riwayat perpindahan."
 
-#: app/templates/asset/detail.html:1123
+#: app/templates/asset/detail.html:1129
 msgid "Add First Movement"
 msgstr "Tambah Mutasi Pertama"
 
-#: app/templates/asset/detail.html:1145
+#: app/templates/asset/detail.html:1151
 #: app/templates/asset/vehicle_service.html:3
 #: app/templates/asset/vehicle_service.html:22
 #: app/templates/asset/vehicle_service.html:142
 msgid "Service History"
 msgstr "Riwayat Servis"
 
-#: app/templates/asset/detail.html:1147
+#: app/templates/asset/detail.html:1153
 msgid "Vehicle service/maintenance records"
 msgstr "Catatan servis/perawatan kendaraan"
 
-#: app/templates/asset/detail.html:1157
+#: app/templates/asset/detail.html:1163
 #: app/templates/asset/vehicle_service.html:78
 msgid "Add Service Record"
 msgstr "Tambah Catatan Servis"
 
-#: app/templates/asset/detail.html:1171
+#: app/templates/asset/detail.html:1177
 #: app/templates/asset/vehicle_service.html:104
 #: app/templates/asset/vehicle_service.html:165
 msgid "Service/Maintenance"
 msgstr "Servis/Perawatan"
 
-#: app/templates/asset/detail.html:1172
+#: app/templates/asset/detail.html:1178
 #: app/templates/asset/vehicle_service.html:99
 #: app/templates/asset/vehicle_service.html:166
 msgid "Cost"
 msgstr "Biaya"
 
-#: app/templates/asset/detail.html:1173 app/templates/asset/history.html:662
+#: app/templates/asset/detail.html:1179 app/templates/asset/history.html:662
 #: app/templates/asset/movement_add.html:932
 #: app/templates/asset/movement_batch_add.html:308
 #: app/templates/asset/movement_correct.html:599
@@ -2260,15 +2299,15 @@ msgstr "Biaya"
 msgid "Notes"
 msgstr "Catatan"
 
-#: app/templates/asset/detail.html:1194
+#: app/templates/asset/detail.html:1200
 msgid "No service records yet"
 msgstr "Belum ada catatan servis"
 
-#: app/templates/asset/detail.html:1196
+#: app/templates/asset/detail.html:1202
 msgid "This vehicle does not have any service/maintenance records yet."
 msgstr "Kendaraan ini belum memiliki catatan servis/perawatan."
 
-#: app/templates/asset/detail.html:1203
+#: app/templates/asset/detail.html:1209
 msgid "Add First Service Record"
 msgstr "Tambah Catatan Servis Pertama"
 
@@ -2277,28 +2316,28 @@ msgstr "Tambah Catatan Servis Pertama"
 #: app/templates/asset/edit.html:682 app/templates/asset/edit.html:717
 #: app/templates/asset/edit.html:752 app/templates/asset/edit.html:837
 #: app/templates/asset/edit.html:866 app/templates/asset/edit.html:901
-#: app/templates/asset/edit.html:946 app/templates/asset/edit.html:991
-#: app/templates/asset/edit.html:1032 app/templates/asset/edit.html:1082
+#: app/templates/asset/edit.html:956 app/templates/asset/edit.html:1011
+#: app/templates/asset/edit.html:1062 app/templates/asset/edit.html:1122
 msgid "Select Category"
 msgstr "Pilih Category"
 
-#: app/templates/asset/edit.html:1133
+#: app/templates/asset/edit.html:1183
 msgid "Select Location"
 msgstr "Pilih Location"
 
-#: app/templates/asset/edit.html:1172
+#: app/templates/asset/edit.html:1222
 msgid "Select Department"
 msgstr "Pilih Department"
 
-#: app/templates/asset/edit.html:1228
+#: app/templates/asset/edit.html:1278
 msgid "Select Status"
 msgstr "Pilih Status"
 
-#: app/templates/asset/edit.html:1339
+#: app/templates/asset/edit.html:1389
 msgid "Select Vendor"
 msgstr "Pilih Vendor"
 
-#: app/templates/asset/edit.html:1390 app/templates/asset/edit.html:1420
+#: app/templates/asset/edit.html:1440 app/templates/asset/edit.html:1470
 msgid "Enter the asset description..."
 msgstr "Masukkan deskripsi asset..."
 
@@ -2933,7 +2972,7 @@ msgstr "Tanda tangan baru siap disimpan."
 
 #: app/templates/asset/movement_batch_add.html:596
 #: app/templates/asset/movement_correct.html:1326
-#: app/templates/atk_pickup/new.html:312
+#: app/templates/atk_pickup/new.html:319
 msgid "Signature deleted."
 msgstr "Tanda tangan dihapus."
 
@@ -3592,23 +3631,23 @@ msgid "Item Name"
 msgstr "Nama Barang"
 
 #: app/templates/atk_pickup/new.html:169
-msgid "Available Stock"
-msgstr "Stok Tersedia"
+msgid "Available (Pcs)"
+msgstr "Tersedia (Pcs)"
 
 #: app/templates/atk_pickup/new.html:170
-msgid "Qty to Take"
-msgstr "Qty Diambil"
+msgid "Qty to Take (Pcs)"
+msgstr "Qty Diambil (Pcs)"
 
-#: app/templates/atk_pickup/new.html:200
+#: app/templates/atk_pickup/new.html:207
 #: app/templates/stock_opname/input.html:221
 msgid "No items available."
 msgstr "Tidak ada item tersedia."
 
-#: app/templates/atk_pickup/new.html:216
+#: app/templates/atk_pickup/new.html:223
 msgid "Save Pickup"
 msgstr "Simpan Pengambilan"
 
-#: app/templates/atk_pickup/new.html:279
+#: app/templates/atk_pickup/new.html:286
 msgid "Signature saved."
 msgstr "Tanda tangan tersimpan."
 

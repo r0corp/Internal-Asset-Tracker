@@ -446,12 +446,24 @@ class Asset(db.Model):
     )
 
     # Khusus kategori consumable (ATK/Pantry/Tools Pantry/Showcase/Gudang Event).
+    # Float (bukan Integer) karena Pengambilan ATK bisa mengurangi stok
+    # berupa pecahan satuan (misal 4.75 Box) kalau pcs_per_unit terisi -
+    # lihat pcs_per_unit di bawah.
     stock_quantity = db.Column(
-        db.Integer
+        db.Float
     )
 
     unit = db.Column(
         db.String(20)
+    )
+
+    # Konversi "1 unit (Box/Lusin/dst) = berapa Pcs" - khusus kategori
+    # consumable, dipakai saat Pengambilan ATK supaya pegawai bisa minta
+    # dalam Pcs walau stok dicatat per Box/Lusin. Kosong/None = anggap
+    # 1 unit = 1 Pcs (tidak ada konversi).
+    pcs_per_unit = db.Column(
+        db.Float,
+        nullable=True,
     )
 
     # Khusus kategori "showcase".

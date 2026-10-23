@@ -58,6 +58,30 @@ def _atk_assets():
         .all()
     )
 
+
+def _available_pcs(asset):
+    """
+    Stok yang tersedia dalam Pcs - pegawai selalu minta dalam Pcs,
+    sedangkan Asset.stock_quantity dicatat dalam satuan aslinya
+    (Box/Lusin/Pcs, lihat Asset.unit). Asset.pcs_per_unit = berapa Pcs
+    isi 1 satuan tsb; kalau belum di-set, anggap 1 satuan = 1 Pcs
+    (tidak ada konversi, sama seperti perilaku lama).
+    """
+
+    return round((asset.stock_quantity or 0) * (asset.pcs_per_unit or 1), 2)
+
+
+def _fmt_qty(value):
+    """Versi plain-Python dari filter Jinja `fmt_qty`, dipakai di export PDF."""
+
+    if value is None:
+        return "-"
+
+    if value == int(value):
+        return str(int(value))
+
+    return f"{value:.2f}".rstrip("0").rstrip(".")
+
 # ============================================================
 # DAFTAR KATEGORI + QR (untuk dicetak & ditempel di rak)
 # ============================================================
@@ -118,6 +142,9 @@ def atk_pickup_new():
 
     assets = _atk_assets()
 
+    for asset in assets:
+        asset.available_pcs = _available_pcs(asset)
+
     scanned_category_id = request.values.get(
         "category_id",
         type=int,
@@ -170,19 +197,21 @@ def atk_pickup_new():
             if qty <= 0:
                 continue
 
-            current_stock = asset.stock_quantity or 0
+            available_pcs = _available_pcs(asset)
 
-            if qty > current_stock:
+            if qty > available_pcs:
 
                 errors.append(
                     _(
-                        "%(name)s: requested (%(qty)s) exceeds "
-                        "available stock (%(stock)s)."
+                        "%(name)s: requested (%(qty)s Pcs) exceeds "
+                        "available stock (%(stock)s Pcs)."
                     )
                     % {
                         "name": asset.asset_name,
                         "qty": qty,
-                        "stock": current_stock,
+                        "stock": int(available_pcs)
+                        if available_pcs == int(available_pcs)
+                        else round(available_pcs, 2),
                     }
                 )
 
@@ -232,12 +261,17 @@ def atk_pickup_new():
                     asset_id=asset.id,
                     asset_name=asset.asset_name,
                     category=asset.category,
-                    unit=asset.unit,
+                    unit="Pcs",
                     quantity=qty,
                 )
             )
 
-            asset.stock_quantity = (asset.stock_quantity or 0) - qty
+            pcs_per_unit = asset.pcs_per_unit or 1
+
+            asset.stock_quantity = round(
+                (asset.stock_quantity or 0) - (qty / pcs_per_unit),
+                4,
+            )
 
         db.session.commit()
 
@@ -324,7 +358,7 @@ def _report_data(period, anchor):
                     "unit": item.unit,
                     "qty": 0,
                     "remaining": (
-                        item.asset.stock_quantity
+                        _available_pcs(item.asset)
                         if item.asset else None
                     ),
                 }
@@ -504,7 +538,7 @@ def atk_pickup_export_pdf():
             row["asset_name"],
             row["unit"] or "-",
             str(row["qty"]),
-            str(row["remaining"]) if row["remaining"] is not None else "-",
+            _fmt_qty(row["remaining"]),
         ])
 
     recap_table = Table(recap_data, repeatRows=1)

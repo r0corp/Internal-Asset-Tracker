@@ -770,8 +770,14 @@
               <div class="info-tile-body">
                 <div class="info-tile-label">{{ _('Quantity / Stock') }}</div>
                 <div class="info-tile-value">
-                  {{ asset.stock_quantity }} {{ asset.unit or "" }}
+                  {{ asset.stock_quantity | fmt_qty }} {{ asset.unit or "" }}
                 </div>
+                {% if asset.pcs_per_unit and asset.pcs_per_unit != 1 %}
+                <div class="text-muted small">
+                  &asymp; {{ (asset.stock_quantity * asset.pcs_per_unit) | fmt_qty }} {{ _('Pcs') }}
+                  ({{ _('1 %(unit)s = %(count)s Pcs', unit=asset.unit or "-", count=asset.pcs_per_unit | fmt_qty) }})
+                </div>
+                {% endif %}
               </div>
             </div>
             {% endif %}

@@ -1357,7 +1357,7 @@ def add_asset():
         try:
 
             stock_quantity = (
-                int(stock_quantity)
+                float(stock_quantity)
                 if stock_quantity
                 else None
             )
@@ -1365,6 +1365,26 @@ def add_asset():
         except (ValueError, TypeError):
 
             stock_quantity = None
+
+        pcs_per_unit = request.form.get(
+            "pcs_per_unit",
+            "",
+        ).strip()
+
+        try:
+
+            pcs_per_unit = (
+                float(pcs_per_unit)
+                if pcs_per_unit
+                else None
+            )
+
+        except (ValueError, TypeError):
+
+            pcs_per_unit = None
+
+        if pcs_per_unit is not None and pcs_per_unit <= 0:
+            pcs_per_unit = None
 
         selling_price = request.form.get(
             "selling_price",
@@ -1536,6 +1556,8 @@ def add_asset():
             unit=request.form.get(
                 "unit"
             ),
+
+            pcs_per_unit=pcs_per_unit,
 
             selling_price=selling_price,
 
@@ -2000,7 +2022,7 @@ def edit_asset(asset_id):
 
         try:
 
-            asset.stock_quantity = int(
+            asset.stock_quantity = float(
                 stock_quantity_value
             )
 
@@ -2021,6 +2043,35 @@ def edit_asset(asset_id):
     else:
 
         asset.stock_quantity = None
+
+    pcs_per_unit_value = (
+        request.form.get(
+            "pcs_per_unit",
+            ""
+        ).strip()
+    )
+
+    if pcs_per_unit_value:
+
+        try:
+
+            parsed_pcs_per_unit = float(
+                pcs_per_unit_value
+            )
+
+        except (ValueError, TypeError):
+
+            parsed_pcs_per_unit = None
+
+        asset.pcs_per_unit = (
+            parsed_pcs_per_unit
+            if parsed_pcs_per_unit and parsed_pcs_per_unit > 0
+            else None
+        )
+
+    else:
+
+        asset.pcs_per_unit = None
 
     selling_price_value = (
         request.form.get(

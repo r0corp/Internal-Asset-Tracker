@@ -274,6 +274,18 @@ ID_TRANSLATIONS = {
     "%(name)s: requested (%(qty)s) exceeds available stock (%(stock)s).":
         "%(name)s: diminta (%(qty)s) melebihi stok tersedia (%(stock)s).",
     "Pickup for %(name)s saved successfully.": "Pengambilan untuk %(name)s berhasil disimpan.",
+
+    # --- ATK box/lusin -> pcs conversion ---
+    "Content per Unit": "Isi per Satuan",
+    "e.g. if Unit = Box and this is 12, then 1 Box = 12 Pcs. Leave blank if Unit is already Pcs.":
+        "Misal kalau Satuan = Box dan ini diisi 12, berarti 1 Box = 12 Pcs. Kosongkan kalau Satuan sudah Pcs.",
+    "e.g. 12": "Misal: 12",
+    "Pcs": "Pcs",
+    "1 %(unit)s = %(count)s Pcs": "1 %(unit)s = %(count)s Pcs",
+    "Available (Pcs)": "Tersedia (Pcs)",
+    "Qty to Take (Pcs)": "Qty Diambil (Pcs)",
+    "%(name)s: requested (%(qty)s Pcs) exceeds available stock (%(stock)s Pcs).":
+        "%(name)s: diminta (%(qty)s Pcs) melebihi stok tersedia (%(stock)s Pcs).",
     "Scrap documentation photo": "Foto dokumentasi scrap",
     "photo(s)": "foto",
     "Photo(s) uploaded successfully.": "Foto berhasil diunggah.",

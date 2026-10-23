@@ -314,6 +314,27 @@ def create_app():
 
         return {"now": datetime.utcnow}
 
+    @app.template_filter("fmt_qty")
+    def format_qty(value):
+        """
+        Menampilkan angka stok tanpa ".0" kalau nilainya bulat (misal
+        stock_quantity Float 5.0 -> "5"), tapi tetap tampilkan pecahan
+        kalau memang ada (misal 4.75 setelah konversi Pengambilan ATK).
+        """
+
+        if value is None:
+            return ""
+
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            return value
+
+        if value == int(value):
+            return str(int(value))
+
+        return ("%.2f" % value).rstrip("0").rstrip(".")
+
     @app.context_processor
     def inject_language():
 

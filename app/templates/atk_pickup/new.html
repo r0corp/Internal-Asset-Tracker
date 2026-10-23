@@ -166,8 +166,8 @@
                                 <th>{{ _('Category') }}</th>
                                 <th>{{ _('Item Name') }}</th>
                                 <th>{{ _('Unit') }}</th>
-                                <th>{{ _('Available Stock') }}</th>
-                                <th style="width: 110px;">{{ _('Qty to Take') }}</th>
+                                <th>{{ _('Available (Pcs)') }}</th>
+                                <th style="width: 110px;">{{ _('Qty to Take (Pcs)') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -182,12 +182,19 @@
                                 <td>{{ asset.category or "-" }}</td>
                                 <td>{{ asset.asset_name }}</td>
                                 <td>{{ asset.unit or "-" }}</td>
-                                <td>{{ asset.stock_quantity if asset.stock_quantity is not none else "-" }}</td>
+                                <td>
+                                    {{ asset.available_pcs | fmt_qty }} {{ _('Pcs') }}
+                                    {% if asset.pcs_per_unit and asset.pcs_per_unit != 1 %}
+                                    <div class="text-muted small">
+                                        ({{ asset.stock_quantity | fmt_qty }} {{ asset.unit or "-" }})
+                                    </div>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <input
                                         type="number"
                                         min="0"
-                                        max="{{ asset.stock_quantity or 0 }}"
+                                        max="{{ asset.available_pcs | fmt_qty }}"
                                         step="1"
                                         class="form-control form-control-sm atk-qty-input"
                                         name="qty_{{ asset.id }}"

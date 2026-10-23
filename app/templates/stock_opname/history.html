@@ -145,10 +145,14 @@
                             <th>{{ _('Initial Stock') }}</th>
                             <th>{{ _('Stock Out') }}</th>
                             <th>{{ _('Final Stock') }}</th>
+                            {% if has_pr %}
                             {% if budget %}
                             <th>{{ _('Unit Price') }}</th>
+                            {% endif %}
                             <th>{{ _('Qty to Buy') }}</th>
+                            {% if budget %}
                             <th>{{ _('Total Price') }}</th>
+                            {% endif %}
                             {% endif %}
                         </tr>
 
@@ -177,13 +181,17 @@
 
                             <td class="fw-semibold">{{ record.stok_akhir }}</td>
 
-                            {% if budget %}
+                            {% if has_pr %}
 
+                            {% if budget %}
                             <td class="text-nowrap">Rp {{ "{:,.0f}".format(record.asset.purchase_price or 0).replace(",", ".") }}</td>
+                            {% endif %}
 
                             <td>{{ record.qty_beli or 0 }}</td>
 
+                            {% if budget %}
                             <td class="fw-semibold text-nowrap">Rp {{ "{:,.0f}".format(row_total).replace(",", ".") }}</td>
+                            {% endif %}
 
                             {% endif %}
 
@@ -192,7 +200,7 @@
                         {% else %}
 
                         <tr>
-                            <td colspan="{{ 9 if budget else 6 }}" class="text-center text-muted">
+                            <td colspan="{{ 6 + (1 if has_pr else 0) + (2 if budget else 0) }}" class="text-center text-muted">
                                 {{ _('No stock opname records for this period yet.') }}
                             </td>
                         </tr>

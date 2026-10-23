@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-23 16:09+0700\n"
+"POT-Creation-Date: 2026-10-23 17:11+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -664,45 +664,52 @@ msgstr ""
 msgid "Scrap record deleted successfully."
 msgstr ""
 
-#: app/blueprints/stock_opname.py:38 app/templates/master/category/add.html:148
+#: app/blueprints/stock_opname.py:39 app/templates/master/category/add.html:148
 #: app/templates/master/category/edit.html:148
 #: app/templates/master/category/list.html:176
 msgid "Office Stationery (ATK)"
 msgstr ""
 
-#: app/blueprints/stock_opname.py:39 app/templates/asset/add.html:693
+#: app/blueprints/stock_opname.py:40 app/templates/asset/add.html:693
 #: app/templates/asset/edit.html:388 app/templates/master/category/add.html:152
 #: app/templates/master/category/edit.html:152
 #: app/templates/master/category/list.html:178
 msgid "Pantry"
 msgstr ""
 
-#: app/blueprints/stock_opname.py:40 app/templates/asset/add.html:711
+#: app/blueprints/stock_opname.py:41 app/templates/asset/add.html:711
 #: app/templates/asset/edit.html:408
 #: app/templates/master/category/list.html:182
 msgid "Showcase"
 msgstr ""
 
-#: app/blueprints/stock_opname.py:179
+#: app/blueprints/stock_opname.py:42 app/templates/asset/add.html:720
+#: app/templates/asset/edit.html:418 app/templates/master/category/add.html:164
+#: app/templates/master/category/edit.html:164
+#: app/templates/master/category/list.html:184
+msgid "Event Warehouse Stock"
+msgstr ""
+
+#: app/blueprints/stock_opname.py:188
 msgid "Invalid period."
 msgstr ""
 
-#: app/blueprints/stock_opname.py:205
+#: app/blueprints/stock_opname.py:214
 #, python-format
 msgid "%(name)s: invalid value."
 msgstr ""
 
-#: app/blueprints/stock_opname.py:221
+#: app/blueprints/stock_opname.py:230
 #, python-format
 msgid "%(name)s: Stock Out (%(keluar)s) exceeds Initial Stock (%(awal)s)."
 msgstr ""
 
-#: app/blueprints/stock_opname.py:261
+#: app/blueprints/stock_opname.py:270
 #, python-format
 msgid "...and %(count)s more errors."
 msgstr ""
 
-#: app/blueprints/stock_opname.py:304
+#: app/blueprints/stock_opname.py:313
 #, python-format
 msgid "Stock opname for %(period)s saved successfully."
 msgstr ""
@@ -1737,13 +1744,6 @@ msgstr ""
 #: app/templates/master/category/edit.html:156
 #: app/templates/master/category/list.html:180
 msgid "Pantry Tools"
-msgstr ""
-
-#: app/templates/asset/add.html:720 app/templates/asset/edit.html:418
-#: app/templates/master/category/add.html:164
-#: app/templates/master/category/edit.html:164
-#: app/templates/master/category/list.html:184
-msgid "Event Warehouse Stock"
 msgstr ""
 
 #: app/templates/asset/add.html:748
@@ -4382,32 +4382,32 @@ msgstr ""
 msgid "Final Stock"
 msgstr ""
 
-#: app/templates/stock_opname/history.html:149
-#: app/templates/stock_opname/input.html:135
+#: app/templates/stock_opname/history.html:150
+#: app/templates/stock_opname/input.html:136
 msgid "Unit Price"
 msgstr ""
 
-#: app/templates/stock_opname/history.html:150
-#: app/templates/stock_opname/input.html:136
+#: app/templates/stock_opname/history.html:152
+#: app/templates/stock_opname/input.html:138
 msgid "Qty to Buy"
 msgstr ""
 
-#: app/templates/stock_opname/history.html:151
-#: app/templates/stock_opname/input.html:137
+#: app/templates/stock_opname/history.html:154
+#: app/templates/stock_opname/input.html:140
 msgid "Total Price"
 msgstr ""
 
-#: app/templates/stock_opname/history.html:196
+#: app/templates/stock_opname/history.html:204
 msgid "No stock opname records for this period yet."
 msgstr ""
 
-#: app/templates/stock_opname/history.html:209
-#: app/templates/stock_opname/input.html:226
+#: app/templates/stock_opname/history.html:217
+#: app/templates/stock_opname/input.html:234
 msgid "Grand Total"
 msgstr ""
 
-#: app/templates/stock_opname/history.html:211
-#: app/templates/stock_opname/input.html:228
+#: app/templates/stock_opname/history.html:219
+#: app/templates/stock_opname/input.html:236
 msgid "Budget"
 msgstr ""
 
@@ -4418,11 +4418,11 @@ msgid ""
 msgstr ""
 
 #: app/templates/stock_opname/input.html:88
-#: app/templates/stock_opname/input.html:250
+#: app/templates/stock_opname/input.html:258
 msgid "Save Stock Opname"
 msgstr ""
 
-#: app/templates/stock_opname/input.html:213
+#: app/templates/stock_opname/input.html:221
 msgid "No items available."
 msgstr ""
 

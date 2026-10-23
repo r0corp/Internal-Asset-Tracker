@@ -223,7 +223,7 @@ def create_app():
                         )
                     ]
 
-                    if key in ("atk", "pantry", "showcase") and can_see_stock_opname:
+                    if key in ("atk", "pantry", "showcase", "gudang_event") and can_see_stock_opname:
                         category_children.append(
                             SimpleNamespace(
                                 is_divider=False,
